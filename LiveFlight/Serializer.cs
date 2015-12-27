@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace LiveFlight
+namespace Fds.IFAPI
 {
     public class Serializer
     {
