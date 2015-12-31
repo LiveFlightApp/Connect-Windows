@@ -70,8 +70,7 @@ namespace LiveFlight
         {
             client.Connect(iPAddress.ToString(), port);
 
-            connectionStateTextBlock.Text = String.Format("Connected ({0}:{1})", iPAddress, port);
-
+           
             overlayGrid.Visibility = System.Windows.Visibility.Collapsed;
             mainTabControl.Visibility = System.Windows.Visibility.Visible;
 
@@ -161,10 +160,7 @@ namespace LiveFlight
                 {
                     var status = Serializer.DeserializeJson<IFAPIStatus>(e.CommandString);
 
-                    versionTextBlock.Text = status.AppVersion;
-                    userNameTextBlock.Text = status.LoggedInUser;
-                    deviceNameTextBlock.Text = status.DeviceName;
-                    displayResolutionTextBlock.Text = string.Format("{0}x{1}", status.DisplayWidth, status.DisplayHeight);
+
                 }
                 else if (type == typeof(APIATCMessage))
                 {

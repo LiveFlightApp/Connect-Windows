@@ -4,20 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="___No_Name_" x:Class="LiveFlight.MainWindow"
         Title="LiveFlight Connect" Height="545.333" Width="525" Loaded="PageLoaded">
     <Grid>
-        <TabControl x:Name="mainTabControl" SelectionChanged="mainTabControl_SelectionChanged">
-            <TabItem Header="Status">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="43*"/>
+            <ColumnDefinition Width="43*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="428*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl x:Name="mainTabControl" SelectionChanged="mainTabControl_SelectionChanged" Margin="0,-17,0,17" Grid.ColumnSpan="4">
+            <TabItem Header="Main">
                 <Grid Margin="0,-215,0,158">
-                    <TextBlock Text="Version" Margin="10,326,420,145"/>
-                    <TextBlock Text="Live User" Margin="10,309,425,158"/>
-                    <TextBlock Margin="10,255,381,216"><Run Text="Con"/><Run Text="nec"/><Run Text="tion St"/><Run Text="atus"/></TextBlock>
-                    <TextBlock x:Name="versionTextBlock"  Text="Unknown" HorizontalAlignment="Right" Margin="0,326,10,137" Width="214" TextAlignment="Right"/>
-                    <TextBlock x:Name="userNameTextBlock"  Text="Unknown" HorizontalAlignment="Right" Margin="0,309,10,158" Width="182" TextAlignment="Right"/>
-                    <TextBlock x:Name="connectionStateTextBlock"  Text="Disconnected" HorizontalAlignment="Right" Width="236" TextAlignment="Right" Margin="0,255,10,211"/>
-                    <TextBlock Text="Device Name" Margin="10,291,425,173"/>
-                    <TextBlock x:Name="deviceNameTextBlock"  Text="Unknown" HorizontalAlignment="Right" Width="170" TextAlignment="Right" Margin="0,291,10,173"/>
-                    <TextBlock Text="Display Resolution" Margin="10,273,397,193"/>
-                    <TextBlock x:Name="displayResolutionTextBlock"  Text="Unknown" HorizontalAlignment="Right" Width="273" TextAlignment="Right" Margin="0,273,10,196"/>
-                    <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="Current Status" Margin="10,234,420,294" FontWeight="Bold"/>
+
                 </Grid>
             </TabItem>
             <TabItem Header="Controls" Height="22" VerticalAlignment="Bottom">
@@ -114,9 +110,9 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Grid x:Name="overlayGrid" d:IsHidden="True">
+        <Grid x:Name="overlayGrid" d:IsHidden="True" Grid.ColumnSpan="4">
             <Rectangle Fill="#E0000000"/>
-            <TextBlock Text="Connecting to Infinite Flight..." Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Height="50" FontSize="16"/>
+            <TextBlock Text="Connecting to Infinite Flight..." Foreground="White" HorizontalAlignment="Center" Height="50" FontSize="16"/>
             <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Margin="36,269,10,0" TextAlignment="Center" TextWrapping="Wrap" Text="Make sure the device running Infinite Flight is on the same WiFi network and has &quot;Infinite Flight Connect&quot;enabled in settings." VerticalAlignment="Top" Foreground="White"/>
         </Grid>
     </Grid>
