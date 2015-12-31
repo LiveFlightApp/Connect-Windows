@@ -8,6 +8,64 @@ using System.Threading.Tasks;
 namespace Fds.IFAPI
 {
     [DataContract]
+    public class ATCMessage
+    {
+        [DataMember]
+        public string Text { get; set; }
+    }
+
+    [DataContract]
+    public class ATCMessageList : APIResponse
+    {
+        [DataMember]
+        public ATCMessage[] ATCMessages { get; set; }
+    }
+    
+    [DataContract]
+    public class APIWaypoint
+    {
+        [DataMember]
+        public double Latitude { get; set; }
+        [DataMember]
+        public double Longitude { get; set; }
+        [DataMember]
+        public string Name { get; set; }
+        [DataMember]
+        public string Code { get; set; }
+    }
+
+    [DataContract]
+    public class APIFlightPlan : APIResponse
+    {
+        [DataMember]
+        public APIWaypoint[] Waypoints { get; set; }
+    }
+
+    [DataContract]
+    public class APIFrequencyInfo
+    {
+        [DataMember]
+        public string Type { get; set; }
+        [DataMember]
+        public double Longitude { get; set; }
+        [DataMember]
+        public double Latitude { get; set; }
+        [DataMember]
+        public int IntegerFrequency { get; set; }
+        [DataMember]
+        public Guid FrequencyID { get; set; }
+        [DataMember]
+        public string FacilityCode { get; set; }
+    }
+
+    [DataContract]
+    public class APIFrequencyInfoList : APIResponse
+    {
+        [DataMember]
+        public APIFrequencyInfo[] Frequencies { get; set; }
+    }
+
+    [DataContract]
     public class APIServerInfo
     {
         [DataMember]
@@ -25,6 +83,33 @@ namespace Fds.IFAPI
         public string ApiVersion { get; set; }
         [DataMember]
         public string LoggedInUser { get; set; }
+        [DataMember]
+        public int DisplayWidth { get; set; }
+        [DataMember]
+        public int DisplayHeight { get; set; }
+        [DataMember]
+        public string DeviceName { get; set; }
+    }
+
+    [DataContract]
+    public class APIATCMessage : APIResponse
+    {
+        [DataMember]
+        public bool Received { get; set; }
+        [DataMember]
+        public Guid EmitterID { get; set; }
+        [DataMember]
+        public string EmitterUserName { get; set; }
+        [DataMember]
+        public string EmitterCallsign { get; set; }
+        [DataMember]
+        public string Message { get; set; }
+        [DataMember]
+        public string SynthesizableMessage { get; set; }
+        [DataMember]
+        public Guid FrequencyID { get; set; }
+        [DataMember]
+        public string FrequencyName { get; set; }
     }
 
     [DataContract]
@@ -50,7 +135,7 @@ namespace Fds.IFAPI
             Type = this.GetType().ToString();
         }
     }
-
+    
     [DataContract]
     public class FacilityList : APIResponse
     {
@@ -78,7 +163,7 @@ namespace Fds.IFAPI
         [DataMember]
         public DateTime StartTimeUTC { get; set; }
     }
-
+    
     [DataContract]
     public class AirplaneInfo
     {
