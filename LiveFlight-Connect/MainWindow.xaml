@@ -1,19 +1,24 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="___No_Name_" x:Class="LiveFlight.MainWindow"
-        Title="LiveFlight Connect" Height="545.333" Width="525" Loaded="PageLoaded">
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="LiveFlight_Connect" x:Class="LiveFlight.MainWindow"
+        Title="LiveFlight Connect" Height="545.333" Width="525" Loaded="PageLoaded" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="43*"/>
             <ColumnDefinition Width="43*"/>
             <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="428*"/>
+            <ColumnDefinition Width="428"/>
         </Grid.ColumnDefinitions>
-        <TabControl x:Name="mainTabControl" SelectionChanged="mainTabControl_SelectionChanged" Margin="0,-17,0,17" Grid.ColumnSpan="4">
+        <TabControl x:Name="mainTabControl" SelectionChanged="mainTabControl_SelectionChanged" Grid.ColumnSpan="4" Height="514" VerticalAlignment="Bottom" Margin="0,0,0,-8">
             <TabItem Header="Main">
-                <Grid Margin="0,-215,0,158">
-
+                <Grid Margin="0,0,0,-57">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="167*"/>
+                        <ColumnDefinition Width="160*"/>
+                        <ColumnDefinition Width="184*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="label1" Content="Connected to Infinite Flight!" HorizontalAlignment="Left" Margin="3,200,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Controls" Height="22" VerticalAlignment="Bottom">
