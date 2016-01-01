@@ -109,7 +109,7 @@
                     <TextBox x:Name="speedTextBlock" Grid.Column="2" Grid.Row="3" Margin="2" TextChanged="speedTextBlock_TextChanged"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Mouse">
+            <TabItem Header="Mouse" d:IsHidden="True">
                 <Grid>
                     <Label Content="Mouse Pad" Margin="0" x:Name="captureMouseButton" PreviewMouseMove="captureMouseButton_PreviewMouseMove" PreviewMouseUp="captureMouseButton_PreviewMouseUp" PreviewMouseDown="captureMouseButton_PreviewMouseDown"/>
                 </Grid>
