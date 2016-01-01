@@ -167,15 +167,11 @@ namespace LiveFlight
                 else if (type == typeof(APIATCMessage))
                 {
                     var msg = Serializer.DeserializeJson<APIATCMessage>(e.CommandString);
-
-                    //atcMessagesListBox.Items.Add(msg.Message);
-
-                    client.ExecuteCommand("Live.GetCurrentCOMFrequencies");
+                    // TODO client.ExecuteCommand("Live.GetCurrentCOMFrequencies");
                 }
                 else if (type == typeof(APIFrequencyInfoList))
                 {
                     var msg = Serializer.DeserializeJson<APIFrequencyInfoList>(e.CommandString);
-                    //frequenciesDataGrid.ItemsSource = msg.Frequencies;
                 }
                 else if (type == typeof(ATCMessageList))
                 {
@@ -230,11 +226,6 @@ namespace LiveFlight
         private void setGearStateButton_Click(object sender, RoutedEventArgs e)
         {
             client.ExecuteCommand("Commands.LandingGear");
-        }
-
-        private void flapsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            client.ExecuteCommand("Commands.Aircraft.SetFlapState", new CallParameter[] { new CallParameter { Name = "Heading", Value = flapsSlider.Value.ToString() } });
         }
 
 

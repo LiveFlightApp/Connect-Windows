@@ -11,7 +11,7 @@
             <ColumnDefinition Width="428"/>
         </Grid.ColumnDefinitions>
         <DockPanel>
-            <Menu DockPanel.Dock="Top" Height="32" Margin="0,0,-475,0">
+            <Menu DockPanel.Dock="Top" Height="60" Margin="0,0,-475,0">
                 <MenuItem Header="_Cameras">
                     <MenuItem Header="_Next Camera" InputGestureText="E"/>
                     <MenuItem Header="_Previous Camera" InputGestureText="Q"/>
@@ -69,33 +69,10 @@
                         <ColumnDefinition Width="160*"/>
                         <ColumnDefinition Width="184*"/>
                     </Grid.ColumnDefinitions>
-                    <Label x:Name="connectedLabel" Content="Connected to Infinite Flight!" HorizontalAlignment="Left" Margin="120,209,0,0" VerticalAlignment="Top" Grid.ColumnSpan="3" FontSize="20"/>
-                    <Label x:Name="ipLabel" Content="Label" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" Margin="0,246,5.346,0" Grid.ColumnSpan="3" Width="508"/>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Controls" Height="22" VerticalAlignment="Bottom">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="34*"/>
-                        <RowDefinition Height="205*"/>
-                        <RowDefinition Height="275*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="258*"/>
-                        <ColumnDefinition Width="259*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Airplane State" VerticalAlignment="Top" Width="258" Height="16" FontWeight="Bold"/>
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Controls" VerticalAlignment="Top" Width="258" Height="16" Grid.Column="1" FontWeight="Bold"/>
-                    <StackPanel Grid.Column="1" Margin="5" Grid.Row="1" Grid.RowSpan="2">
-                        <Button x:Name="toggleBrakesButton" Content="Brakes" Margin="5" Click="toggleBrakesButton_Click" PreviewMouseDown="toggleBrakesButton_PreviewMouseDown" PreviewMouseUp="toggleBrakesButton_PreviewMouseUp"/>
-                        <Button x:Name="parkingBrakeButton" Content="Parking Brakes" Margin="5" Click="parkingBrakeButton_Click" />
-                        <Button x:Name="prevCameraButton" Content="Previous Camera" Margin="5" Click="prevCameraButton_Click" />
-                        <Button x:Name="nextCameraButton" Content="Next Camera" Margin="5" Click="nextCameraButton_Click" />
-                        <Button x:Name="setGearStateButton" Content="Landing Gear" Margin="5" Click="setGearStateButton_Click"/>
-                        <Label Content="Flaps" HorizontalAlignment="Center"/>
-                        <Slider x:Name="flapsSlider" Maximum="10" Margin="2" TickPlacement="TopLeft" ValueChanged="flapsSlider_ValueChanged" IsSnapToTickEnabled="True"/>
-                    </StackPanel>
-                    <Grid x:Name="airplaneStateGrid" HorizontalAlignment="Left" Height="205" Grid.Row="1" VerticalAlignment="Top" Width="258">
+                    <Label x:Name="connectedLabel" Content="Connected to Infinite Flight!" HorizontalAlignment="Left" Margin="125,25,0,0" VerticalAlignment="Top" Grid.ColumnSpan="3" FontSize="20"/>
+                    <Label x:Name="ipLabel" Content="Label" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" Margin="5,62,0.346,0" Grid.ColumnSpan="3" Width="508"/>
+
+                    <Grid x:Name="airplaneStateGrid" HorizontalAlignment="Left" Height="204" VerticalAlignment="Top" Width="258" Grid.ColumnSpan="2" Margin="10,176,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="8*"/>
                             <RowDefinition Height="7*"/>
@@ -106,25 +83,25 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="82*"/>
+                            <ColumnDefinition Width="48*"/>
+                            <ColumnDefinition Width="129*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock TextWrapping="Wrap" Text="Airspeed" Margin="2"/>
-                        <TextBlock TextWrapping="Wrap" Text="Altitude" Margin="2" Grid.Row="1"/>
-                        <TextBlock TextWrapping="Wrap" Text="Heading" Margin="2" Grid.Row="2"/>
-                        <TextBlock TextWrapping="Wrap" Text="Vertical Speed" Margin="2" Grid.Row="3"/>
+                        <TextBlock TextWrapping="Wrap" Text="Airspeed" Margin="2" Grid.ColumnSpan="2"/>
+                        <TextBlock TextWrapping="Wrap" Text="Altitude" Margin="2" Grid.Row="1" Grid.ColumnSpan="2"/>
+                        <TextBlock TextWrapping="Wrap" Text="Heading" Margin="2" Grid.Row="2" Grid.ColumnSpan="2"/>
+                        <TextBlock TextWrapping="Wrap" Text="Vertical Speed" Margin="2" Grid.Row="3" Grid.ColumnSpan="2"/>
 
-                        <TextBlock TextWrapping="Wrap" Text="{Binding IndicatedAirspeedKts, StringFormat=\{0:#0.0\} kts}" Margin="2" Grid.Column="1"/>
-                        <TextBlock TextWrapping="Wrap" Text="{Binding AltitudeMSL, StringFormat=\{0:#0.00\} ft}" Margin="2" Grid.Row="1" Grid.Column="1"/>
-                        <TextBlock TextWrapping="Wrap" Text="{Binding HeadingMagnetic, StringFormat=\{0:#0.0\}}" Margin="2" Grid.Row="2" Grid.Column="1"/>
-                        <TextBlock TextWrapping="Wrap" Text="{Binding VerticalSpeed, StringFormat=\{0:#0.0\} ft/min}" Margin="2" Grid.Row="3" Grid.Column="1"/>
+                        <TextBlock TextWrapping="Wrap" Text="{Binding IndicatedAirspeedKts, StringFormat=\{0:#0\} kts}" Margin="2" Grid.Column="2"/>
+                        <TextBlock TextWrapping="Wrap" Text="{Binding AltitudeMSL, StringFormat=\{0:#0\} ft}" Margin="2" Grid.Row="1" Grid.Column="2"/>
+                        <TextBlock TextWrapping="Wrap" Text="{Binding HeadingMagnetic, StringFormat=\{0:#0\} °}" Margin="2" Grid.Row="2" Grid.Column="2"/>
+                        <TextBlock TextWrapping="Wrap" Text="{Binding VerticalSpeed, StringFormat=\{0:#0\} ft/min}" Margin="2" Grid.Row="3" Grid.Column="2"/>
                     </Grid>
-
-
-
+                    <Label x:Name="label1" Content="Your Aircraft:&#xD;&#xA;" HorizontalAlignment="Left" Margin="5,140,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="179" Height="35" FontWeight="Bold"/>
+                    <Separator Margin="15,308,16.346,177" Grid.ColumnSpan="3" />
+                    <Separator Margin="16,100,16.346,384" Grid.ColumnSpan="3" />
+                    <Label x:Name="needHelpLabel" Content="Need help getting started?&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,340,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="35" Width="194" FontWeight="Bold"/>
                 </Grid>
-
-
             </TabItem>
             <TabItem Header="ATC Window">
                 <Grid>
@@ -167,7 +144,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Grid x:Name="overlayGrid" d:IsHidden="True" Grid.ColumnSpan="4">
+        <Grid x:Name="overlayGrid" Grid.ColumnSpan="4" d:IsHidden="True">
             <Rectangle Fill="#E0000000"/>
             <TextBlock Text="Connecting to Infinite Flight..." Foreground="White" HorizontalAlignment="Center" Height="50" FontSize="16"/>
             <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Margin="36,269,10,0" TextAlignment="Center" TextWrapping="Wrap" Text="Make sure the device running Infinite Flight is on the same WiFi network and has &quot;Infinite Flight Connect&quot;enabled in settings." VerticalAlignment="Top" Foreground="White"/>
