@@ -70,6 +70,8 @@ namespace LiveFlight
         {
             client.Connect(iPAddress.ToString(), port);
 
+            // set label text
+            ipLabel.Content = String.Format("Infinite Flight is at {0}", iPAddress.ToString());
            
             overlayGrid.Visibility = System.Windows.Visibility.Collapsed;
             mainTabControl.Visibility = System.Windows.Visibility.Visible;

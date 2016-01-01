@@ -18,7 +18,8 @@
                         <ColumnDefinition Width="160*"/>
                         <ColumnDefinition Width="184*"/>
                     </Grid.ColumnDefinitions>
-                    <Label x:Name="label1" Content="Connected to Infinite Flight!" HorizontalAlignment="Left" Margin="3,200,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2"/>
+                    <Label x:Name="connectedLabel" Content="Connected to Infinite Flight!" HorizontalAlignment="Left" Margin="120,209,0,0" VerticalAlignment="Top" Grid.ColumnSpan="3" FontSize="20"/>
+                    <Label x:Name="ipLabel" Content="Infinite Flight is at " HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" Margin="0,246,5.346,0" Grid.ColumnSpan="3" Width="508"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Controls" Height="22" VerticalAlignment="Bottom">
