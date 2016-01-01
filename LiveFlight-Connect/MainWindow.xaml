@@ -10,7 +10,58 @@
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="428"/>
         </Grid.ColumnDefinitions>
-        <TabControl x:Name="mainTabControl" SelectionChanged="mainTabControl_SelectionChanged" Grid.ColumnSpan="4" Height="514" VerticalAlignment="Bottom" Margin="0,0,0,-8">
+        <DockPanel>
+            <Menu DockPanel.Dock="Top" Height="32" Margin="0,0,-475,0">
+                <MenuItem Header="_Cameras">
+                    <MenuItem Header="_Next Camera" InputGestureText="E"/>
+                    <MenuItem Header="_Previous Camera" InputGestureText="Q"/>
+                    <Separator />
+                    <MenuItem Header="_Cockpit"/>
+                    <MenuItem Header="_Virtual Cockpit"/>
+                    <MenuItem Header="_Follow"/>
+                    <MenuItem Header="_On-Board"/>
+                    <MenuItem Header="_Fly-By"/>
+                    <MenuItem Header="_Tower"/>
+                </MenuItem>
+                <MenuItem Header="_Controls">
+                    <MenuItem Header="_Landing Gear" InputGestureText="G"/>
+                    <Separator />
+                    <MenuItem Header="_Spoilers Toggle" InputGestureText="/"/>
+                    <Separator />
+                    <MenuItem Header="_Flaps Up" InputGestureText="["/>
+                    <MenuItem Header="_Flaps Down" InputGestureText="]"/>
+                    <Separator />
+                    <MenuItem Header="_Parking Brakes" InputGestureText="."/>
+                    <Separator />
+                    <MenuItem Header="_Autopilot Toggle" InputGestureText="Z"/>
+                    <MenuItem Header="_Pushback Toggle" InputGestureText="P"/>
+                    <MenuItem Header="_Pause Toggle" InputGestureText="[Space]"/>
+                </MenuItem>
+                <MenuItem Header="_Lights">
+                    <MenuItem Header="_Landing Lights" InputGestureText="L"/>
+                    <MenuItem Header="_Strobe Lights" InputGestureText="S"/>
+                    <MenuItem Header="_Nav Lights" InputGestureText="N"/>
+                    <MenuItem Header="_Beacon Lights" InputGestureText="B"/>
+                </MenuItem>
+                <MenuItem Header="_Live">
+                    <MenuItem Header="_Toggle ATC Window" InputGestureText="A"/>
+                </MenuItem>
+                <MenuItem Header="_Help">
+                    <MenuItem Header="_Joystick Setup Guide"/>
+                    <MenuItem Header="_Source Code (GitHub)"/>
+                    <Separator />
+                    <MenuItem Header="_Infinite Flight Community"/>
+                    <Separator />
+                    <MenuItem Header="_LiveFlight"/>
+                    <MenuItem Header="_LiveFlight on Facebook"/>
+                    <MenuItem Header="_LiveFlight on Twitter"/>
+                    <Separator />
+                    <MenuItem Header="_About LiveFlight Connect"/>
+                </MenuItem>
+            </Menu>
+            <StackPanel></StackPanel>
+        </DockPanel>
+        <TabControl x:Name="mainTabControl" SelectionChanged="mainTabControl_SelectionChanged" Grid.ColumnSpan="4" Height="490" VerticalAlignment="Bottom" Margin="0,0,0,-8">
             <TabItem Header="Main">
                 <Grid Margin="0,0,0,-57">
                     <Grid.ColumnDefinitions>
@@ -19,7 +70,7 @@
                         <ColumnDefinition Width="184*"/>
                     </Grid.ColumnDefinitions>
                     <Label x:Name="connectedLabel" Content="Connected to Infinite Flight!" HorizontalAlignment="Left" Margin="120,209,0,0" VerticalAlignment="Top" Grid.ColumnSpan="3" FontSize="20"/>
-                    <Label x:Name="ipLabel" Content="Infinite Flight is at " HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" Margin="0,246,5.346,0" Grid.ColumnSpan="3" Width="508"/>
+                    <Label x:Name="ipLabel" Content="Label" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" Margin="0,246,5.346,0" Grid.ColumnSpan="3" Width="508"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Controls" Height="22" VerticalAlignment="Bottom">
