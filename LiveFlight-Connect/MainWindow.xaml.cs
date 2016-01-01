@@ -634,5 +634,13 @@ namespace LiveFlight
             return true;
         }
 
+        private void joystickSetupGuideButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            // go to community forums
+            var forumURL = "https://community.infinite-flight.com/t/joysticks-on-ios-android-over-the-network-liveflight-connect/20017?u=carmalonso";
+            System.Diagnostics.Process.Start(forumURL);
+
+        }
     }
 }
