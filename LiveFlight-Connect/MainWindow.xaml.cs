@@ -1,8 +1,9 @@
 ﻿//
-//  MainWindow.xaml.cs
+//  
 //  LiveFlight Connect
 //
-//  Copyright © 2015 Cameron Carmichael Alonso. All rights reserved.
+//  mainwindow.xaml.cs
+//  Copyright © 2016 Cameron Carmichael Alonso. All rights reserved.
 //
 //  Licensed under GPL-V3.
 //  https://github.com/LiveFlightApp/Connect-Windows/blob/master/LICENSE

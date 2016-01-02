@@ -1,4 +1,15 @@
-﻿using System.Reflection;
+﻿//
+//  
+//  LiveFlight Connect
+//
+//  AssemblyInfo.cs
+//  Copyright © 2015 [AUTHOR]. All rights reserved.
+//
+//  Licensed under GPL-V3.
+//  https://github.com/LiveFlightApp/Connect-Windows/blob/master/LICENSE
+//
+
+using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;

@@ -2,8 +2,8 @@
 //  
 //  LiveFlight Connect
 //
-//  App.xaml.cs
-//  Copyright © 2015 [AUTHOR]. All rights reserved.
+//  JoystickHelper.cs
+//  Copyright © 2015 Cameron Carmichael Alonso. All rights reserved.
 //
 //  Licensed under GPL-V3.
 //  https://github.com/LiveFlightApp/Connect-Windows/blob/master/LICENSE
@@ -11,18 +11,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
+using SharpDX.DirectInput;
 
 namespace LiveFlight
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    class JoystickHelper
     {
     }
 }
