@@ -13,7 +13,46 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="LiveFlight_Connect" x:Class="LiveFlight.MainWindow"
-        Title="LiveFlight Connect" Height="545.333" Width="525" Loaded="PageLoaded" ResizeMode="NoResize">
+        Title="LiveFlight Connect" Height="545.333" Width="525" Loaded="PageLoaded" ResizeMode="NoResize" Icon="LiveFlight.ico">
+    <Window.Resources>
+        <XmlDataProvider x:Key="KeyboardCommands"   XPath="/KeyboardCommands/*" >
+            <x:XData >
+                <KeyboardCommands xmlns="">
+                    <KeyboardCommand  Command="Pitch Up" Key="Down Arrow" />
+                    <KeyboardCommand  Command="Pitch Down" Key="Up Arrow" />
+                    <KeyboardCommand  Command="Roll Left" Key="Left Arrow" />
+                    <KeyboardCommand  Command="Roll Right" Key="Right Arrow" />
+                    <KeyboardCommand  Command="Increase Throttle" Key="D" />
+                    <KeyboardCommand  Command="Decrease Throttle" Key="C" />
+                    <KeyboardCommand  Command="" Key="" />
+                    <KeyboardCommand  Command="Landing Gear Toggle" Key="G" />
+                    <KeyboardCommand  Command="Spoilers Toggle" Key="/" />
+                    <KeyboardCommand  Command="Flaps Up" Key="[" />
+                    <KeyboardCommand  Command="Flaps Down" Key="]" />
+                    <KeyboardCommand  Command="Parking Brakes" Key="." />
+                    <KeyboardCommand  Command="" Key="" />
+                    <KeyboardCommand  Command="Previous Camera" Key="Q" />
+                    <KeyboardCommand  Command="Next Camera" Key="E" />
+                    <KeyboardCommand  Command="Move Camera Up" Key="Shift + Up Arrow" />
+                    <KeyboardCommand  Command="Move Camera Down" Key="Shift + Down Arrow" />
+                    <KeyboardCommand  Command="Move Camera Left" Key="Shift + Left Arrow" />
+                    <KeyboardCommand  Command="Move Camera Right" Key="Shift + Right Arrow" />
+                    <KeyboardCommand  Command="" Key="" />
+                    <KeyboardCommand  Command="Landing Lights Toggle" Key="L" />
+                    <KeyboardCommand  Command="Nav Lights Toggle" Key="N" />
+                    <KeyboardCommand  Command="Beacon Light Toggle" Key="B" />
+                    <KeyboardCommand  Command="Strobe Lights Toggle" Key="S" />
+                    <KeyboardCommand  Command="" Key="" />
+                    <KeyboardCommand  Command="Autopilot Toggle" Key="Z" />
+                    <KeyboardCommand  Command="Pushback Toggle" Key="P" />
+                    <KeyboardCommand  Command="Pause Toggle" Key="[Space]" />
+                    <KeyboardCommand  Command="" Key="" />
+                    <KeyboardCommand  Command="ATC Window Toggle" Key="A" />
+                    <KeyboardCommand  Command="ATC Commands" Key="Numbers [1-10]" />
+                </KeyboardCommands>
+            </x:XData>
+        </XmlDataProvider>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="43*"/>
@@ -73,7 +112,7 @@
             <StackPanel></StackPanel>
         </DockPanel>
         <TabControl x:Name="mainTabControl" Grid.ColumnSpan="4" Height="490" VerticalAlignment="Bottom" Margin="0,0,0,-8">
-            <TabItem Header="Main">
+            <TabItem Header="Main" Height="22" VerticalAlignment="Bottom">
                 <Grid Margin="0,0,0,-57">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="167*"/>
@@ -152,30 +191,14 @@
                     <TextBox x:Name="speedTextBlock" Grid.Column="2" Grid.Row="3" Margin="2" TextChanged="speedTextBlock_TextChanged"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="___TabItem___Keyboard_Commands_" Header="Keyboard Commands" Margin="-2,-2,-2,0">
-                <Grid Margin="5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25*"/>
-                        <RowDefinition Height="25*"/>
-                        <RowDefinition Height="25*"/>
-                        <RowDefinition Height="25*"/>
-                        <RowDefinition Height="25*"/>
-                        <RowDefinition Height="399*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="110*"/>
-                        <ColumnDefinition Width="401*"/>
-                    </Grid.ColumnDefinitions>
-                    <CheckBox VerticalAlignment="Center" Content="Altitude" x:Name="altitudeStateCheckbox1" Click="checkbox_Checked"/>
-                    <CheckBox VerticalAlignment="Center" Content="Heading" x:Name="headingStateCheckbox1" Grid.Row="1" Click="checkbox_Checked"/>
-                    <CheckBox VerticalAlignment="Center" Content="VS" x:Name="verticalSpeedStateCheckbox1" Grid.Row="2" Click="checkbox_Checked"/>
-                    <CheckBox VerticalAlignment="Center" Content="Speed" x:Name="speedStateCheckbox1" Grid.Row="3" Click="checkbox_Checked"/>
-                    <CheckBox VerticalAlignment="Center" Content="APPR" x:Name="apprStateCheckbox1" Grid.Row="4" Click="checkbox_Checked"/>
-
-                    <TextBox x:Name="altitudeTextBlock1" Grid.Column="2" Margin="2" TextChanged="speedTextBlock_TextChanged"/>
-                    <TextBox x:Name="headingTextBlock1" Grid.Column="2" Grid.Row="1" Margin="2" TextChanged="speedTextBlock_TextChanged"/>
-                    <TextBox x:Name="verticalSpeedTextBlock1" Grid.Column="2" Grid.Row="2" Margin="2" TextChanged="speedTextBlock_TextChanged"/>
-                    <TextBox x:Name="speedTextBlock1" Grid.Column="2" Grid.Row="3" Margin="2" TextChanged="speedTextBlock_TextChanged"/>
+            <TabItem x:Name="___TabItem___Keyboard_Commands_" Header="Keyboard Commands" Margin="-2,0">
+                <Grid DataContext="{Binding Source={StaticResource KeyboardCommands}}">
+                    <DataGrid HorizontalAlignment="Stretch" ColumnWidth="*" Margin="10" VerticalAlignment="Stretch"  ItemsSource="{Binding Mode=Default, XPath=/KeyboardCommands/KeyboardCommand}" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Command" Binding="{Binding XPath=@Command}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Key" Binding="{Binding XPath=@Key}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Header="Mouse" d:IsHidden="True">
