@@ -1,6 +1,13 @@
-﻿///
-/// This is a sample project for the Infinite Flight API
-/// 
+﻿//
+//  MainWindow.xaml.cs
+//  LiveFlight Connect
+//
+//  Created by Cameron Carmichael Alonso on 1/12/2015.
+//  Copyright © 2015 Cameron Carmichael Alonso. All rights reserved.
+//
+//  Licensed under GPL-V3.
+//  https://github.com/LiveFlightApp/Connect-Windows/blob/master/LICENSE
+//
 
 using Fds.IFAPI;
 using System;
@@ -27,8 +34,8 @@ namespace LiveFlight
     public partial class MainWindow : Window
     {
         public static IFConnectorClient client = new IFConnectorClient();
+        public static Commands commands = new Commands();
         BroadcastReceiver receiver = new BroadcastReceiver();
-        Commands commands = new Commands();
 
         public MainWindow()
         {
@@ -177,6 +184,7 @@ namespace LiveFlight
                 {
                     var msg = Serializer.DeserializeJson<ATCMessageList>(e.CommandString);
                     atcMessagesDataGrid.ItemsSource = msg.ATCMessages;
+  
                 }
                 else if (type == typeof(APIFlightPlan))
                 {
@@ -189,162 +197,6 @@ namespace LiveFlight
                     }
                 }             
             }));            
-        }
-
-        private void toggleBrakesButton_Click(object sender, RoutedEventArgs e)
-        {
-            //client.SetValue("Aircraft.Systems.Autopilot.EnableHeading", "True");
-        }
-        
-        private void toggleBrakesButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            client.ExecuteCommand("Commands.Brakes", new CallParameter[] { new CallParameter { Name = "KeyAction", Value = "Down" } } );
-        }
-
-        private void toggleBrakesButton_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            client.ExecuteCommand("Commands.Brakes", new CallParameter[] { new CallParameter { Name = "KeyAction", Value = "Up" } });
-        }
-
-        private void parkingBrakeButton_Click(object sender, RoutedEventArgs e)
-        {
-            client.ExecuteCommand("Commands.ParkingBrakes");
-            client.GetValue("Aircraft.State.IsBraking");
-        }
-
-        private void prevCameraButton_Click(object sender, RoutedEventArgs e)
-        {
-            client.ExecuteCommand("Commands.PrevCamera");
-        }
-
-        private void nextCameraButton_Click(object sender, RoutedEventArgs e)
-        {
-            client.ExecuteCommand("Commands.NextCamera");
-        }
-
-
-        private void setGearStateButton_Click(object sender, RoutedEventArgs e)
-        {
-            client.ExecuteCommand("Commands.LandingGear");
-        }
-
-
-        private void Button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            System.Windows.Controls.Button button = sender as System.Windows.Controls.Button;
-
-            client.ExecuteCommand("NetworkJoystick.SetButtonState", new CallParameter[] 
-            {
-                new CallParameter 
-                { 
-                    Name = button.Content.ToString(),  // button index
-                    Value = "Down"
-                }
-            });
-        }
-
-        private void Button_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            System.Windows.Controls.Button button = sender as System.Windows.Controls.Button;
-
-            client.ExecuteCommand("NetworkJoystick.SetButtonState", new CallParameter[] 
-            {
-                new CallParameter 
-                { 
-                    Name = button.Content.ToString(),  // button index
-                    Value = "Up"
-                }
-            });
-        }
-
-        private void POVButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            var button = sender as System.Windows.Controls.Button;
-            var type = button.Content.ToString();
-
-            var xValue = 0;
-            var yValue = 0;
-
-            if (type == "Up")
-            {
-                xValue = 0;
-                yValue = 1;
-            }
-            else if (type == "Down")
-            {
-                xValue = 0;
-                yValue = -1;
-            }
-            else if (type == "Left")
-            {
-                xValue = -1;
-                yValue = 0;
-            }
-            else if (type == "Right")
-            {
-                xValue = 1;
-                yValue = 0;
-            }
-
-            client.ExecuteCommand("NetworkJoystick.SetPOVState", new CallParameter[] 
-                {
-                    new CallParameter 
-                    { 
-                        Name = "X",
-                        Value = xValue.ToString()
-                    },
-                    new CallParameter 
-                    { 
-                        Name = "Y",
-                        Value = yValue.ToString()
-                    }
-                });
-
-
-        }
-
-        private void POVButton_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            var button = sender as System.Windows.Controls.Button;
-            var type = button.Content.ToString();
-
-            var xValue = 0;
-            var yValue = 0;
-
-            if (type == "Up")
-            {
-                xValue = 0;
-                yValue = 0;
-            }
-            else if (type == "Down")
-            {
-                xValue = 0;
-                yValue = 0;
-            }
-            else if (type == "Left")
-            {
-                xValue = 0;
-                yValue = 0;
-            }
-            else if (type == "Right")
-            {
-                xValue = 0;
-                yValue = 0;
-            }
-
-            client.ExecuteCommand("NetworkJoystick.SetPOVState", new CallParameter[] 
-                {
-                    new CallParameter 
-                    { 
-                        Name = "X",
-                        Value = xValue.ToString()
-                    },
-                    new CallParameter 
-                    { 
-                        Name = "Y",
-                        Value = yValue.ToString()
-                    }
-                });
         }
         
         private void checkbox_Checked(object sender, RoutedEventArgs e)
@@ -390,25 +242,9 @@ namespace LiveFlight
 
             client.ExecuteCommand(command);            
         }
-
-        private void setCameraPosition_Click(object sender, RoutedEventArgs e)
-        {
-            var command = "Cameras.SetATCCameraPosition";
-            
-            client.ExecuteCommand(command, new CallParameter[]
-            {
-                new CallParameter { Name = "Latitude", Value = "33.950681" }, 
-                new CallParameter { Name = "Longitude", Value = "-118.401479" },
-                new CallParameter { Name = "Altitude", Value = "-110" }
-            });    
-        }
-
+        
         Point lastMousePosition = new Point();
 
-        private void captureMouseButton_Click(object sender, RoutedEventArgs e)
-        {
-           
-        }
 
         private void captureMouseButton_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
@@ -451,190 +287,17 @@ namespace LiveFlight
             });   
         }
 
-        private void mainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+  
 
         protected bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             Console.WriteLine("Key pressed: {0}", keyData.ToString());
 
-            //ATC
-            if (keyData == Keys.D1)
-            {
-                commands.atc1();
-
-            }
-            else if (keyData == Keys.D2)
-            {
-                commands.atc2();
-
-            }
-            else if (keyData == Keys.D3)
-            {
-                commands.atc3();
-
-            }
-            else if (keyData == Keys.D4)
-            {
-                commands.atc4();
-
-            }
-            else if (keyData == Keys.D5)
-            {
-                commands.atc5();
-
-            }
-            else if (keyData == Keys.D6)
-            {
-                commands.atc6();
-
-            }
-            else if (keyData == Keys.D7)
-            {
-                commands.atc7();
-
-            }
-            else if (keyData == Keys.D8)
-            {
-                commands.atc8();
-
-            }
-            else if (keyData == Keys.D9)
-            {
-                commands.atc9();
-
-            }
-            else if (keyData == Keys.D0)
-            {
-                commands.atc10();
-
-            }
-            else if (keyData == Keys.A)
-            {
-                //toggle atc window
-                commands.atcMenu();
-            }
-
-            //flight controls
-            if (keyData == Keys.G)
-            {
-                //toggle landing gear
-                commands.landingGear();
-            }
-            else if (keyData == (Keys.P | Keys.Shift))
-            {
-                //shift + p
-                //pushback
-                commands.pushback();
-            }
-            else if (keyData == Keys.P)
-            {
-                //pause
-                commands.pause();
-
-            }
-            else if (keyData == Keys.OemPeriod)
-            {
-                //brake
-                commands.parkingBrake();
-            }
-            else if (keyData == Keys.F6)
-            {
-                //retract flaps
-                commands.flapsUp();
-            }
-
-            else if (keyData == Keys.F7)
-            {
-                //extend flaps
-                commands.flapsDown();
-            }
-            else if (keyData == Keys.OemQuestion)
-            {
-                //spoilers
-                commands.spoilers();
-            }
-            else if (keyData == Keys.L)
-            {
-                //kanding lights
-                commands.landing();
-            }
-            else if (keyData == Keys.S)
-            {
-                //strobe
-                commands.strobe();
-            }
-            else if (keyData == Keys.N)
-            {
-                //nav
-                commands.nav();
-            }
-            else if (keyData == Keys.B)
-            {
-                //beacon
-                commands.beacon();
-            }
-            else if (keyData == Keys.Z)
-            {
-                //toggle autopilot
-                commands.autopilot();
-            }
-            else if (keyData == Keys.OemMinus)
-            {
-                //zoomout
-                commands.zoomOut();
-            }
-            else if (keyData == Keys.Oemplus)
-            {
-                //zoomout
-                commands.zoomIn();
-            }
-            /*else if (keyData == Keys.Up)
-            {
-                //move up
-                commands.movePOV(0);
-                Thread.Sleep(2000);
-                
-            }
-            else if (keyData == Keys.Down)
-            {
-                //move down
-                commands.movePOV(18000);
-                Thread.Sleep(2000);
-
-            }
-            else if (keyData == Keys.Left)
-            {
-                //move left
-                commands.movePOV(27000);
-                Thread.Sleep(2000);
-
-            }
-            else if (keyData == Keys.Right)
-            {
-                //move right
-                commands.movePOV(9000);
-                Thread.Sleep(2000);
-
-            }*/
-            else if (keyData == Keys.D)
-            {
-                //Next Camera
-                commands.nextCamera();
-            }
-            else if (keyData == (Keys.D | Keys.Shift))
-            {
-                //previous Camera
-                commands.previousCamera();
-            }
-
 
             return true;
         }
 
-        private void joystickSetupGuideButton_Click(object sender, RoutedEventArgs e)
+        private void joystickSetupGuide(object sender, RoutedEventArgs e)
         {
 
             // go to community forums
