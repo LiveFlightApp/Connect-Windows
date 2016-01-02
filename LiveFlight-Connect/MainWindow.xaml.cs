@@ -25,7 +25,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Forms;
 
 namespace LiveFlight
 {
@@ -286,23 +285,31 @@ namespace LiveFlight
             });   
         }
 
-  
 
-        protected bool ProcessCmdKey(ref Message msg, Keys keyData)
+
+        #region Keyboard commands
+        /*
+            Keyboard Commands
+            ===========================
+        */
+
+        private void keyDownEvent(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            Console.WriteLine("Key pressed: {0}", keyData.ToString());
+            Console.WriteLine("Key pressed: {0}", e.Key);
 
+            KeyboardCommandHandler.keyPressed(e.Key);
 
-            return true;
         }
 
+        #endregion
 
+        #region Menu items
         /*
             Menu Items
             ===========================
         */
 
-            // Camera menu
+        // Camera menu
 
         private void nextCameraMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -467,5 +474,8 @@ namespace LiveFlight
         {
 
         }
+
+        #endregion
+
     }
 }
