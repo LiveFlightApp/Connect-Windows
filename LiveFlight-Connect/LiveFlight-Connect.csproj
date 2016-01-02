@@ -55,6 +55,14 @@
     <ApplicationIcon>LiveFlight.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SharpDX, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.3.0.0\lib\net45\SharpDX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpDX.DirectInput, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DirectInput.3.0.0\lib\net45\SharpDX.DirectInput.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
@@ -80,6 +88,7 @@
     <Compile Include="BroadcastReceiver.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="DataTypes.cs" />
+    <Compile Include="JoystickHelper.cs" />
     <Compile Include="KeyboardCommandHandler.cs" />
     <Compile Include="Serializer.cs" />
     <Page Include="MainWindow.xaml">
@@ -114,6 +123,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="LiveFlight-Connect.licenseheader" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
