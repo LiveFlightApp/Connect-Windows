@@ -201,11 +201,11 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Mouse" d:IsHidden="True">
+            <!--<TabItem Header="Mouse" d:IsHidden="True">
                 <Grid>
                     <Label Content="Mouse Pad" Margin="0" x:Name="captureMouseButton" PreviewMouseMove="captureMouseButton_PreviewMouseMove" PreviewMouseUp="captureMouseButton_PreviewMouseUp" PreviewMouseDown="captureMouseButton_PreviewMouseDown"/>
                 </Grid>
-            </TabItem>
+            </TabItem>-->
         </TabControl>
         <Grid x:Name="overlayGrid" Grid.ColumnSpan="4" d:IsHidden="True">
             <Rectangle Fill="#E0000000"/>
