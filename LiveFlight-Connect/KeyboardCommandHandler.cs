@@ -2,7 +2,6 @@
 //  KeyboardCommandHandler.cs
 //  LiveFlight Connect
 //
-//  Created by Cameron Carmichael Alonso on 2/12/2015.
 //  Copyright © 2015 Cameron Carmichael Alonso. All rights reserved.
 //
 //  Licensed under GPL-V3.

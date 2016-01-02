@@ -1,4 +1,14 @@
-﻿using Fds.IFAPI;
+﻿//
+//  Serializer.cs
+//  LiveFlight Connect
+//
+//  Copyright © 2015 Cameron Carmichael Alonso. All rights reserved.
+//
+//  Licensed under GPL-V3.
+//  https://github.com/LiveFlightApp/Connect-Windows/blob/master/LICENSE
+//
+
+using Fds.IFAPI;
 using System;
 using System.Collections.Generic;
 using System.IO;

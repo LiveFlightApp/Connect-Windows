@@ -2,7 +2,6 @@
 //  MainWindow.xaml.cs
 //  LiveFlight Connect
 //
-//  Created by Cameron Carmichael Alonso on 1/12/2015.
 //  Copyright © 2015 Cameron Carmichael Alonso. All rights reserved.
 //
 //  Licensed under GPL-V3.

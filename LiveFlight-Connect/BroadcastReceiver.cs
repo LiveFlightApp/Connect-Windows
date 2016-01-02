@@ -1,4 +1,12 @@
-﻿using System;
+﻿//
+//  BroadcastReceiver.cs
+//  LiveFlight Connect
+//
+//  Licensed under GPL-V3.
+//  https://github.com/LiveFlightApp/Connect-Windows/blob/master/LICENSE
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
