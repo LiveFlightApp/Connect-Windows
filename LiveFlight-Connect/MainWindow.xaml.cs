@@ -296,12 +296,175 @@ namespace LiveFlight
             return true;
         }
 
+
+        /*
+            Menu Items
+            ===========================
+        */
+
+            // Camera menu
+
+        private void nextCameraMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.nextCamera();
+        }
+
+        private void previousCameraMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.previousCamera();
+        }
+
+        private void cockpitCameraMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.cockpitCamera();
+        }
+
+        private void virtualCockpitCameraMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.vcCamera();
+        }
+
+        private void followCameraMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.followCamera();
+        }
+
+        private void onBoardCameraMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.onboardCamera();
+        }
+
+        private void fybyCameraMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.flybyCamera();
+        }
+
+        private void towerCameraMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.towerCamera();
+        }
+
+            //  Controls menu
+
+        private void landingGearMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.landingGear();
+        }
+
+        private void spoilersMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.spoilers();
+        }
+
+        private void flapsUpMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.flapsUp();
+        }
+
+        private void flapsDownMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.flapsDown();
+        }
+
+        private void parkingBrakesMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.parkingBrake();
+        }
+
+        private void autopilotMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.autopilot();
+        }
+
+        private void pushbackMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.pushback();
+        }
+
+        private void pauseMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.pause();
+        }
+
+            //  Lights menu
+
+        private void landingLightsMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.landing();
+        }
+
+        private void strobeLightsMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.strobe();
+        }
+
+        private void navLightsMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.nav();
+        }
+
+        private void beaconLightsMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.beacon();
+        }
+
+            //  Live menu
+
+        private void atcWindowMenu_Click(object sender, RoutedEventArgs e)
+        {
+            commands.atcMenu();
+        }
+
+             //  Help menu
+
         private void joystickSetupGuide(object sender, RoutedEventArgs e)
         {
 
             // go to community forums
-            var forumURL = "https://community.infinite-flight.com/t/joysticks-on-ios-android-over-the-network-liveflight-connect/20017?u=carmalonso";
-            System.Diagnostics.Process.Start(forumURL);
+            var URL = "https://community.infinite-flight.com/t/joysticks-on-ios-android-over-the-network-liveflight-connect/20017?u=carmalonso";
+            System.Diagnostics.Process.Start(URL);
+
+        }
+
+        private void sourceCodeMenu_Click(object sender, RoutedEventArgs e)
+        {
+
+            // go to GitHub
+            var URL = "https://github.com/LiveFlightApp/Connect-Windows";
+            System.Diagnostics.Process.Start(URL);
+
+        }
+
+        private void communityMenu_Click(object sender, RoutedEventArgs e)
+        {
+            // go to Community
+            var URL = "http://community.infinite-flight.com/?u=carmalonso";
+            System.Diagnostics.Process.Start(URL);
+        }
+
+        private void liveFlightMenu_Click(object sender, RoutedEventArgs e)
+        {
+            // go to LiveFlight
+            var URL = "http://www.liveflightapp.com";
+            System.Diagnostics.Process.Start(URL);
+        }
+
+        private void lfFacebookMenu_Click(object sender, RoutedEventArgs e)
+        {
+            // go to LiveFlight Facebook
+            var URL = "http://facebook.com/LiveFlightApp/";
+            System.Diagnostics.Process.Start(URL);
+        }
+
+        private void lfTwitterMenu_Click(object sender, RoutedEventArgs e)
+        {
+            // go to LiveFlight Twitter
+            var URL = "http://twitter.com/LiveFlightApp/";
+            System.Diagnostics.Process.Start(URL);
+        }
+
+        private void aboutLfMenu_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }

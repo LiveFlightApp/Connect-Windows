@@ -9,7 +9,7 @@
 //  https://github.com/LiveFlightApp/Connect-Windows/blob/master/LICENSE
 //
  -->
-  <Window
+<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="LiveFlight_Connect" x:Class="LiveFlight.MainWindow"
@@ -24,50 +24,50 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top" Height="60" Margin="0,0,-475,0">
                 <MenuItem Header="_Cameras">
-                    <MenuItem Header="_Next Camera" InputGestureText="E"/>
-                    <MenuItem Header="_Previous Camera" InputGestureText="Q"/>
+                    <MenuItem x:Name="nextCameraMenu" Header="_Next Camera" InputGestureText="E" Click="nextCameraMenu_Click"/>
+                    <MenuItem x:Name="previousCameraMenu" Header="_Previous Camera" InputGestureText="Q" Click="previousCameraMenu_Click"/>
                     <Separator />
-                    <MenuItem Header="_Cockpit"/>
-                    <MenuItem Header="_Virtual Cockpit"/>
-                    <MenuItem Header="_Follow"/>
-                    <MenuItem Header="_On-Board"/>
-                    <MenuItem Header="_Fly-By"/>
-                    <MenuItem Header="_Tower"/>
+                    <MenuItem x:Name="cockpitCameraMenu" Header="_Cockpit" Click="cockpitCameraMenu_Click"/>
+                    <MenuItem x:Name="virtualCockpitCameraMenu" Header="_Virtual Cockpit" Click="virtualCockpitCameraMenu_Click"/>
+                    <MenuItem x:Name="followCameraMenu" Header="_Follow" Click="followCameraMenu_Click"/>
+                    <MenuItem x:Name="onBoardCameraMenu" Header="_On-Board" Click="onBoardCameraMenu_Click"/>
+                    <MenuItem x:Name="fybyCameraMenu" Header="_Fly-By" Click="fybyCameraMenu_Click"/>
+                    <MenuItem x:Name="towerCameraMenu" Header="_Tower" Click="towerCameraMenu_Click"/>
                 </MenuItem>
                 <MenuItem Header="_Controls">
-                    <MenuItem Header="_Landing Gear" InputGestureText="G"/>
+                    <MenuItem x:Name="landingGearMenu" Header="_Landing Gear" InputGestureText="G" Click="landingGearMenu_Click"/>
                     <Separator />
-                    <MenuItem Header="_Spoilers Toggle" InputGestureText="/"/>
+                    <MenuItem x:Name="spoilersMenu" Header="_Spoilers Toggle" InputGestureText="/" Click="spoilersMenu_Click"/>
                     <Separator />
-                    <MenuItem Header="_Flaps Up" InputGestureText="["/>
-                    <MenuItem Header="_Flaps Down" InputGestureText="]"/>
+                    <MenuItem x:Name="flapsUpMenu" Header="_Flaps Up" InputGestureText="[" Click="flapsUpMenu_Click"/>
+                    <MenuItem x:Name="flapsDownMenu" Header="_Flaps Down" InputGestureText="]" Click="flapsDownMenu_Click"/>
                     <Separator />
-                    <MenuItem Header="_Parking Brakes" InputGestureText="."/>
+                    <MenuItem x:Name="parkingBrakesMenu" Header="_Parking Brakes" InputGestureText="." Click="parkingBrakesMenu_Click"/>
                     <Separator />
-                    <MenuItem Header="_Autopilot Toggle" InputGestureText="Z"/>
-                    <MenuItem Header="_Pushback Toggle" InputGestureText="P"/>
-                    <MenuItem Header="_Pause Toggle" InputGestureText="[Space]"/>
+                    <MenuItem x:Name="autopilotMenu" Header="_Autopilot Toggle" InputGestureText="Z" Click="autopilotMenu_Click"/>
+                    <MenuItem x:Name="pushbackMenu" Header="_Pushback Toggle" InputGestureText="P" Click="pushbackMenu_Click"/>
+                    <MenuItem x:Name="pauseMenu" Header="_Pause Toggle" InputGestureText="[Space]" Click="pauseMenu_Click"/>
                 </MenuItem>
                 <MenuItem Header="_Lights">
-                    <MenuItem Header="_Landing Lights" InputGestureText="L"/>
-                    <MenuItem Header="_Strobe Lights" InputGestureText="S"/>
-                    <MenuItem Header="_Nav Lights" InputGestureText="N"/>
-                    <MenuItem Header="_Beacon Lights" InputGestureText="B"/>
+                    <MenuItem x:Name="landingLightsMenu" Header="_Landing Lights" InputGestureText="L" Click="landingLightsMenu_Click"/>
+                    <MenuItem x:Name="strobeLightsMenu" Header="_Strobe Lights" InputGestureText="S" Click="strobeLightsMenu_Click"/>
+                    <MenuItem x:Name="navLightsMenu" Header="_Nav Lights" InputGestureText="N" Click="navLightsMenu_Click"/>
+                    <MenuItem x:Name="beaconLightsMenu" Header="_Beacon Lights" InputGestureText="B" Click="beaconLightsMenu_Click"/>
                 </MenuItem>
                 <MenuItem Header="_Live">
-                    <MenuItem Header="_Toggle ATC Window" InputGestureText="A"/>
+                    <MenuItem x:Name="atcWindowMenu" Header="_Toggle ATC Window" InputGestureText="A" Click="atcWindowMenu_Click"/>
                 </MenuItem>
                 <MenuItem Header="_Help">
-                    <MenuItem Header="_Joystick Setup Guide" Click="joystickSetupGuide"/>
-                    <MenuItem Header="_Source Code (GitHub)"/>
+                    <MenuItem x:Name="joystickSetupGuideMenu" Header="_Joystick Setup Guide" Click="joystickSetupGuide"/>
+                    <MenuItem x:Name="sourceCodeMenu" Header="_Source Code (GitHub)" Click="sourceCodeMenu_Click"/>
                     <Separator />
-                    <MenuItem Header="_Infinite Flight Community"/>
+                    <MenuItem x:Name="communityMenu" Header="_Infinite Flight Community" Click="communityMenu_Click"/>
                     <Separator />
-                    <MenuItem Header="_LiveFlight"/>
-                    <MenuItem Header="_LiveFlight on Facebook"/>
-                    <MenuItem Header="_LiveFlight on Twitter"/>
+                    <MenuItem x:Name="liveFlightMenu" Header="_LiveFlight" Click="liveFlightMenu_Click"/>
+                    <MenuItem x:Name="lfFacebookMenu" Header="_LiveFlight on Facebook" Click="lfFacebookMenu_Click"/>
+                    <MenuItem x:Name="lfTwitterMenu" Header="_LiveFlight on Twitter" Click="lfTwitterMenu_Click"/>
                     <Separator />
-                    <MenuItem Header="_About LiveFlight Connect"/>
+                    <MenuItem x:Name="aboutLfMenu" Header="_About LiveFlight Connect" Click="aboutLfMenu_Click"/>
                 </MenuItem>
             </Menu>
             <StackPanel></StackPanel>
@@ -150,6 +150,32 @@
                     <TextBox x:Name="headingTextBlock" Grid.Column="2" Grid.Row="1" Margin="2" TextChanged="speedTextBlock_TextChanged"/>
                     <TextBox x:Name="verticalSpeedTextBlock" Grid.Column="2" Grid.Row="2" Margin="2" TextChanged="speedTextBlock_TextChanged"/>
                     <TextBox x:Name="speedTextBlock" Grid.Column="2" Grid.Row="3" Margin="2" TextChanged="speedTextBlock_TextChanged"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="___TabItem___Keyboard_Commands_" Header="Keyboard Commands" Margin="-2,-2,-2,0">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25*"/>
+                        <RowDefinition Height="25*"/>
+                        <RowDefinition Height="25*"/>
+                        <RowDefinition Height="25*"/>
+                        <RowDefinition Height="25*"/>
+                        <RowDefinition Height="399*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110*"/>
+                        <ColumnDefinition Width="401*"/>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox VerticalAlignment="Center" Content="Altitude" x:Name="altitudeStateCheckbox1" Click="checkbox_Checked"/>
+                    <CheckBox VerticalAlignment="Center" Content="Heading" x:Name="headingStateCheckbox1" Grid.Row="1" Click="checkbox_Checked"/>
+                    <CheckBox VerticalAlignment="Center" Content="VS" x:Name="verticalSpeedStateCheckbox1" Grid.Row="2" Click="checkbox_Checked"/>
+                    <CheckBox VerticalAlignment="Center" Content="Speed" x:Name="speedStateCheckbox1" Grid.Row="3" Click="checkbox_Checked"/>
+                    <CheckBox VerticalAlignment="Center" Content="APPR" x:Name="apprStateCheckbox1" Grid.Row="4" Click="checkbox_Checked"/>
+
+                    <TextBox x:Name="altitudeTextBlock1" Grid.Column="2" Margin="2" TextChanged="speedTextBlock_TextChanged"/>
+                    <TextBox x:Name="headingTextBlock1" Grid.Column="2" Grid.Row="1" Margin="2" TextChanged="speedTextBlock_TextChanged"/>
+                    <TextBox x:Name="verticalSpeedTextBlock1" Grid.Column="2" Grid.Row="2" Margin="2" TextChanged="speedTextBlock_TextChanged"/>
+                    <TextBox x:Name="speedTextBlock1" Grid.Column="2" Grid.Row="3" Margin="2" TextChanged="speedTextBlock_TextChanged"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Mouse" d:IsHidden="True">
