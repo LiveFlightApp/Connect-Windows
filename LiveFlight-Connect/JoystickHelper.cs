@@ -21,7 +21,6 @@ namespace LiveFlight
     class JoystickHelper
     {
 
-        Joystick joystick;
         Commands commands = new Commands();
         DirectInput directInput = new DirectInput();
 
@@ -73,6 +72,8 @@ namespace LiveFlight
 
         private void pollJoystick(Guid joystickGuid)
         {
+
+            Joystick joystick;
 
             // Instantiate the joystick
             joystick = new Joystick(directInput, joystickGuid);
