@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="IF_FMS.AircraftStatus"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IF_FMS"
+             mc:Ignorable="d" Height="411.883" Width="293.507">
+    <Canvas Margin="0,0,0,70">
+        <ListView x:Name="listView" Height="300" Width="288" Canvas.Left="3" AlternationCount="2" Canvas.Top="101">
+            <ListView.View>
+                <GridView AllowsColumnReorder="False">
+                    <GridViewColumn Header="Parameter" DisplayMemberBinding="{Binding Key}" Width="130"/>
+                    <GridViewColumn Header="Reading" DisplayMemberBinding="{Binding Value}" Width="130"/>
+                </GridView>
+            </ListView.View>
+
+
+        </ListView>
+        <Border BorderBrush="Black" BorderThickness="1" Height="29" Canvas.Left="107" Width="70" Canvas.Top="3" Background="Gray">
+            <TextBlock x:Name="gearLight1" TextWrapping="Wrap" Text="A/P On" FontSize="18.667" TextAlignment="Center" FontWeight="Bold" Foreground="LimeGreen" Margin="-1">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="LimeGreen" Opacity="0.75" BlurRadius="15" ShadowDepth="0"/>
+                </TextBlock.Effect>
+            </TextBlock>
+        </Border>
+        <Border BorderBrush="Black" BorderThickness="1" Height="43" Canvas.Left="3" Width="70" Background="Gray" Canvas.Top="3">
+            <TextBlock x:Name="gearLight2" TextWrapping="Wrap" Text="GEAR UP" FontSize="18" TextAlignment="Center" FontWeight="Bold" Foreground="Red" Margin="-1,-4,-1,-1">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="Red" Opacity="0.75" BlurRadius="15" ShadowDepth="0"/>
+                </TextBlock.Effect>
+            </TextBlock>
+        </Border>
+        <Border BorderBrush="Black" BorderThickness="1" Height="43" Canvas.Left="3" Width="70" Background="Gray" Canvas.Top="51">
+            <TextBlock x:Name="gearLight3" TextWrapping="Wrap" Text="GEAR DOWN" FontSize="18" TextAlignment="Center" FontWeight="Bold" Foreground="LimeGreen" Margin="-1,-4,-1,-1">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="LimeGreen" Opacity="0.75" BlurRadius="15" ShadowDepth="0"/>
+                </TextBlock.Effect>
+            </TextBlock>
+        </Border>
+        <Rectangle x:Name="GearUpOff" Fill="Gray" Height="43" Canvas.Left="3" Stroke="Black" Canvas.Top="3" Width="70" Opacity="0.9"/>
+        <Rectangle x:Name="GearDownOff" Fill="Gray" Height="43" Canvas.Left="3" Stroke="Black" Canvas.Top="51" Width="70" Opacity="0.9"/>
+        <Rectangle x:Name="ApOff" Fill="Gray" Height="29" Canvas.Left="107" Stroke="Black" Canvas.Top="3" Width="70" Opacity="0.9"/>
+        <Border BorderBrush="Black" BorderThickness="1" Height="28" Canvas.Left="89" Width="111" Canvas.Top="66" Background="Gray">
+            <TextBlock x:Name="gearLight4" TextWrapping="Wrap" Text="STALL" FontSize="22" TextAlignment="Center" FontWeight="Bold" Foreground="Red" Margin="-1,-3,-1,1">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="Red" Opacity="0.75" BlurRadius="20" ShadowDepth="0"/>
+                </TextBlock.Effect>
+            </TextBlock>
+        </Border>
+        <Rectangle x:Name="StallOff" Fill="Gray" Height="28" Canvas.Left="89" Stroke="Black" Canvas.Top="66" Width="111" Opacity="0.9"/>
+        <Border BorderBrush="Black" BorderThickness="1" Height="24" Canvas.Left="89" Width="111" Canvas.Top="37" Background="Gray">
+            <TextBlock x:Name="gearLight5" TextWrapping="Wrap" Text="Stall Warning" FontSize="14" TextAlignment="Center" FontWeight="Bold" Foreground="Goldenrod" Margin="-1">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="Goldenrod" Opacity="0.75" BlurRadius="15" ShadowDepth="0"/>
+                </TextBlock.Effect>
+            </TextBlock>
+        </Border>
+        <Rectangle x:Name="StallWarnOff" Fill="Gray" Height="24" Canvas.Left="89" Stroke="Black" Canvas.Top="37" Width="111" Opacity="0.9" Visibility="Visible" />
+
+    </Canvas>
+</UserControl>
