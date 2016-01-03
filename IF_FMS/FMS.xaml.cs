@@ -238,9 +238,9 @@ namespace IF_FMS
                 pFplState.legIndex = 0;
                 pFplState.nextWpt = pFplState.fpl.Waypoints[1];
                 pFplState.dest = pFplState.fpl.Waypoints.Last();
-                pFplState.nextAltitude = pFplState.fplDetails.waypoints[pFplState.legIndex+1].Altitude;
+                pFplState.nextAltitude = pFplState.fplDetails.waypoints[pFplState.legIndex + 1].Altitude;
                 pFplState.thisSpeed = pFplState.fplDetails.waypoints[pFplState.legIndex].Airspeed;
-                pFplState.nextSpeed = pFplState.fplDetails.waypoints[pFplState.legIndex+1].Airspeed;
+                pFplState.nextSpeed = pFplState.fplDetails.waypoints[pFplState.legIndex + 1].Airspeed;
             }
 
             //Get dist to next wpt
@@ -251,7 +251,7 @@ namespace IF_FMS
             {
                 pFplState.legIndex++; //next leg
                 pFplState.prevWpt = pFplState.nextWpt; //current wpt is not prev wpt
-                if(pFplState.legIndex >= pFplState.fpl.Waypoints.Count())
+                if (pFplState.legIndex >= pFplState.fpl.Waypoints.Count())
                 {
                     //We hit the destination!
                     lblNextWpt.Content = "Destination Reached!";
@@ -281,11 +281,17 @@ namespace IF_FMS
             lblHdg2Next.Content = String.Format("{0:0.000}", pFplState.hdgToNextWpt);
 
             //Calculate VS to hit target altitude
+            if (pFplState.nextAltitude > 0) {
             double vs = calcVs(acState.AltitudeMSL, pFplState.nextAltitude, acState.GroundSpeedKts, pFplState.distToNextWpt);
             lblVsSet.Content = string.Format("{0:0.000}", vs);
             //Adjust AutoPilot
             setAutoPilotParams(pFplState.nextAltitude, pFplState.hdgToNextWpt, vs, pFplState.nextSpeed);
-
+            }
+            else
+            {
+                //Adjust AutoPilot
+                setAutoPilotParams(pFplState.nextAltitude, pFplState.hdgToNextWpt, 999999, pFplState.nextSpeed);
+            }
 
             ////Dont think we need this
             //APIWaypoint closestWpt = pFplState.fpl.Waypoints.First();
@@ -308,12 +314,12 @@ namespace IF_FMS
             //Send parameters
             if (speed > 0) { client.ExecuteCommand("Commands.Autopilot.SetSpeed", new CallParameter[] { new CallParameter { Value = speed.ToString() } }); }
             if (altitude > 0) { client.ExecuteCommand("Commands.Autopilot.SetAltitude", new CallParameter[] { new CallParameter { Value = altitude.ToString() } }); }
-            client.ExecuteCommand("Commands.Autopilot.SetVS", new CallParameter[] { new CallParameter { Value = vs.ToString() } });
+            if (vs < 999999) { client.ExecuteCommand("Commands.Autopilot.SetVS", new CallParameter[] { new CallParameter { Value = vs.ToString() } }); }
             client.ExecuteCommand("Commands.Autopilot.SetHeading", new CallParameter[] { new CallParameter { Value = heading.ToString() } });
             //Activate AP
             if (altitude > 0) { client.ExecuteCommand("Commands.Autopilot.SetAltitudeState", new CallParameter[] { new CallParameter { Value = "True" } }); }
             client.ExecuteCommand("Commands.Autopilot.SetHeadingState", new CallParameter[] { new CallParameter { Value = "True" } });
-            client.ExecuteCommand("Commands.Autopilot.SetVSState", new CallParameter[] { new CallParameter { Value = "True" } });
+            if (vs < 999999) { client.ExecuteCommand("Commands.Autopilot.SetVSState", new CallParameter[] { new CallParameter { Value = "True" } }); }
             if (speed > 0) { client.ExecuteCommand("Commands.Autopilot.SetSpeedState", new CallParameter[] { new CallParameter { Value = "True" } }); }
             //if (appr) { client.ExecuteCommand("Commands.Autopilot.SetApproachModeState", new CallParameter[] { new CallParameter { Value = appr.ToString() } }); }
         }
