@@ -22,47 +22,71 @@ namespace LiveFlight
     {
 
         Joystick joystick;
+        Commands commands = new Commands();
+        DirectInput directInput = new DirectInput();
 
-        private void beginJoystickPoll()
+        // count number of joysticks and gamepads
+        int gamepadCount = 0;
+        int joystickCount = 0;
+
+        public void beginJoystickPoll()
         {
 
-            // Initialize DirectInput
-            var directInput = new DirectInput();
-
-            // Find a Joystick Guid
-            var joystickGuid = Guid.Empty;
-
+            // search for gamepads
             foreach (var deviceInstance in directInput.GetDevices(DeviceType.Gamepad,
                         DeviceEnumerationFlags.AllDevices))
-                joystickGuid = deviceInstance.InstanceGuid;
-
-            // If Gamepad not found, look for a Joystick
-            if (joystickGuid == Guid.Empty)
-                foreach (var deviceInstance in directInput.GetDevices(DeviceType.Joystick,
-                        DeviceEnumerationFlags.AllDevices))
-                    joystickGuid = deviceInstance.InstanceGuid;
-
-            // If Joystick not found, throws an error
-            if (joystickGuid == Guid.Empty)
             {
-                Console.WriteLine("No joystick found.");
-                Console.ReadKey();
-                Environment.Exit(1);
+                // poll async
+                Task.Run(() =>
+                {
+                    pollJoystick(deviceInstance.InstanceGuid);
+                });
+
+                gamepadCount += 1;
             }
+
+            // search for joysticks
+            foreach (var deviceInstance in directInput.GetDevices(DeviceType.Joystick,
+                    DeviceEnumerationFlags.AllDevices))
+            {
+                // poll async
+                Task.Run(() =>
+                {
+                    pollJoystick(deviceInstance.InstanceGuid);
+                });
+
+                joystickCount += 1;
+            }
+
+            // check that devices definitely exist
+            if (gamepadCount == 0 && joystickCount == 0)
+            {
+                Console.WriteLine("No joystick found, assuming keyboard keys will be used.");
+            }
+            else
+            {
+                Console.WriteLine("Found {0} joystick(s) and {1} gamepad(s)", joystickCount, gamepadCount);
+            }
+
+
+        }
+
+        private void pollJoystick(Guid joystickGuid)
+        {
 
             // Instantiate the joystick
             joystick = new Joystick(directInput, joystickGuid);
+            joystick.Properties.BufferSize = 128;
 
-            Console.WriteLine("Found Joystick with GUID: {0}", joystickGuid);
-            Console.WriteLine("Joystick - {0}", joystick.Properties.ProductName);
+            Console.WriteLine("Joystick {0} with GUID: {1}", joystick.Properties.ProductName, joystickGuid);
 
             // Query all suported ForceFeedback effects
+            // TODO - maybe look into vibration effects on gamepads?
             var allEffects = joystick.GetEffects();
             foreach (var effectInfo in allEffects)
+            {
                 Console.WriteLine("Effect available {0}", effectInfo.Name);
-
-            // Set BufferSize in order to use buffered data.
-            joystick.Properties.BufferSize = 128;
+            }
 
             // Acquire the joystick
             joystick.Acquire();
@@ -74,8 +98,7 @@ namespace LiveFlight
                 var data = joystick.GetBufferedData();
                 foreach (var state in data)
                 {
-                    Console.WriteLine(state);
-                    Console.WriteLine(state.Offset);
+                    Console.WriteLine("{0} - {1} - {2}", joystick.Properties.ProductName, state.Offset, state.Value);
 
                     if (state.Offset.ToString().StartsWith("Button") || state.Offset.ToString().StartsWith("Point"))
                     {
@@ -86,28 +109,9 @@ namespace LiveFlight
                     else
                     {
 
-                        if (state.Offset.ToString() != "RotationZ" && state.Offset.ToString() != "Z")
-                        {
-                            //isn't rudder nor throttle
-
-                            // auto ap disable
-
-                            /*if (axisMoveAutopilotDisable.Checked == true)
-                            {
-                                if (isApOn == true)
-                                {
-                                    Console.WriteLine("Disable AP");
-                                    commands.autopilot();
-                                    isApOn = false;
-                                }
-
-                            }*/
-                           
-
-                        }
-
                         //is an axis
-                        axisMoved(state.Offset, state.Value, 32767);
+                        int range = 32767; // this is for main joysticks. Might have to change if there are issues
+                        axisMoved(state.Offset, state.Value, range);
 
                     }
 
@@ -119,90 +123,66 @@ namespace LiveFlight
         private void buttonPressed(JoystickOffset offset, int value)
         {
 
-            // send button offset
+            String state;
+            
+            // check button state based on value
+            // this is the inverse of OS X, where != 0 is up
+            if (value == 0)
+            {
+                state = "Up";
+            }
+            else
+            {
+                state = "Down";
+            }
+
+            int offsetValue = Int32.Parse(offset.ToString().Replace("Buttons", "")); // leave just a number
+            commands.joystickButtonChanged(offsetValue, state);
 
         }
 
         private void axisMoved(JoystickOffset offset, int value, int range)
         {
 
-            // TODO - this whole section can be rewritten. Duplicate work, assigning value then checking against
-
             //indexes
             // 0 - pitch
             // 1 - roll
+            // 2 - rudder
+            // 3 - throttle
 
-            var indexOf = -1;
+            // do some calculations to make it closer to [-1024, 1024]
+            value -= range;
+            value = value / 32;
 
             if (offset.ToString() == "X")
             {
 
-                indexOf = 1;
+                commands.movedJoystickAxis(1, value);
 
             }
             else if (offset.ToString() == "Y")
             {
 
-                indexOf = 0;
+                commands.movedJoystickAxis(0, value);
 
             }
             else if (offset.ToString() == "RotationZ")
             {
+                // assumes twisted rudder
 
-                indexOf = 2;
+                commands.movedJoystickAxis(2, value);
 
             }
-            else if (offset.ToString() == "Z")
+            else if ((offset.ToString() == "Z") || (offset.ToString().StartsWith("Slider")))
             {
+                // assumes a slider is for throttle
+                // this might not be the case on the T. Flight Hotas where it is also yaw, but this should do for sticks like the 3D Pro.
 
-                indexOf = 3;
-
-            }
-
-            // check if is joystick movement
-            if (indexOf < 2)
-            {
-                //divide value by 10
-                value = value - range;
-                value = value / 32;
+                commands.movedJoystickAxis(3, value);
 
             }
-            else
-            {
+            
 
-                // Throttle
-                if (indexOf == 3)
-                {
-
-                    value = value - range;
-                    value = value / 32;
-
-                }
-                else
-                {
-                    //is rudder
-
-                    value = value - range;
-                    value = value / 32;
-
-                }
-
-            }
-
-
-            if (indexOf != -1)
-            {
-
-                /*client.ExecuteCommand("NetworkJoystick.SetAxisValue", new CallParameter[]
-                {
-                new CallParameter
-                {
-                    Name = indexOf.ToString(),
-                    Value = value.ToString()
-                }
-                });*/
-
-            }
 
         }
 

@@ -27,6 +27,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using IFConnect;
+using FlightPlanDatabase;
+using IF_FMS;
+using Indicators;
 
 namespace LiveFlight
 {
@@ -35,6 +38,7 @@ namespace LiveFlight
     {
         public static IFConnectorClient client = new IFConnectorClient();
         public static Commands commands = new Commands();
+        JoystickHelper joystickClient = new JoystickHelper();
         BroadcastReceiver receiver = new BroadcastReceiver();
 
         private APIAircraftState pAircraftState = new APIAircraftState();
@@ -135,6 +139,13 @@ namespace LiveFlight
         {
             receiver.DataReceived += receiver_DataReceived;
             receiver.StartListening();
+
+            // Start JoystickHelper async
+            Task.Run(() =>
+            {
+                joystickClient.beginJoystickPoll();
+            });
+
         }
 
         void client_CommandReceived(object sender, CommandReceivedEventArgs e)

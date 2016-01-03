@@ -28,6 +28,36 @@ namespace LiveFlight
         int viewLeftId = 27000;
         int viewRightId = 9000;
 
+        #region JoystickCommands
+
+        public void movedJoystickAxis(int axis, int value)
+        {
+            client.ExecuteCommand("NetworkJoystick.SetAxisValue", new CallParameter[]
+                {
+                new CallParameter
+                {
+                    Name = axis.ToString(),
+                    Value = value.ToString()
+                }
+             });
+        }
+
+        public void joystickButtonChanged(int button, String state)
+        {
+
+            client.ExecuteCommand("NetworkJoystick.SetButtonState", new CallParameter[]
+                {
+                new CallParameter
+                {
+                    Name = button.ToString(),
+                    Value = state
+                }
+             });
+
+        }
+
+        #endregion
+
 
         public void previousCamera()
         {
