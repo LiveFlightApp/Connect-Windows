@@ -33,9 +33,11 @@ namespace LiveFlight
 
     public partial class MainWindow : Window
     {
-        public static IFConnect.IFConnectorClient client = new IFConnect.IFConnectorClient();
+        public static IFConnectorClient client = new IFConnectorClient();
         public static Commands commands = new Commands();
         BroadcastReceiver receiver = new BroadcastReceiver();
+
+        private APIAircraftState pAircraftState = new APIAircraftState();
 
         public MainWindow()
         {
@@ -139,7 +141,7 @@ namespace LiveFlight
         {
             Dispatcher.BeginInvoke((Action)(() => 
             {
-                var type = Type.GetType(e.Response.Type);
+                var type = typeof(IFAPIStatus).Assembly.GetType(e.Response.Type);
 
                 if (type == typeof(APIAircraftState))
                 {
@@ -147,6 +149,9 @@ namespace LiveFlight
 
                     airplaneStateGrid.DataContext = null;
                     airplaneStateGrid.DataContext = state;
+                    pAircraftState = state;
+                    if (FMSControl.autoFplDirectActive) { FMSControl.updateAutoNav(state); }
+                   // AircraftStateControl.AircraftState = state;
                     AttitudeIndicator.updateAttitude(state.Pitch, state.Bank);
                 }
                 else if (type == typeof(GetValueResponse))
@@ -192,7 +197,7 @@ namespace LiveFlight
                 {
                     var msg = Serializer.DeserializeJson<APIFlightPlan>(e.CommandString);
                     Console.WriteLine("Flight Plan: {0} items", msg.Waypoints.Length);
-
+                    FMSControl.fplReceived(msg); //Update FMS with FPL from IF.
                     foreach (var item in msg.Waypoints)
                     {
                         Console.WriteLine(" -> {0} {1} - {2}, {3}", item.Name, item.Code, item.Latitude, item.Longitude);
