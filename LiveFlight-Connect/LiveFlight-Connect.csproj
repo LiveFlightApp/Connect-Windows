@@ -85,9 +85,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BroadcastReceiver.cs" />
     <Compile Include="Commands.cs" />
-    <Compile Include="DataTypes.cs" />
     <Compile Include="JoystickHelper.cs" />
     <Compile Include="KeyboardCommandHandler.cs" />
     <Compile Include="Serializer.cs" />
@@ -99,7 +97,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="IFConnectorClient.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -150,6 +147,14 @@
     <Resource Include="LiveFlight.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IFConnect\IFConnect.csproj">
+      <Project>{89c1f7c9-5f59-4c36-a3eb-0f39147bb6d9}</Project>
+      <Name>IFConnect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IF_FMS\IF_FMS.csproj">
+      <Project>{AF20C0E4-1086-4C92-ACB2-228EB9734D60}</Project>
+      <Name>IF_FMS</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Indicators\Indicators.csproj">
       <Project>{6e9749fb-c09f-4522-ab07-b34aade5ca69}</Project>
       <Name>Indicators</Name>
