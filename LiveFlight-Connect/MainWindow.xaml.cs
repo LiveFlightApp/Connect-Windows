@@ -96,7 +96,7 @@ namespace LiveFlight
                     {
                         client.SendCommand(new APICall { Command = "Airplane.GetState" });
 
-                        Thread.Sleep(2000);
+                        Thread.Sleep(200);
 
                     }
                     catch (Exception ex)
@@ -145,6 +145,7 @@ namespace LiveFlight
 
                     airplaneStateGrid.DataContext = null;
                     airplaneStateGrid.DataContext = state;
+                    AttitudeIndicator.updateAttitude(state.Pitch, state.Bank);
                 }
                 else if (type == typeof(GetValueResponse))
                 {

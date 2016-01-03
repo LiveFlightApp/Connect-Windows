@@ -149,6 +149,12 @@
   <ItemGroup>
     <Resource Include="LiveFlight.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Indicators\Indicators.csproj">
+      <Project>{6e9749fb-c09f-4522-ab07-b34aade5ca69}</Project>
+      <Name>Indicators</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
