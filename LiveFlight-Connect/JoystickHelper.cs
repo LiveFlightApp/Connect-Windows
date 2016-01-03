@@ -28,6 +28,10 @@ namespace LiveFlight
         int gamepadCount = 0;
         int joystickCount = 0;
 
+        // store GUIDs in array to check for removal
+        List<Guid> gamepads = new List<Guid>();
+        List<Guid> joysticks = new List<Guid>();
+
         public void beginJoystickPoll()
         {
 
@@ -42,6 +46,7 @@ namespace LiveFlight
                 });
 
                 gamepadCount += 1;
+                gamepads.Add(deviceInstance.InstanceGuid);
             }
 
             // search for joysticks
@@ -55,6 +60,7 @@ namespace LiveFlight
                 });
 
                 joystickCount += 1;
+                joysticks.Add(deviceInstance.InstanceGuid);
             }
 
             // check that devices definitely exist
@@ -70,6 +76,7 @@ namespace LiveFlight
 
         }
 
+
         private void pollJoystick(Guid joystickGuid)
         {
 
@@ -79,7 +86,7 @@ namespace LiveFlight
             joystick = new Joystick(directInput, joystickGuid);
             joystick.Properties.BufferSize = 128;
 
-            Console.WriteLine("Joystick {0} with GUID: {1}", joystick.Properties.ProductName, joystickGuid);
+            Console.WriteLine("Joystick {0} with GUID: {1}", joystick.Properties.ProductName.ToString(), joystickGuid);
 
             // Query all suported ForceFeedback effects
             // TODO - maybe look into vibration effects on gamepads?
@@ -99,7 +106,7 @@ namespace LiveFlight
                 var data = joystick.GetBufferedData();
                 foreach (var state in data)
                 {
-                    Console.WriteLine("{0} - {1} - {2}", joystick.Properties.ProductName, state.Offset, state.Value);
+                    Console.WriteLine("{0} - {1} - {2}", joystick.Properties.ProductName.ToString(), state.Offset, state.Value);
 
                     if (state.Offset.ToString().StartsWith("Button") || state.Offset.ToString().StartsWith("Point"))
                     {
@@ -183,7 +190,43 @@ namespace LiveFlight
 
             }
             
+        }
 
+        public void deviceRemoved()
+        {
+
+            // check connected devices
+            // search for gamepads
+            foreach (var deviceInstance in directInput.GetDevices(DeviceType.Gamepad,
+                        DeviceEnumerationFlags.AllDevices))
+            {
+
+                if (gamepads.Contains(deviceInstance.InstanceGuid))
+                {
+                    // this gamepad has been removed
+                    gamepadCount -= 1;
+                    gamepads.Remove(deviceInstance.InstanceGuid);
+
+                    Console.WriteLine("Removed gamepad {0}", deviceInstance.ProductName);
+
+                }
+
+            }
+
+            // search for joysticks
+            foreach (var deviceInstance in directInput.GetDevices(DeviceType.Joystick,
+                    DeviceEnumerationFlags.AllDevices))
+            {
+                if (joysticks.Contains(deviceInstance.InstanceGuid))
+                {
+                    // this joystick has been removed
+                    joystickCount -= 1;
+                    joysticks.Remove(deviceInstance.InstanceGuid);
+
+                    Console.WriteLine("Removed joystick {0}", deviceInstance.ProductName);
+
+                }
+            }
 
         }
 

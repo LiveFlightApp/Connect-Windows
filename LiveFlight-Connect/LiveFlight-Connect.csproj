@@ -89,6 +89,7 @@
     <Compile Include="JoystickHelper.cs" />
     <Compile Include="KeyboardCommandHandler.cs" />
     <Compile Include="Serializer.cs" />
+    <Compile Include="UsbNotification.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

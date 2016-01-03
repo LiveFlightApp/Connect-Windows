@@ -27,9 +27,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using IFConnect;
-using FlightPlanDatabase;
-using IF_FMS;
 using Indicators;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace LiveFlight
 {
@@ -55,6 +55,77 @@ namespace LiveFlight
             Console.WriteLine("LiveFlight Connect\nPlease send this log to cameron@liveflightapp.com if you experience issues. Thanks!\n\n");
         }
 
+
+        #region PageLoaded
+        /*
+            Start listeners on page load
+            ===========================
+        */
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            // Adds the windows message processing hook and registers USB device add/removal notification.
+           HwndSource source = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
+            if (source != null)
+            {
+                var windowHandle = source.Handle;
+                source.AddHook(HwndHandler);
+                UsbNotification.RegisterUsbDeviceNotification(windowHandle);
+            }
+        }
+
+        /// <summary>
+        /// Method that receives window messages.
+        /// </summary>
+        private IntPtr HwndHandler(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
+        {
+            if (msg == UsbNotification.WmDevicechange)
+            {
+                switch ((int)wparam)
+                {
+                    case UsbNotification.DbtDeviceremovecomplete:
+
+                        Console.WriteLine("USB device removed");
+                        joystickClient.deviceRemoved();
+
+                        break;
+                    case UsbNotification.DbtDevicearrival:
+
+                        Console.WriteLine("USB device connected, poll for joysticks again...");
+                        joystickClient.beginJoystickPoll();
+
+                        break;
+                }
+            }
+
+            handled = false;
+            return IntPtr.Zero;
+        }
+
+
+        private void PageLoaded(object sender, RoutedEventArgs e)
+        {
+            receiver.DataReceived += receiver_DataReceived;
+            receiver.StartListening();
+
+            // Start JoystickHelper async
+            Task.Run(() =>
+            {
+                joystickClient.beginJoystickPoll();
+            });
+
+        }
+
+        #endregion
+
+        #region Networking
+        /*
+            Connections to API, reading in values, etc.
+            ===========================
+        */
+
         bool serverInfoReceived = false;
 
         void receiver_DataReceived(object sender, EventArgs e)
@@ -68,7 +139,7 @@ namespace LiveFlight
                 Console.WriteLine("Received Server Info from: {0}:{1}", apiServerInfo.Address, apiServerInfo.Port);
                 serverInfoReceived = true;
                 receiver.Stop();
-                Dispatcher.BeginInvoke((Action)(() => 
+                Dispatcher.BeginInvoke((Action)(() =>
                 {
                     Connect(IPAddress.Parse(apiServerInfo.Address), apiServerInfo.Port);
                 }));
@@ -86,14 +157,14 @@ namespace LiveFlight
 
             // set label text
             ipLabel.Content = String.Format("Infinite Flight is at {0}", iPAddress.ToString());
-           
+
             overlayGrid.Visibility = System.Windows.Visibility.Collapsed;
             mainTabControl.Visibility = System.Windows.Visibility.Visible;
 
             client.CommandReceived += client_CommandReceived;
 
             client.SendCommand(new APICall { Command = "InfiniteFlight.GetStatus" });
-            client.SendCommand(new APICall { Command = "Live.EnableATCMessageListUpdated" });            
+            client.SendCommand(new APICall { Command = "Live.EnableATCMessageListUpdated" });
 
             Task.Run(() =>
             {
@@ -133,19 +204,6 @@ namespace LiveFlight
                     }
                 }
             });
-        }
-
-        private void PageLoaded(object sender, RoutedEventArgs e)
-        {
-            receiver.DataReceived += receiver_DataReceived;
-            receiver.StartListening();
-
-            // Start JoystickHelper async
-            Task.Run(() =>
-            {
-                joystickClient.beginJoystickPoll();
-            });
-
         }
 
         void client_CommandReceived(object sender, CommandReceivedEventArgs e)
@@ -216,7 +274,9 @@ namespace LiveFlight
                 }             
             }));            
         }
-        
+
+        #endregion
+
         private void checkbox_Checked(object sender, RoutedEventArgs e)
         {
             var checkbox = sender as System.Windows.Controls.CheckBox;
@@ -497,8 +557,11 @@ namespace LiveFlight
 
         #endregion
 
-        
         #region "FlightPlanDatabase"
+        /*
+            FPD work
+            ===========================
+        */
 
         private void FlightPlanDb_FplUpdated(object sender, EventArgs e)
         {
