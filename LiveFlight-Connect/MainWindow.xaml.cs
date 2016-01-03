@@ -26,13 +26,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using IFConnect;
 
 namespace LiveFlight
 {
 
     public partial class MainWindow : Window
     {
-        public static IFConnectorClient client = new IFConnectorClient();
+        public static IFConnect.IFConnectorClient client = new IFConnect.IFConnectorClient();
         public static Commands commands = new Commands();
         BroadcastReceiver receiver = new BroadcastReceiver();
 
@@ -75,6 +76,7 @@ namespace LiveFlight
         private void Connect(IPAddress iPAddress, int port)
         {
             client.Connect(iPAddress.ToString(), port);
+            FMSControl.Client = client;
 
             // set label text
             ipLabel.Content = String.Format("Infinite Flight is at {0}", iPAddress.ToString());
