@@ -210,13 +210,13 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="___TabItem___AutoNav_" Header="AutoNav" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="65">
+            <TabItem x:Name="___TabItem___AutoNav_" Header="AutoNav">
                 <Grid Background="#FFE5E5E5">
                     <IF_FMS:FMS x:Name="FMSControl" Margin="10,10,112,30"/>
                 </Grid>
 
             </TabItem>
-            <TabItem x:Name="___TabItem___FlightPlanDatabase_" Header="FlightPlanDatabase" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="120">
+            <TabItem x:Name="___TabItem___FlightPlanDatabase_" Header="FlightPlanDatabase" >
                 <Grid Background="#FFE5E5E5">
                     <FlightPlanDatabase:FlightPlanDb x:Name="FpdControl" HorizontalAlignment="Left" Height="433" Margin="10,0,0,0" VerticalAlignment="Top" Width="302" FplUpdated="FlightPlanDb_FplUpdated"/>
                 </Grid>
