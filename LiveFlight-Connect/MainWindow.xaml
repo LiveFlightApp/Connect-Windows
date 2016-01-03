@@ -12,7 +12,7 @@
 <Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Indicators="clr-namespace:Indicators;assembly=Indicators" xmlns:IF_FMS="clr-namespace:IF_FMS;assembly=IF_FMS" mc:Ignorable="d" x:Name="LiveFlight_Connect" x:Class="LiveFlight.MainWindow"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Indicators="clr-namespace:Indicators;assembly=Indicators" xmlns:IF_FMS="clr-namespace:IF_FMS;assembly=IF_FMS" xmlns:FlightPlanDatabase="clr-namespace:FlightPlanDatabase;assembly=FlightPlanDatabase" mc:Ignorable="d" x:Name="LiveFlight_Connect" x:Class="LiveFlight.MainWindow"
         Title="LiveFlight Connect" Height="545.333" Width="525" Loaded="PageLoaded" ResizeMode="NoResize" Icon="LiveFlight.ico" KeyDown="keyDownEvent">
     <Window.Resources>
         <XmlDataProvider x:Key="KeyboardCommands"   XPath="/KeyboardCommands/*" >
@@ -210,11 +210,16 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Header="AutoNav" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="65">
+            <TabItem x:Name="___TabItem___AutoNav_" Header="AutoNav" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="65">
                 <Grid Background="#FFE5E5E5">
                     <IF_FMS:FMS x:Name="FMSControl" Margin="10,10,112,30"/>
                 </Grid>
 
+            </TabItem>
+            <TabItem x:Name="___TabItem___FlightPlanDatabase_" Header="FlightPlanDatabase" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="120">
+                <Grid Background="#FFE5E5E5">
+                    <FlightPlanDatabase:FlightPlanDb x:Name="FpdControl" HorizontalAlignment="Left" Height="433" Margin="10,0,0,0" VerticalAlignment="Top" Width="302" FplUpdated="FlightPlanDb_FplUpdated"/>
+                </Grid>
             </TabItem>
 
 

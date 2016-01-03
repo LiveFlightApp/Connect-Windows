@@ -486,5 +486,25 @@ namespace LiveFlight
 
         #endregion
 
+        
+        #region "FlightPlanDatabase"
+
+        private void FlightPlanDb_FplUpdated(object sender, EventArgs e)
+        {
+            FMSControl.FPLState = new IF_FMS.FMS.flightPlanState(); //Clear state of FMS
+            FMSControl.CustomFPL.waypoints.Clear(); //Clear FPL
+
+            foreach (IF_FMS.FMS.fplDetails f in FpdControl.FmsFpl)
+            { //Load waypoints to FMS
+                FMSControl.CustomFPL.waypoints.Add(f);
+            }
+            FMSControl.FPLState.fpl = FpdControl.ApiFpl;
+            FMSControl.FPLState.fplDetails = FMSControl.CustomFPL;
+
+            //Go to FMS tab so user can see flight plan
+            mainTabControl.SelectedIndex = mainTabControl.SelectedIndex - 1;
+        }
+
+        #endregion
     }
 }

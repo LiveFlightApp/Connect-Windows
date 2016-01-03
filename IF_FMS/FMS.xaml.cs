@@ -144,7 +144,7 @@ namespace IF_FMS
         {
             if (!autoFplDirectActive) //AutoNAV not active. Turn it on.
             {
-                if (pFplState.fpl == null)
+                if (pFplState==null || pFplState.fpl == null)
                 {
                     MessageBox.Show("Must get or set FPL first.");
                 }

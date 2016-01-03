@@ -147,6 +147,10 @@
     <Resource Include="LiveFlight.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FlightPlanDatabase\FlightPlanDatabase.csproj">
+      <Project>{d211e1dd-798c-40b2-b502-120efa16d9a1}</Project>
+      <Name>FlightPlanDatabase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IFConnect\IFConnect.csproj">
       <Project>{89c1f7c9-5f59-4c36-a3eb-0f39147bb6d9}</Project>
       <Name>IFConnect</Name>
