@@ -13,7 +13,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Indicators="clr-namespace:Indicators;assembly=Indicators" xmlns:IF_FMS="clr-namespace:IF_FMS;assembly=IF_FMS" xmlns:FlightPlanDatabase="clr-namespace:FlightPlanDatabase;assembly=FlightPlanDatabase" mc:Ignorable="d" x:Name="LiveFlight_Connect" x:Class="LiveFlight.MainWindow"
-        Title="LiveFlight Connect" Height="545.333" Width="525" Loaded="PageLoaded" ResizeMode="NoResize" Icon="LiveFlight.ico" KeyDown="keyDownEvent">
+        Title="LiveFlight Connect" Height="545.333" Width="525" Loaded="PageLoaded" ResizeMode="NoResize" Icon="LiveFlight.ico" KeyDown="keyDownEvent" KeyUp="keyUpEvent">
     <Window.Resources>
         <XmlDataProvider x:Key="KeyboardCommands"   XPath="/KeyboardCommands/*" >
             <x:XData >

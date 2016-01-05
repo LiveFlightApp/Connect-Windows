@@ -228,6 +228,13 @@ namespace LiveFlight
 
         }
 
+        // key UP
+        public static void keyUp(System.Windows.Input.Key keyData)
+        {
+
+
+        }
+
 
     }
 }

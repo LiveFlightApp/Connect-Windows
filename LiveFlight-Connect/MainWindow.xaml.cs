@@ -199,68 +199,73 @@ namespace LiveFlight
         {
             Dispatcher.BeginInvoke((Action)(() => 
             {
-                var type = typeof(IFAPIStatus).Assembly.GetType(e.Response.Type);
+                try {
 
-                if (type == typeof(APIAircraftState))
-                {
-                    var state = Serializer.DeserializeJson<APIAircraftState>(e.CommandString);
+                    var type = typeof(IFAPIStatus).Assembly.GetType(e.Response.Type);
 
-                    airplaneStateGrid.DataContext = null;
-                    airplaneStateGrid.DataContext = state;
-                    pAircraftState = state;
-                    if (FMSControl.autoFplDirectActive) { FMSControl.updateAutoNav(state); }
-                   // AircraftStateControl.AircraftState = state;
-                    AttitudeIndicator.updateAttitude(state.Pitch, state.Bank);
-                }
-                else if (type == typeof(GetValueResponse))
-                {
-                    var state = Serializer.DeserializeJson<GetValueResponse>(e.CommandString);
-
-                    Console.WriteLine("{0} -> {1}", state.Parameters[0].Name, state.Parameters[0].Value);
-                }
-                else if (type == typeof(LiveAirplaneList))
-                {
-                    var airplaneList = Serializer.DeserializeJson<LiveAirplaneList>(e.CommandString);
-
-                    //airplaneDataGrid.ItemsSource = airplaneList.Airplanes;
-                }
-                else if (type == typeof(FacilityList))
-                {
-                    var facilityList = Serializer.DeserializeJson<FacilityList>(e.CommandString);
-
-                    //facilitiesDataGrid.ItemsSource = facilityList.Facilities;
-                }
-                else if (type == typeof(IFAPIStatus))
-                {
-                    var status = Serializer.DeserializeJson<IFAPIStatus>(e.CommandString);
-
-
-                }
-                else if (type == typeof(APIATCMessage))
-                {
-                    var msg = Serializer.DeserializeJson<APIATCMessage>(e.CommandString);
-                    // TODO client.ExecuteCommand("Live.GetCurrentCOMFrequencies");
-                }
-                else if (type == typeof(APIFrequencyInfoList))
-                {
-                    var msg = Serializer.DeserializeJson<APIFrequencyInfoList>(e.CommandString);
-                }
-                else if (type == typeof(ATCMessageList))
-                {
-                    var msg = Serializer.DeserializeJson<ATCMessageList>(e.CommandString);
-                    atcMessagesDataGrid.ItemsSource = msg.ATCMessages;
-  
-                }
-                else if (type == typeof(APIFlightPlan))
-                {
-                    var msg = Serializer.DeserializeJson<APIFlightPlan>(e.CommandString);
-                    Console.WriteLine("Flight Plan: {0} items", msg.Waypoints.Length);
-                    FMSControl.fplReceived(msg); //Update FMS with FPL from IF.
-                    foreach (var item in msg.Waypoints)
+                    if (type == typeof(APIAircraftState))
                     {
-                        Console.WriteLine(" -> {0} {1} - {2}, {3}", item.Name, item.Code, item.Latitude, item.Longitude);
+                        var state = Serializer.DeserializeJson<APIAircraftState>(e.CommandString);
+
+                        airplaneStateGrid.DataContext = null;
+                        airplaneStateGrid.DataContext = state;
+                        pAircraftState = state;
+                        if (FMSControl.autoFplDirectActive) { FMSControl.updateAutoNav(state); }
+                        // AircraftStateControl.AircraftState = state;
+                        AttitudeIndicator.updateAttitude(state.Pitch, state.Bank);
                     }
-                }             
+                    else if (type == typeof(GetValueResponse))
+                    {
+                        var state = Serializer.DeserializeJson<GetValueResponse>(e.CommandString);
+
+                        Console.WriteLine("{0} -> {1}", state.Parameters[0].Name, state.Parameters[0].Value);
+                    }
+                    else if (type == typeof(LiveAirplaneList))
+                    {
+                        var airplaneList = Serializer.DeserializeJson<LiveAirplaneList>(e.CommandString);
+
+                        //airplaneDataGrid.ItemsSource = airplaneList.Airplanes;
+                    }
+                    else if (type == typeof(FacilityList))
+                    {
+                        var facilityList = Serializer.DeserializeJson<FacilityList>(e.CommandString);
+
+                        //facilitiesDataGrid.ItemsSource = facilityList.Facilities;
+                    }
+                    else if (type == typeof(IFAPIStatus))
+                    {
+                        var status = Serializer.DeserializeJson<IFAPIStatus>(e.CommandString);
+
+
+                    }
+                    else if (type == typeof(APIATCMessage))
+                    {
+                        var msg = Serializer.DeserializeJson<APIATCMessage>(e.CommandString);
+                        // TODO client.ExecuteCommand("Live.GetCurrentCOMFrequencies");
+                    }
+                    else if (type == typeof(APIFrequencyInfoList))
+                    {
+                        var msg = Serializer.DeserializeJson<APIFrequencyInfoList>(e.CommandString);
+                    }
+                    else if (type == typeof(ATCMessageList))
+                    {
+                        var msg = Serializer.DeserializeJson<ATCMessageList>(e.CommandString);
+                        atcMessagesDataGrid.ItemsSource = msg.ATCMessages;
+
+                    }
+                    else if (type == typeof(APIFlightPlan))
+                    {
+                        var msg = Serializer.DeserializeJson<APIFlightPlan>(e.CommandString);
+                        Console.WriteLine("Flight Plan: {0} items", msg.Waypoints.Length);
+                        FMSControl.fplReceived(msg); //Update FMS with FPL from IF.
+                        foreach (var item in msg.Waypoints)
+                        {
+                            Console.WriteLine(" -> {0} {1} - {2}, {3}", item.Name, item.Code, item.Latitude, item.Longitude);
+                        }
+                    }
+                } catch (System.NullReferenceException) {
+                    Console.WriteLine("Disconnected from server!");
+                }       
             }));            
         }
 
@@ -287,49 +292,6 @@ namespace LiveFlight
 
             client.ExecuteCommand(command);            
         }
-        
-        Point lastMousePosition = new Point();
-
-        private void captureMouseButton_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            var position = e.GetPosition(this);
-
-            var command = "NetworkMouse.SetPosition";
-            
-            client.ExecuteCommand(command, new CallParameter[]
-            {
-                new CallParameter { Name = "X", Value = ((int)position.X).ToString() }, 
-                new CallParameter { Name = "Y", Value = ((int)position.Y).ToString() }
-            });
-
-            lastMousePosition = position;
-        }
-
-        private void captureMouseButton_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            var position = lastMousePosition;
-
-            var command = "NetworkMouse.MouseUp";
-
-            client.ExecuteCommand(command, new CallParameter[]
-            {
-                new CallParameter { Name = "X", Value = ((int)position.X).ToString() }, 
-                new CallParameter { Name = "Y", Value = ((int)position.Y).ToString() }
-            });   
-        }
-
-        private void captureMouseButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            var position = lastMousePosition;
-
-            var command = "NetworkMouse.MouseDown";
-
-            client.ExecuteCommand(command, new CallParameter[]
-            {
-                new CallParameter { Name = "X", Value = ((int)position.X).ToString() }, 
-                new CallParameter { Name = "Y", Value = ((int)position.Y).ToString() }
-            });   
-        }
 
 
 
@@ -345,6 +307,13 @@ namespace LiveFlight
 
             KeyboardCommandHandler.keyPressed(e.Key);
 
+        }
+
+        private void keyUpEvent(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            Console.WriteLine("KeyUp: {0}", e.Key);
+
+            KeyboardCommandHandler.keyUp(e.Key);
         }
 
         #endregion
