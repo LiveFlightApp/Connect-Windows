@@ -162,6 +162,12 @@ namespace LiveFlight
                 xValue = 1;
                 yValue = 0;
             }
+            else if (value == -1)
+            {
+                // is neutral
+                xValue = 0;
+                yValue = 0;
+            }
 
             Console.WriteLine(xValue + "  " + yValue);
 

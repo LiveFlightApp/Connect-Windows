@@ -9,22 +9,26 @@
 //  https://github.com/LiveFlightApp/Connect-Windows/blob/master/LICENSE
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows.Input;
 
 namespace LiveFlight
 {
     class KeyboardCommandHandler
     {
+
+        static bool shiftModifierDown = false;
+        static Commands commands = MainWindow.commands;
  
         public static void keyPressed(System.Windows.Input.Key keyData)
         {
 
-            var commands = MainWindow.commands;
+            // Check modifier keys
+            if (keyData == Key.LeftShift || keyData == Key.RightShift)
+            {
+                shiftModifierDown = true;
+            }
+
 
             //ATC
             if (keyData == System.Windows.Input.Key.D1)
@@ -157,25 +161,25 @@ namespace LiveFlight
                 //zoomout
                 commands.zoomIn();
             }
-            else if (keyData == (System.Windows.Input.Key.Up | System.Windows.Input.Key.LeftShift | System.Windows.Input.Key.RightShift))
+            else if ((keyData == System.Windows.Input.Key.Up) && shiftModifierDown)
             {
                 //move up
                 commands.movePOV(0);
                 
             }
-            else if (keyData == (System.Windows.Input.Key.Down | System.Windows.Input.Key.LeftShift | System.Windows.Input.Key.RightShift))
+            else if ((keyData == System.Windows.Input.Key.Down) && shiftModifierDown)
             {
                 //move down
                 commands.movePOV(18000);
 
             }
-            else if (keyData == (System.Windows.Input.Key.Left | System.Windows.Input.Key.LeftShift | System.Windows.Input.Key.RightShift))
+            else if ((keyData == System.Windows.Input.Key.Left) && shiftModifierDown)
             {
                 //move left
                 commands.movePOV(27000);
 
             }
-            else if (keyData == (System.Windows.Input.Key.Right | System.Windows.Input.Key.LeftShift | System.Windows.Input.Key.RightShift))
+            else if ((keyData == System.Windows.Input.Key.Right) && shiftModifierDown)
             {
                 //move right
                 commands.movePOV(9000);
@@ -226,12 +230,20 @@ namespace LiveFlight
                 commands.previousCamera();
             }
 
+
         }
 
         // key UP
         public static void keyUp(System.Windows.Input.Key keyData)
         {
 
+            // stop moving POV
+            commands.movePOV(-1);
+
+            if (keyData == Key.LeftShift || keyData == Key.RightShift)
+            {
+                shiftModifierDown = false;
+            }
 
         }
 
