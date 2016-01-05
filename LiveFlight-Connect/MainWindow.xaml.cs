@@ -11,24 +11,15 @@
 
 using Fds.IFAPI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using IFConnect;
 using Indicators;
-using System.Runtime.InteropServices;
 using System.Windows.Interop;
 
 namespace LiveFlight
@@ -126,7 +117,6 @@ namespace LiveFlight
             ===========================
         */
 
-        bool serverInfoReceived = false;
 
         void receiver_DataReceived(object sender, EventArgs e)
         {
@@ -137,7 +127,6 @@ namespace LiveFlight
             if (apiServerInfo != null)
             {
                 Console.WriteLine("Received Server Info from: {0}:{1}", apiServerInfo.Address, apiServerInfo.Port);
-                serverInfoReceived = true;
                 receiver.Stop();
                 Dispatcher.BeginInvoke((Action)(() =>
                 {
@@ -180,7 +169,7 @@ namespace LiveFlight
                     }
                     catch (Exception ex)
                     {
-
+                        Console.WriteLine("Exception whilst getting aircraft state: {0}", ex);
                     }
                 }
             });
@@ -200,7 +189,7 @@ namespace LiveFlight
                     }
                     catch (Exception ex)
                     {
-
+                        Console.WriteLine("Exception whilst getting Live state: {0}", ex);
                     }
                 }
             });
