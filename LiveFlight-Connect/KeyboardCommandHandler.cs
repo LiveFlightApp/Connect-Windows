@@ -23,6 +23,7 @@ namespace LiveFlight
         public static void keyPressed(System.Windows.Input.Key keyData)
         {
 
+
             // Check modifier keys
             if (keyData == Key.LeftShift || keyData == Key.RightShift)
             {

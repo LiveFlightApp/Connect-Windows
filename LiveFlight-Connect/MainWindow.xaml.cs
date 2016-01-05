@@ -33,6 +33,7 @@ namespace LiveFlight
         BroadcastReceiver receiver = new BroadcastReceiver();
 
         private APIAircraftState pAircraftState = new APIAircraftState();
+        private bool connectionStatus;
 
         public MainWindow()
         {
@@ -144,6 +145,9 @@ namespace LiveFlight
             client.Connect(iPAddress.ToString(), port);
             FMSControl.Client = client;
 
+            // set connected bool
+            connectionStatus = true;
+
             // set label text
             ipLabel.Content = String.Format("Infinite Flight is at {0}", iPAddress.ToString());
 
@@ -158,12 +162,11 @@ namespace LiveFlight
             Task.Run(() =>
             {
 
-                while (true)
+                while (connectionStatus == true)
                 {
                     try
                     {
                         client.SendCommand(new APICall { Command = "Airplane.GetState" });
-
                         Thread.Sleep(200);
 
                     }
@@ -177,7 +180,7 @@ namespace LiveFlight
             Task.Run(() =>
             {
 
-                while (true)
+                while (connectionStatus == true)
                 {
                     try
                     {
@@ -265,6 +268,12 @@ namespace LiveFlight
                     }
                 } catch (System.NullReferenceException) {
                     Console.WriteLine("Disconnected from server!");
+
+                    Task.Run(() =>
+                    {
+                        connectionStatus = false;
+
+                    });
                 }       
             }));            
         }
