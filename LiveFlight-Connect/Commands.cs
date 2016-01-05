@@ -54,6 +54,8 @@ namespace LiveFlight
                 }
              });
 
+            Console.WriteLine("Sent button {0} state: {1}", button, state);
+
         }
 
         #endregion

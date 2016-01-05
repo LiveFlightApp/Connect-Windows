@@ -30,6 +30,14 @@ namespace LiveFlight
         List<Guid> gamepads = new List<Guid>();
         List<Guid> joysticks = new List<Guid>();
 
+        // POV values
+        int viewUpId = 0;
+        int viewDownId = 18000;
+        int viewLeftId = 27000;
+        int viewRightId = 9000;
+
+        int lastPovId = 0;
+
         public void beginJoystickPoll()
         {
 
@@ -107,10 +115,18 @@ namespace LiveFlight
                 {
                     Console.WriteLine("{0} - {1} - {2}", joystick.Properties.InstanceName, state.Offset, state.Value);
 
-                    if (state.Offset.ToString().StartsWith("Button") || state.Offset.ToString().StartsWith("Point"))
+                    if (state.Offset.ToString().StartsWith("Button"))
                     {
 
                         buttonPressed(state.Offset, state.Value);
+                        Console.WriteLine("Button {0} state changed to {1}", state.Offset, state.Value);
+
+                    }
+                    else if (state.Offset.ToString().StartsWith("Point"))
+                    {
+
+                        // POV controller
+                        povChanged(state.Offset, state.Value);
 
                     }
                     else
@@ -145,6 +161,48 @@ namespace LiveFlight
 
             int offsetValue = Int32.Parse(offset.ToString().Replace("Buttons", "")); // leave just a number
             commands.joystickButtonChanged(offsetValue, state);
+
+        }
+
+        private void povChanged(JoystickOffset offset, int value)
+        {
+
+            String state;
+            int offsetValue = lastPovId; // prefixed by 11 to avoid duplicates with standard buttons
+
+            // set offset depending on direction
+            if (value == viewUpId)
+            {
+                offsetValue = 111;
+            }
+            else if (value == viewRightId)
+            {
+                offsetValue = 112;
+            }
+            else if (value == viewDownId)
+            {
+                offsetValue = 113;
+            }
+            else if (value == viewLeftId)
+            {
+                offsetValue = 114;
+            }
+
+            // set lastPovId
+            lastPovId = offsetValue;
+
+            // check POV state
+            if (value == -1)
+            {
+                state = "Up";
+            }
+            else
+            {
+                state = "Down";
+            }
+
+            
+            commands.joystickButtonChanged(Int32.Parse(offsetValue.ToString()), state);
 
         }
 

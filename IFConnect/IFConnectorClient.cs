@@ -154,14 +154,6 @@ namespace IFConnect
             QueueCall(call);
         }
 
-        //internal void ExecuteCommand(string command, string[] parameters)
-        //{
-        //    var parameterList = new List<CallParameter>();
-        //    parameterList.AddRange(parameters.Select(x => new CallParameter { Value = x }));
-
-        //    APICall call = new APICall { Command = command, Parameters = parameterList.ToArray() };
-        //    QueueCall(call);
-        //}
 
         public void SendCommand(APICall call)
         {
