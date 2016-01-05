@@ -188,35 +188,37 @@ namespace LiveFlight
             else if (keyData == System.Windows.Input.Key.Up)
             {
                 //move pitch down
-                
+                commands.pitchDown();
 
             }
             else if (keyData == System.Windows.Input.Key.Down)
             {
                 //move pitch up
-                
+                commands.pitchUp();
 
             }
             else if (keyData == System.Windows.Input.Key.Left)
             {
                 //move roll left
-                
+                commands.rollLeft();
 
             }
             else if (keyData == System.Windows.Input.Key.Right)
             {
                 //move roll right
-                
+                commands.rollRight();
 
             }
             else if (keyData == System.Windows.Input.Key.D)
             {
                 //increase throttle
+                commands.increaseThrottle();
                 
             }
             else if (keyData == System.Windows.Input.Key.C)
             {
                 //decrease throttle
+                commands.decreaseThrottle();
 
             }
             else if (keyData == System.Windows.Input.Key.E)

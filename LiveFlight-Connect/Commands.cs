@@ -28,10 +28,33 @@ namespace LiveFlight
         int viewLeftId = 27000;
         int viewRightId = 9000;
 
+        int keyboardDelta = 100;
+        int throttleDelta = 50;
+        int pitchValue = 0;
+        int rollValue = 0;
+        int throttleValue = 0;
+
         #region JoystickCommands
 
         public void movedJoystickAxis(int axis, int value)
         {
+
+            if (axis == 0)
+            {
+                //pitch
+                pitchValue = value;
+            }
+            else if (axis == 1)
+            {
+                //roll
+                rollValue = value;
+            }
+            else if (axis == 3)
+            {
+                //throttle
+                throttleValue = value;
+            }
+
             client.ExecuteCommand("NetworkJoystick.SetAxisValue", new CallParameter[]
                 {
                 new CallParameter
@@ -342,5 +365,36 @@ namespace LiveFlight
             Console.WriteLine("Zoom in...");
             client.ExecuteCommand("Commands.CameraZoomIn");
         }
+
+        public void rollLeft()
+        {
+            movedJoystickAxis(1, (rollValue - keyboardDelta));
+        }
+
+        public void rollRight()
+        {
+            movedJoystickAxis(1, (rollValue + keyboardDelta));
+        }
+
+        public void pitchUp()
+        {
+            movedJoystickAxis(0, (pitchValue + keyboardDelta));
+        }
+
+        public void pitchDown()
+        {
+            movedJoystickAxis(0, (pitchValue - keyboardDelta));
+        }
+
+        public void increaseThrottle()
+        {
+            movedJoystickAxis(3, (throttleValue - throttleDelta));
+        }
+
+        public void decreaseThrottle()
+        {
+            movedJoystickAxis(3, (throttleValue + throttleDelta));
+        }
+
     }
 }
