@@ -111,8 +111,8 @@
             </Menu>
             <StackPanel/>
         </DockPanel>
-        <TabControl x:Name="mainTabControl" Grid.ColumnSpan="4" Height="490" VerticalAlignment="Bottom" Margin="0,0,0,-8">
-            <TabItem Header="Main" Height="22" VerticalAlignment="Bottom">
+        <TabControl x:Name="mainTabControl" Grid.ColumnSpan="4" Height="490" VerticalAlignment="Bottom" Margin="0,0,0,-8" SelectionChanged="tabChanged">
+            <TabItem Header="Main" Height="22" VerticalAlignment="Bottom" x:Name="Main">
                 <Grid Margin="0,0,0,-57">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="167*"/>
@@ -165,16 +165,22 @@
                     <Button x:Name="joystickSetupGuideButton" Content="Joystick Setup Guide&#xA;" Grid.Column="2" HorizontalAlignment="Left" Margin="21.374,389,0,0" VerticalAlignment="Top" Width="142" Height="22" Click="joystickSetupGuide"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="ATC Window">
+
+            <TabItem x:Name="TabItem_ATC" Header="ATC" Margin="-2,0">
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44*"/>
+                        <ColumnDefinition Width="469*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="455*"/>
                         <RowDefinition Height="31*"/>
                     </Grid.RowDefinitions>
-                    <DataGrid x:Name="atcMessagesDataGrid" SelectionChanged="atcMessagesDataGrid_SelectionChanged"/>
+                    <DataGrid x:Name="atcMessagesDataGrid" SelectionChanged="atcMessagesDataGrid_SelectionChanged"  ColumnWidth="*" Grid.ColumnSpan="2" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Autopilot">
+
+            <!--<TabItem Header="Autopilot">
                 <Grid Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="25*"/>
@@ -199,7 +205,9 @@
                     <TextBox x:Name="verticalSpeedTextBlock" Grid.Column="2" Grid.Row="2" Margin="2" TextChanged="speedTextBlock_TextChanged"/>
                     <TextBox x:Name="speedTextBlock" Grid.Column="2" Grid.Row="3" Margin="2" TextChanged="speedTextBlock_TextChanged"/>
                 </Grid>
-            </TabItem>
+            </TabItem>-->
+
+
             <TabItem x:Name="___TabItem___Keyboard_Commands_" Header="Keyboard Commands" Margin="-2,0">
                 <Grid DataContext="{Binding Source={StaticResource KeyboardCommands}}">
                     <DataGrid HorizontalAlignment="Stretch" ColumnWidth="*" Margin="10" VerticalAlignment="Stretch"  ItemsSource="{Binding Mode=Default, XPath=/KeyboardCommands/KeyboardCommand}" AutoGenerateColumns="False" IsReadOnly="True">
@@ -210,12 +218,16 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
+
+
             <TabItem x:Name="___TabItem___AutoNav_" Header="AutoNav">
                 <Grid Background="#FFE5E5E5">
                     <IF_FMS:FMS x:Name="FMSControl" Margin="10,10,112,30"/>
                 </Grid>
 
             </TabItem>
+
+
             <TabItem x:Name="___TabItem___FlightPlanDatabase_" Header="FlightPlanDatabase" >
                 <Grid Background="#FFE5E5E5">
                     <FlightPlanDatabase:FlightPlanDb x:Name="FpdControl" HorizontalAlignment="Left" Height="433" Margin="10,0,0,0" VerticalAlignment="Top" Width="302" FplUpdated="FlightPlanDb_FplUpdated"/>
@@ -230,10 +242,12 @@
                 </Grid>
             </TabItem>-->
         </TabControl>
+
         <Grid x:Name="overlayGrid" Grid.ColumnSpan="4" d:IsHidden="True">
             <Rectangle Fill="#E0000000"/>
             <TextBlock Text="Connecting to Infinite Flight..." Foreground="White" HorizontalAlignment="Center" Height="50" FontSize="16"/>
             <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Margin="36,269,10,0" TextAlignment="Center" TextWrapping="Wrap" Text="Make sure the device running Infinite Flight is on the same WiFi network and has &quot;Infinite Flight Connect&quot;enabled in settings." VerticalAlignment="Top" Foreground="White"/>
         </Grid>
+
     </Grid>
 </Window>

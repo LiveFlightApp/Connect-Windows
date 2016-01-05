@@ -266,34 +266,12 @@ namespace LiveFlight
 
         #endregion
 
-        private void checkbox_Checked(object sender, RoutedEventArgs e)
+        private void tabChanged(object sender, SelectionChangedEventArgs e)
         {
-            var checkbox = sender as System.Windows.Controls.CheckBox;
-
-            if (checkbox.Equals(altitudeStateCheckbox))
-                client.ExecuteCommand("Commands.Autopilot.SetAltitudeState", new CallParameter[] { new CallParameter { Value = checkbox.IsChecked.ToString() } });
-            if (checkbox.Equals(headingStateCheckbox))
-                client.ExecuteCommand("Commands.Autopilot.SetHeadingState", new CallParameter[] { new CallParameter { Value = checkbox.IsChecked.ToString() } });
-            if (checkbox.Equals(verticalSpeedStateCheckbox))
-                client.ExecuteCommand("Commands.Autopilot.SetVSState", new CallParameter[] { new CallParameter { Value = checkbox.IsChecked.ToString() } });
-            if (checkbox.Equals(speedStateCheckbox))
-                client.ExecuteCommand("Commands.Autopilot.SetSpeedState", new CallParameter[] { new CallParameter { Value = checkbox.IsChecked.ToString() } });
-            if (checkbox.Equals(apprStateCheckbox))
-                client.ExecuteCommand("Commands.Autopilot.SetApproachModeState", new CallParameter[] { new CallParameter { Value = checkbox.IsChecked.ToString() } });
-        }
-
-        private void speedTextBlock_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textBlock = sender as System.Windows.Controls.TextBox;
-
-            if (textBlock.Equals(speedTextBlock))
-                client.ExecuteCommand("Commands.Autopilot.SetSpeed", new CallParameter[] { new CallParameter { Value = textBlock.Text.ToString() } });
-            if (textBlock.Equals(altitudeTextBlock))
-                client.ExecuteCommand("Commands.Autopilot.SetAltitude", new CallParameter[] { new CallParameter { Value = textBlock.Text.ToString() } });
-            if (textBlock.Equals(verticalSpeedTextBlock))
-                client.ExecuteCommand("Commands.Autopilot.SetVS", new CallParameter[] { new CallParameter { Value = textBlock.Text.ToString() } });
-            if (textBlock.Equals(headingTextBlock))
-                client.ExecuteCommand("Commands.Autopilot.SetHeading", new CallParameter[] { new CallParameter { Value = textBlock.Text.ToString() } });
+            if (TabItem_ATC.IsSelected)
+            {
+                commands.atcMenu();
+            }
 
         }
 
@@ -311,7 +289,6 @@ namespace LiveFlight
         }
         
         Point lastMousePosition = new Point();
-
 
         private void captureMouseButton_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
@@ -568,6 +545,10 @@ namespace LiveFlight
             mainTabControl.SelectedIndex = mainTabControl.SelectedIndex - 1;
         }
 
+
+
         #endregion
+
+
     }
 }
