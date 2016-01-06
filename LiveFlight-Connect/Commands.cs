@@ -10,10 +10,6 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Fds.IFAPI;
 using IFConnect;
 
@@ -163,7 +159,6 @@ namespace LiveFlight
             var xValue = 0;
             var yValue = 0;
 
-            Console.WriteLine(value);
 
             if (value == viewUpId)
             {
@@ -192,7 +187,6 @@ namespace LiveFlight
                 yValue = 0;
             }
 
-            Console.WriteLine(xValue + "  " + yValue);
 
             client.ExecuteCommand("NetworkJoystick.SetPOVState", new CallParameter[]
                 {
@@ -366,33 +360,48 @@ namespace LiveFlight
             client.ExecuteCommand("Commands.CameraZoomIn");
         }
 
+        // The following commands are sent as joystick commands
+        // Commented out commands work on PC version of IF but not on mobile.
+
         public void rollLeft()
         {
+            Console.WriteLine("Roll left...");
+            //client.ExecuteCommand("Commands.RollLeft");
             movedJoystickAxis(1, (rollValue - keyboardDelta));
         }
 
         public void rollRight()
         {
+            Console.WriteLine("Roll right...");
+            //client.ExecuteCommand("Commands.RollRight");
             movedJoystickAxis(1, (rollValue + keyboardDelta));
         }
 
         public void pitchUp()
         {
+            Console.WriteLine("Pitch Up...");
+            //client.ExecuteCommand("Commands.PitchUp");
             movedJoystickAxis(0, (pitchValue + keyboardDelta));
         }
 
         public void pitchDown()
         {
+            Console.WriteLine("PitchDown...");
+            //client.ExecuteCommand("Commands.PitchDown");
             movedJoystickAxis(0, (pitchValue - keyboardDelta));
         }
 
         public void increaseThrottle()
         {
+            Console.WriteLine("ThrottleUpCommand...");
+            //client.ExecuteCommand("Commands.ThrottleUpCommand");
             movedJoystickAxis(3, (throttleValue - throttleDelta));
         }
 
         public void decreaseThrottle()
         {
+            Console.WriteLine("ThrottleDownCommand...");
+            //client.ExecuteCommand("Commands.ThrottleDownCommand");
             movedJoystickAxis(3, (throttleValue + throttleDelta));
         }
 
