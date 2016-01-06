@@ -210,18 +210,20 @@
 
             <TabItem x:Name="___TabItem___Keyboard_Commands_" Header="Keyboard Commands" Margin="-2,0">
                 <Grid DataContext="{Binding Source={StaticResource KeyboardCommands}}">
-                    <DataGrid HorizontalAlignment="Stretch" ColumnWidth="*" Margin="10" VerticalAlignment="Stretch"  ItemsSource="{Binding Mode=Default, XPath=/KeyboardCommands/KeyboardCommand}" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid HorizontalAlignment="Stretch" ColumnWidth="*" Margin="10,10,10,82" VerticalAlignment="Stretch"  ItemsSource="{Binding Mode=Default, XPath=/KeyboardCommands/KeyboardCommand}" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Command" Binding="{Binding XPath=@Command}"/>
                             <DataGridTextColumn Header="Key" Binding="{Binding XPath=@Key}"/>
                         </DataGrid.Columns>
                     </DataGrid>
+                    <Label x:Name="keyboardInfo" Content="1) Open the Controls tab in Infinite Flight settings&#xD;&#xA;2) Tap on 'Roll', then press and hold the left or right arrow keys.&#xD;&#xA;3) Repeat for Pitch and Throttle, using the Up/Down or D/C keys." HorizontalAlignment="Left" Margin="10,394,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.026,0.49"/>
+                    <Label x:Name="label1" Content="To control Pitch, Roll and Throttle using keyboard:&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,377,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 </Grid>
             </TabItem>
 
 
             <TabItem x:Name="___TabItem___AutoNav_" Header="AutoNav">
-                <Grid Background="#FFE5E5E5">
+                <Grid>
                     <IF_FMS:FMS x:Name="FMSControl" Margin="10,10,112,30"/>
                 </Grid>
 
@@ -229,7 +231,7 @@
 
 
             <TabItem x:Name="___TabItem___FlightPlanDatabase_" Header="FlightPlanDatabase" >
-                <Grid Background="#FFE5E5E5">
+                <Grid>
                     <FlightPlanDatabase:FlightPlanDb x:Name="FpdControl" HorizontalAlignment="Left" Height="433" Margin="10,0,0,0" VerticalAlignment="Top" Width="302" FplUpdated="FlightPlanDb_FplUpdated"/>
                 </Grid>
             </TabItem>
