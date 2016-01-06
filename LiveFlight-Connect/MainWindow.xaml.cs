@@ -99,6 +99,9 @@ namespace LiveFlight
 
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
+            // check for an update to app first
+            Versioning.checkForUpdate();
+            
             receiver.DataReceived += receiver_DataReceived;
             receiver.StartListening();
 
