@@ -122,7 +122,7 @@
                     <Label x:Name="connectedLabel" Content="Connected to Infinite Flight!" HorizontalAlignment="Left" Margin="125,25,0,0" VerticalAlignment="Top" Grid.ColumnSpan="3" FontSize="20"/>
                     <Label x:Name="ipLabel" Content="Label" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" Margin="5,62,0.346,0" Grid.ColumnSpan="3" Width="508"/>
 
-                    <Grid x:Name="airplaneStateGrid" HorizontalAlignment="Left" Height="204" VerticalAlignment="Top" Width="258" Grid.ColumnSpan="2" Margin="18,189,0,0">
+                    <Grid x:Name="airplaneStateGrid" HorizontalAlignment="Left" Height="204" VerticalAlignment="Top" Width="258" Grid.ColumnSpan="2" Margin="24,176,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="8*"/>
                             <RowDefinition Height="7*"/>
@@ -147,7 +147,7 @@
                         <TextBlock TextWrapping="Wrap" Text="{Binding HeadingMagnetic, StringFormat=\{0:#0\} °}" Margin="2" Grid.Row="2" Grid.Column="2"/>
                         <TextBlock TextWrapping="Wrap" Text="{Binding VerticalSpeed, StringFormat=\{0:#0\} ft/min}" Margin="2" Grid.Row="3" Grid.Column="2"/>
                     </Grid>
-                    <Indicators:AttitudeIndicator x:Name="AttitudeIndicator" Height="Auto" Width="Auto" Grid.Column="1" Margin="50,90,-5,137" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5">
+                    <Indicators:AttitudeIndicator x:Name="AttitudeIndicator" Height="Auto" Width="Auto" Grid.Column="1" Margin="56,77,-10.654,150" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5">
                         <Indicators:AttitudeIndicator.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
@@ -157,12 +157,13 @@
                             </TransformGroup>
                         </Indicators:AttitudeIndicator.RenderTransform>
                     </Indicators:AttitudeIndicator>
-                    <Label x:Name="yourAircraft" Content="Your Aircraft:&#xA;" HorizontalAlignment="Left" Margin="15,158,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="179" Height="35" FontWeight="Bold"/>
-                    <Separator Margin="15,344,16.346,141" Grid.ColumnSpan="3" />
-                    <Separator Margin="16,100,16.346,379" Grid.ColumnSpan="3" />
-                    <Label x:Name="needHelpLabel" Content="Need help getting started?&#xA;" HorizontalAlignment="Left" Margin="15,376,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="35" Width="194" FontWeight="Bold"/>
-                    <Label x:Name="label" Content="Check out the LiveFlight joystick setup guide!&#xA;" HorizontalAlignment="Left" Margin="15,398,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="28" Width="258"/>
+                    <Label x:Name="yourAircraft" Content="Your Aircraft:&#xA;" HorizontalAlignment="Left" Margin="21,145,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="179" Height="35" FontWeight="Bold"/>
+                    <Separator Margin="21,327,10.346,158" Grid.ColumnSpan="3" />
+                    <Separator Margin="16,88,16.346,391" Grid.ColumnSpan="3" />
+                    <Label x:Name="needHelpLabel" Content="Need help getting started?&#xA;" HorizontalAlignment="Left" Margin="15,354,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="35" Width="194" FontWeight="Bold"/>
+                    <Label x:Name="label" Content="Axes and buttons need to be assigned in the Controls &#xA;tab in Infinite Flight settings." HorizontalAlignment="Left" Margin="15,378,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="43" Width="304"/>
                     <Button x:Name="joystickSetupGuideButton" Content="Joystick Setup Guide&#xA;" Grid.Column="2" HorizontalAlignment="Left" Margin="21.374,389,0,0" VerticalAlignment="Top" Width="142" Height="22" Click="joystickSetupGuide"/>
+                    <Label x:Name="label2" Content="Check out the LiveFlight joystick setup guide!" HorizontalAlignment="Left" Margin="15,420,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="267"/>
                 </Grid>
             </TabItem>
 
