@@ -230,7 +230,7 @@
             </TabItem>
 
 
-            <TabItem x:Name="___TabItem___FlightPlanDatabase_" Header="FlightPlanDatabase" >
+            <TabItem x:Name="___TabItem___FlightPlanDatabase_" Header="Flight Plans" >
                 <Grid>
                     <FlightPlanDatabase:FlightPlanDb x:Name="FpdControl" HorizontalAlignment="Left" Height="433" Margin="10,0,0,0" VerticalAlignment="Top" Width="302" FplUpdated="FlightPlanDb_FplUpdated"/>
                 </Grid>
