@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using IF_FMS;
 
 namespace FlightPlanDatabase
@@ -22,6 +14,9 @@ namespace FlightPlanDatabase
     public partial class FlightPlanDb : UserControl
     {
         public event EventHandler FplUpdated;
+
+        // for keyboard events
+        public static bool textFieldFocused = false;
 
         private List<FMS.fplDetails> pFmsFpl;
         public List<FMS.fplDetails> FmsFpl {
@@ -140,6 +135,8 @@ namespace FlightPlanDatabase
             tb.Text = string.Empty;
             tb.Foreground = Brushes.Black;
             tb.GotFocus -= txtFromICAO_GotFocus;
+
+            textFieldFocused = true;
         }
 
         private void txtDestICAO_GotFocus(object sender, RoutedEventArgs e)
@@ -148,6 +145,8 @@ namespace FlightPlanDatabase
             tb.Text = string.Empty;
             tb.Foreground = Brushes.Black;
             tb.GotFocus -= txtDestICAO_GotFocus;
+
+            textFieldFocused = true;
         }
 
         private void txtFromICAO_LostFocus(object sender, RoutedEventArgs e)
@@ -159,6 +158,8 @@ namespace FlightPlanDatabase
                 tb.GotFocus += txtFromICAO_GotFocus;
                 tb.Text = "KLAX";
             }
+
+            textFieldFocused = false;
         }
 
         private void txtDestICAO_LostFocus(object sender, RoutedEventArgs e)
@@ -170,6 +171,8 @@ namespace FlightPlanDatabase
                 tb.GotFocus += txtDestICAO_GotFocus;
                 tb.Text = "KSAN";
             }
+
+            textFieldFocused = false;
         }
 
         private void txtFplId_GotFocus(object sender, RoutedEventArgs e)
@@ -178,6 +181,8 @@ namespace FlightPlanDatabase
             tb.Text = string.Empty;
             tb.Foreground = Brushes.Black;
             tb.GotFocus -= txtDestICAO_GotFocus;
+
+            textFieldFocused = true;
         }
 
         private void txtFplId_LostFocus(object sender, RoutedEventArgs e)
@@ -189,6 +194,8 @@ namespace FlightPlanDatabase
                 tb.GotFocus += txtDestICAO_GotFocus;
                 tb.Text = "81896";
             }
+
+            textFieldFocused = false;
 
         }
 

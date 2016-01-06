@@ -315,6 +315,17 @@ namespace LiveFlight
 
         private void keyDownEvent(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            // check if a field is focused
+            if (KeyboardCommandHandler.keyboardCommandsDisabled != FlightPlanDatabase.FlightPlanDb.textFieldFocused)
+            {
+                KeyboardCommandHandler.keyboardCommandsDisabled = FlightPlanDatabase.FlightPlanDb.textFieldFocused;
+            }
+
+            if (KeyboardCommandHandler.keyboardCommandsDisabled != IF_FMS.FMS.textFieldFocused)
+            {
+                KeyboardCommandHandler.keyboardCommandsDisabled = IF_FMS.FMS.textFieldFocused;
+            }
+
             Console.WriteLine("Key pressed: {0}", e.Key);
 
             KeyboardCommandHandler.keyPressed(e.Key);

@@ -11,7 +11,7 @@
     </UserControl.Resources>
     <Grid Margin="0,0,-77,-105">
         <!-- CellEditEnding="dgFplEdited"-->
-        <DataGrid x:Name="dgFpl" HorizontalAlignment="Left" Margin="7,242,0,0" VerticalAlignment="Top" Height="153" Width="357" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" ItemsSource="{Binding CustomFplWaypoints, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FMS}}, UpdateSourceTrigger=PropertyChanged}"
+        <DataGrid x:Name="dgFpl" HorizontalAlignment="Left" Margin="7,242,0,0" VerticalAlignment="Top" Height="153" Width="357" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" ItemsSource="{Binding CustomFplWaypoints, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FMS}}, UpdateSourceTrigger=PropertyChanged}" BeginningEdit="dgFpl_BeginningEdit" CellEditEnding="dgFpl_CellEditEnding"
                  >
             <!--<DataGrid.Columns>
                 <DataGridTextColumn Header="WPT" Binding="{Binding CustomFplWaypoints.WaypointName}" IsReadOnly="False"/>

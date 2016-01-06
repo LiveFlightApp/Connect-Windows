@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using Fds.IFAPI;
 using System.ComponentModel;
 
+
 namespace IF_FMS
 {
     /// <summary>
@@ -12,6 +13,9 @@ namespace IF_FMS
     /// </summary>
     public partial class FMS : UserControl
     {
+
+        public static bool textFieldFocused = false;
+
         private IFConnect.IFConnectorClient client;
         public IFConnect.IFConnectorClient Client {
             get { return client; }
@@ -371,9 +375,18 @@ namespace IF_FMS
             return vs;
         }
 
+
+
         #endregion
 
+        private void dgFpl_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+            textFieldFocused = true;
+        }
 
-
+        private void dgFpl_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            textFieldFocused = false;
+        }
     }
 }
