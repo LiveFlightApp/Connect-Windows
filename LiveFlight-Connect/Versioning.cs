@@ -27,7 +27,7 @@ namespace LiveFlight
 
         // set app version
         // done here instead of embedded in assembly meta so that it works with server-side versioning
-        static double currentAppVersion = 1.0;
+        public static double currentAppVersion = 1.0;
 
         public static void checkForUpdate()
         {

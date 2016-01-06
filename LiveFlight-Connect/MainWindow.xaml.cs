@@ -510,7 +510,8 @@ namespace LiveFlight
 
         private void aboutLfMenu_Click(object sender, RoutedEventArgs e)
         {
-
+            AboutWindow about = new AboutWindow();
+            about.Show();
         }
 
         #endregion
