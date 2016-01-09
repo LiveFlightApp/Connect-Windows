@@ -25,7 +25,7 @@ namespace IFConnect
 
         ReaderWriterLockSlim apiCallQueueLock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
         private Queue<APICall> apiCallQueue = new Queue<APICall>();
-
+        
         private CancellationTokenSource readerTokenSource;
         private CancellationTokenSource writerTokenSource;
 
@@ -56,9 +56,10 @@ namespace IFConnect
                             var commandString = ReadCommand();
                             //Console.WriteLine("Reply from Server: {0}", commandString);
                             var response = Serializer.DeserializeJson<APIResponse>(commandString);
-
-                            CommandReceived(this, new CommandReceivedEventArgs(response, commandString));
-
+                            if (commandString.Length > 0)
+                            {
+                                CommandReceived(this, new CommandReceivedEventArgs(response, commandString));
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -103,7 +104,7 @@ namespace IFConnect
                         }
                     }
                 });
-
+                
             }
             catch (System.Net.Sockets.SocketException e)
             {
