@@ -13,6 +13,7 @@ namespace IFConnect
         public void StartListening()
         {
             Console.WriteLine("Starting Joystick listening server...");
+            if(this.udp==null) { udp = new UdpClient(15000); }
             this.udp.BeginReceive(Receive, new object());
         }
         private void Receive(IAsyncResult ar)
@@ -51,8 +52,11 @@ namespace IFConnect
             Console.WriteLine("Stopping UDP Receiver");
             try
             {
-                udp.Close();
-                udp = null;
+                if (udp != null)
+                {
+                    udp.Close();
+                    udp = null;
+                }
             }
             catch (Exception ex)
             {
