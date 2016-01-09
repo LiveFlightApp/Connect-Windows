@@ -18,12 +18,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("IFCTestApp")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("LiveFlight Connect")]
+[assembly: AssemblyDescription("Control Infinite Flight from your PC. Use your joystick over the network and take advantage of your keyboard to make the Infinite Flight experience more immersive.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("IFCTestApp")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyProduct("LiveFlight Connect")]
+[assembly: AssemblyCopyright("Copyright © Cameron Carmichael Alonso 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
