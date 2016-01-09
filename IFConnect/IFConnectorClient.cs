@@ -18,12 +18,18 @@ namespace IFConnect
     public class IFConnectorClient
     {
         public event EventHandler<CommandReceivedEventArgs> CommandReceived = delegate { };
+        public event EventHandler<CommandReceivedEventArgs> Disconnected = delegate { };
 
         private TcpClient client = new TcpClient();
         private NetworkStream NetworkStream { get; set; }
 
         ReaderWriterLockSlim apiCallQueueLock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
         private Queue<APICall> apiCallQueue = new Queue<APICall>();
+        
+        private CancellationTokenSource readerTokenSource;
+        private CancellationTokenSource writerTokenSource;
+
+        private bool Running;
 
         public void Connect(string host = "localhost", int port = 10111)
         {
@@ -34,34 +40,42 @@ namespace IFConnect
 
                 client.Connect(host, port);
                 client.NoDelay = true;
+                Running = true;
 
                 this.NetworkStream = client.GetStream();
 
+                readerTokenSource = new CancellationTokenSource();
+                CancellationToken tk1 = readerTokenSource.Token;
                 Task.Run(() =>
                 {
 
-                    while (true)
+                    while (!readerTokenSource.IsCancellationRequested)
                     {
                         try
                         {
                             var commandString = ReadCommand();
                             //Console.WriteLine("Reply from Server: {0}", commandString);
                             var response = Serializer.DeserializeJson<APIResponse>(commandString);
-
-                            CommandReceived(this, new CommandReceivedEventArgs(response, commandString));
-
+                            if (commandString.Length > 0)
+                            {
+                                CommandReceived(this, new CommandReceivedEventArgs(response, commandString));
+                            }
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("Error! " + ex.ToString());
+                            //Console.WriteLine("Error! Lost connection to Infinite Flight! \n" + ex.ToString() + "\nError! Lost connection to Infinite Flight!");
+                            Console.WriteLine("Error! Lost connection to Infinite Flight!");
+                            disconnect();
                         }
                     }
                 });
 
+                writerTokenSource = new CancellationTokenSource();
+                CancellationToken tk2 = writerTokenSource.Token;
                 Task.Run(() =>
                 {
 
-                    while (true)
+                    while (!writerTokenSource.IsCancellationRequested)
                     {
                         apiCallQueueLock.EnterReadLock();
                         var pendingItems = apiCallQueue.Any();
@@ -80,7 +94,8 @@ namespace IFConnect
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine("Error Sending Command: {0}", ex);
+                                Console.WriteLine("Error sending command to Infinite Flight! \n" + ex.ToString() + "\nError sending command to Infinite Flight!");
+                                disconnect();
                             }
                         }
                         else
@@ -89,7 +104,7 @@ namespace IFConnect
                         }
                     }
                 });
-
+                
             }
             catch (System.Net.Sockets.SocketException e)
             {
@@ -98,6 +113,23 @@ namespace IFConnect
 
             }
 
+
+        }
+
+        /// <summary>
+        /// Close connection to server. Cancel all send/receive tasks.
+        /// </summary>
+        public void disconnect()
+        {
+            if (Running)
+            {
+                Running = false;
+                readerTokenSource.Cancel();
+                writerTokenSource.Cancel();
+                client.Close();
+                this.NetworkStream = null;
+                Disconnected(this, null);
+            }
         }
 
         #region Networking

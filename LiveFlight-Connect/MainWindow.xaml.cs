@@ -21,6 +21,7 @@ using System.Windows.Input;
 using IFConnect;
 using Indicators;
 using System.Windows.Interop;
+using System.Windows.Threading;
 
 namespace LiveFlight
 {
@@ -101,7 +102,7 @@ namespace LiveFlight
         {
             // check for an update to app first
             Versioning.checkForUpdate();
-            
+
             receiver.DataReceived += receiver_DataReceived;
             receiver.StartListening();
 
@@ -158,6 +159,7 @@ namespace LiveFlight
             mainTabControl.Visibility = System.Windows.Visibility.Visible;
 
             client.CommandReceived += client_CommandReceived;
+            client.Disconnected += client_Disconnected;
 
             client.SendCommand(new APICall { Command = "InfiniteFlight.GetStatus" });
             client.SendCommand(new APICall { Command = "Live.EnableATCMessageListUpdated" });
@@ -199,6 +201,24 @@ namespace LiveFlight
                     }
                 }
             });
+        }
+
+        private void client_Disconnected(object sender, CommandReceivedEventArgs e)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate () { connectionLost(); });
+        }
+
+        private void connectionLost()
+        {
+            if (connectionStatus)
+            {
+                connectionStatus = false;
+                overlayGrid.Visibility = System.Windows.Visibility.Visible;
+                mainTabControl.Visibility = System.Windows.Visibility.Collapsed;
+                client = new IFConnectorClient();
+                receiver.Stop();
+                receiver.StartListening();
+            }
         }
 
         void client_CommandReceived(object sender, CommandReceivedEventArgs e)
@@ -271,12 +291,8 @@ namespace LiveFlight
                     }
                 } catch (System.NullReferenceException) {
                     Console.WriteLine("Disconnected from server!");
-
-                    Task.Run(() =>
-                    {
-                        connectionStatus = false;
-
-                    });
+                    //Let the client handle the lost connection.
+                    //connectionStatus = false;
                 }       
             }));            
         }
