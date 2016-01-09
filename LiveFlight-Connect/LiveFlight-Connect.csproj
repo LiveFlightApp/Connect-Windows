@@ -25,6 +25,9 @@
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://connect.liveflightapp.com/windows/</InstallUrl>
+    <SupportUrl>http://connect.liveflightapp.com</SupportUrl>
+    <ProductName>LiveFlight Connect</ProductName>
+    <PublisherName>LiveFlight</PublisherName>
     <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
@@ -196,12 +199,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\attitudePitchScale.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="datafiles\attitudePitchScale.png">
+    <Content Include="..\Indicators\Resources\attitudePitchScale.png">
+      <Link>datafiles\attitudePitchScale.png</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
