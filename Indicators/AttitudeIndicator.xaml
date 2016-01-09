@@ -10,7 +10,7 @@
             <Canvas x:Name="attitudeCanvas" ClipToBounds="True" Height="280" Canvas.Left="10" Canvas.Top="10" Width="280"  Background="LightGray">
                 <!---->
 <Canvas x:Name="scaleCanvas" Height="733" Width="305" Canvas.Top="-227" RenderTransformOrigin="0.5,0.5" Canvas.Left="-14">
-                <Image x:Name="attitudeScale" Source="pack://application:,,,/Indicators;component/Resources/attitudePitchScale.png" RenderTransformOrigin="0.5,0.5" Canvas.Left="5" Width="300" Height="744" />
+                <Image x:Name="attitudeScale" Source="pack://siteoforigin:,,,/Resources/attitudePitchScale.png" RenderTransformOrigin="0.5,0.5" Canvas.Left="5" Width="300" Height="744" />
             </Canvas>
                 <Border x:Name="ArtHorizon" BorderBrush="Black" BorderThickness="1" Height="563" Canvas.Left="-141" Canvas.Top="-141" Width="559" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
                     <Border.Background>
