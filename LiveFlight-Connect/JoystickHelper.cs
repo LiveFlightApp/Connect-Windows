@@ -113,7 +113,8 @@ namespace LiveFlight
                 var data = joystick.GetBufferedData();
                 foreach (var state in data)
                 {
-                    Console.WriteLine("{0} - {1} - {2}", joystick.Properties.InstanceName, state.Offset, state.Value);
+                    //Null characters in the device name clogs up the write buffer when not run as a Console app. Replace all \0 with empty string to fix this.
+                    Console.WriteLine("{0} - {1} - {2}", joystick.Properties.InstanceName.Replace("\0", ""), state.Offset, state.Value);
 
                     if (state.Offset.ToString().StartsWith("Button"))
                     {
