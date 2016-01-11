@@ -3,7 +3,7 @@ LiveFlight Connect for Windows allows you to control Infinite Flight on an iOS o
 
 Uses Infinite Flight Connect, a TCP-based API introduced in version 15.10.0.
 
-![Windows](hhttps://raw.githubusercontent.com/LiveFlightApp/Connect-Windows/master/screenshot.png "LiveFlight Connect for Windows")
+![](https://raw.githubusercontent.com/LiveFlightApp/Connect-Windows/master/screenshot.png "LiveFlight Connect for Windows")
 
 Usage
 ------------
