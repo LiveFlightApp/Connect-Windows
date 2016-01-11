@@ -22,6 +22,7 @@ using IFConnect;
 using Indicators;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using System.Globalization;
 
 namespace LiveFlight
 {
@@ -232,6 +233,9 @@ namespace LiveFlight
                     if (type == typeof(APIAircraftState))
                     {
                         var state = Serializer.DeserializeJson<APIAircraftState>(e.CommandString);
+
+                        // convert to fpm
+                        state.VerticalSpeed = float.Parse(Convert.ToString(state.VerticalSpeed * 200), CultureInfo.InvariantCulture.NumberFormat); // multiply by 200, this somehow gets it accurate..
 
                         airplaneStateGrid.DataContext = null;
                         airplaneStateGrid.DataContext = state;
