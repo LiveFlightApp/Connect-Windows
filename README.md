@@ -3,9 +3,11 @@ LiveFlight Connect for Windows allows you to control Infinite Flight on an iOS o
 
 Uses Infinite Flight Connect, a TCP-based API introduced in version 15.10.0.
 
+![Windows](hhttps://raw.githubusercontent.com/LiveFlightApp/Connect-Windows/master/screenshot.png "LiveFlight Connect for Windows")
+
 Usage
 ------------
-  * Install the latest release version via the "Releases" tab.
+  * Install the latest release version from [connect.liveflightapp.com](http://connect.liveflightapp.com)
   * Enable Infinite Flight Connect within Infinite Flight, and make sure your device is on the same wifi network as your PC
   * Get your joystick setup, and go have fun :)
 
@@ -16,12 +18,26 @@ LiveFlight Connect is built in C#. Simply clone the repo, run and build in Visua
 
 Compatible Devices
 ------------
-There's no guarantee this will play perfectly with your joystick or configuration. Devices which require two USB ports need some work still. These joysticks work fine:
+There's no guarantee this will play perfectly with your joystick or configuration. These joysticks definitely work fine:
   * Thrustmaster T-Flight Hotas X
   * Saitek X52 Pro
   * Logitech Extreme 3D
 
- 
+
+Project Descriptions
+------------
+1. **LiveFlight-Connect**:
+Main project - handles most of the UI, joystick work, keyboard commands.
+2. **IFConnect**:
+This project contains the interfaces for communicating with the IFConnect API and datatypes for deserializing JSON data.
+3. **IF_FMS**: 
+This project handles the FMS system for AutoNav, as well as the logic controlling it.
+4. **FlightPlanDatabase**:
+This contains some interfaces for FlightPlanDatabase.com API. Simple flight plan datatypes and logic implemented so far to search for flight plans.
+5. **Indicators**:
+Work in progress. Started with an attitude indicator that still needs some refinement. 
+Wanted to use an image as the background scale but can't get it to position correctly to match pitch.
+
  
 LiveFlight Connect License
 -----------
