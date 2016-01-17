@@ -243,6 +243,7 @@ namespace LiveFlight
                         if (FMSControl.autoFplDirectActive) { FMSControl.updateAutoNav(state); }
                         // AircraftStateControl.AircraftState = state;
                         AttitudeIndicator.updateAttitude(state.Pitch, state.Bank);
+                       updateLandingRoll(state); 
                     }
                     else if (type == typeof(GetValueResponse))
                     {
@@ -299,6 +300,49 @@ namespace LiveFlight
                     //connectionStatus = false;
                 }       
             }));            
+        }
+
+        private APIAircraftState pLastState;
+        private Coordinate pLandingLocation;
+        private double pLastLandingRoll = 0.0;
+        private void updateLandingRoll(APIAircraftState state)
+        {
+            if (pLastState == null)
+            {
+                pLastState = state;
+            }else if (!state.IsOnGround)
+            {
+                pLastState = state;
+                pLastLandingRoll = 0.0;
+                pLandingLocation = null;
+                txtLandingRoll.Visibility = Visibility.Hidden;
+                txtLandingRollLabel.Visibility = Visibility.Hidden;
+            }
+            else if (!pLastState.IsLanded && state.IsLanded) //Just transitioned to "landed" state, so start the roll accumulation
+            {
+                pLandingLocation = state.Location;
+                pLastState = state;
+            }
+            else if (state.IsLanded && pLandingLocation != null) //We are in landed state. Calc the roll length.
+            {
+                Coordinate currentPosition = state.Location;
+                var R = 3959; // Radius of the earth in miles
+                var dLat = (currentPosition.Latitude - pLandingLocation.Latitude) * (Math.PI / 180);
+                var dLon = (currentPosition.Longitude - pLandingLocation.Longitude) * (Math.PI / 180);
+                var a =
+                  Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                  Math.Cos((currentPosition.Latitude) * (Math.PI / 180)) * Math.Cos((pLandingLocation.Latitude) * (Math.PI / 180)) *
+                  Math.Sin(dLon / 2) * Math.Sin(dLon / 2)
+                  ;
+                var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+                var d = R * c; // Distance in miles
+                d *= 5280; //Distance in ft
+                txtLandingRoll.Text = String.Format("{0:0.00}", d) + " ft";
+                txtLandingRoll.Visibility = Visibility.Visible;
+                txtLandingRollLabel.Visibility = Visibility.Visible;
+                pLastState = state;
+            }
+            
         }
 
         #endregion

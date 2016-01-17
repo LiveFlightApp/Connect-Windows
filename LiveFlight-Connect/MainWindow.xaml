@@ -124,11 +124,12 @@
 
                     <Grid x:Name="airplaneStateGrid" HorizontalAlignment="Left" Height="204" VerticalAlignment="Top" Width="258" Grid.ColumnSpan="2" Margin="24,176,0,0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="8*"/>
-                            <RowDefinition Height="7*"/>
-                            <RowDefinition Height="7*"/>
-                            <RowDefinition Height="12*"/>
-                            <RowDefinition Height="10*"/>
+                            <RowDefinition Height="37*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="33*"/>
+                            <RowDefinition Height="31*"/>
+                            <RowDefinition Height="27*"/>
+                            <RowDefinition Height="45*"/>
 
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
@@ -141,11 +142,12 @@
                         <TextBlock TextWrapping="Wrap" Text="Altitude" Margin="2" Grid.Row="1" Grid.ColumnSpan="2"/>
                         <TextBlock TextWrapping="Wrap" Text="Heading" Margin="2" Grid.Row="2" Grid.ColumnSpan="2"/>
                         <TextBlock TextWrapping="Wrap" Text="Vertical Speed" Margin="2" Grid.Row="3" Grid.ColumnSpan="2"/>
-
+                        <TextBlock x:Name="txtLandingRollLabel" TextWrapping="Wrap" Text="Landing Roll" Margin="2" Grid.Row="4" Grid.ColumnSpan="2" Visibility="Hidden"/>
                         <TextBlock TextWrapping="Wrap" Text="{Binding IndicatedAirspeedKts, StringFormat=\{0:#0\} kts}" Margin="2" Grid.Column="2"/>
                         <TextBlock TextWrapping="Wrap" Text="{Binding AltitudeMSL, StringFormat=\{0:#0\} ft}" Margin="2" Grid.Row="1" Grid.Column="2"/>
                         <TextBlock TextWrapping="Wrap" Text="{Binding HeadingMagnetic, StringFormat=\{0:#0\} °}" Margin="2" Grid.Row="2" Grid.Column="2"/>
                         <TextBlock TextWrapping="Wrap" Text="{Binding VerticalSpeed, StringFormat=\{0:#0\} ft/min}" Margin="2" Grid.Row="3" Grid.Column="2"/>
+                        <TextBlock x:Name="txtLandingRoll" TextWrapping="Wrap" Text="" Margin="2" Grid.Row="4" Grid.Column="2" Visibility="Hidden"/>
                     </Grid>
                     <Indicators:AttitudeIndicator x:Name="AttitudeIndicator" Height="Auto" Width="Auto" Grid.Column="1" Margin="56,77,-10.654,150" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5">
                         <Indicators:AttitudeIndicator.RenderTransform>
