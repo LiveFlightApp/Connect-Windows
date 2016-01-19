@@ -241,7 +241,7 @@ namespace LiveFlight
                         airplaneStateGrid.DataContext = state;
                         pAircraftState = state;
                         if (FMSControl.autoFplDirectActive) { FMSControl.updateAutoNav(state); }
-                        // AircraftStateControl.AircraftState = state;
+                        AircraftStateControl.AircraftState = state;
                         AttitudeIndicator.updateAttitude(state.Pitch, state.Bank);
                        updateLandingRoll(state); 
                     }
@@ -253,8 +253,7 @@ namespace LiveFlight
                     }
                     else if (type == typeof(LiveAirplaneList))
                     {
-                        var airplaneList = Serializer.DeserializeJson<LiveAirplaneList>(e.CommandString);
-
+                        LiveAirplaneList airplaneList = Serializer.DeserializeJson<LiveAirplaneList>(e.CommandString);
                         //airplaneDataGrid.ItemsSource = airplaneList.Airplanes;
                     }
                     else if (type == typeof(FacilityList))
@@ -266,7 +265,6 @@ namespace LiveFlight
                     else if (type == typeof(IFAPIStatus))
                     {
                         var status = Serializer.DeserializeJson<IFAPIStatus>(e.CommandString);
-
 
                     }
                     else if (type == typeof(APIATCMessage))
@@ -302,9 +300,10 @@ namespace LiveFlight
             }));            
         }
 
-        private APIAircraftState pLastState;
+        private APIAircraftState pLastState, pStateJustBeforeTouchdown, pStateJustAfterTouchdown;
         private Coordinate pLandingLocation;
         private double pLastLandingRoll = 0.0;
+        private LandingStats pLandingStatDlg;
         private void updateLandingRoll(APIAircraftState state)
         {
             if (pLastState == null)
@@ -317,10 +316,13 @@ namespace LiveFlight
                 pLandingLocation = null;
                 txtLandingRoll.Visibility = Visibility.Hidden;
                 txtLandingRollLabel.Visibility = Visibility.Hidden;
+                //btnViewLandingStats.Visibility = Visibility.Hidden;
             }
             else if (!pLastState.IsLanded && state.IsLanded) //Just transitioned to "landed" state, so start the roll accumulation
             {
                 pLandingLocation = state.Location;
+                pStateJustBeforeTouchdown = pLastState;
+                pStateJustAfterTouchdown = state;
                 pLastState = state;
             }
             else if (state.IsLanded && pLandingLocation != null) //We are in landed state. Calc the roll length.
@@ -341,8 +343,31 @@ namespace LiveFlight
                 txtLandingRoll.Visibility = Visibility.Visible;
                 txtLandingRollLabel.Visibility = Visibility.Visible;
                 pLastState = state;
+                landingDetails.updateLandingStats(pLandingLocation, pAircraftState.Location, pStateJustBeforeTouchdown, pStateJustAfterTouchdown, "");
             }
-            
+
+            if(pLandingLocation !=null && state.IsLanded && state.IsOnGround && state.GroundSpeedKts < 10)
+            {
+                pLandingStatDlg = new LandingStats();
+                pLandingStatDlg.updateLandingStats(pLandingLocation, pAircraftState.Location, pStateJustBeforeTouchdown, pStateJustAfterTouchdown, "");
+                landingDetails.updateLandingStats(pLandingLocation, pAircraftState.Location, pStateJustBeforeTouchdown, pStateJustAfterTouchdown, "");
+                //btnViewLandingStats.Visibility = Visibility.Visible;
+            }
+
+        }
+
+        private void btnViewLandingStats_Click(object sender, RoutedEventArgs e)
+        {
+            Window window = new Window
+            {
+                Title = "Last Landing Stats",
+                Content = pLandingStatDlg,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                ResizeMode=ResizeMode.NoResize
+            };
+
+            window.ShowDialog();
+
         }
 
         #endregion
@@ -604,8 +629,20 @@ namespace LiveFlight
 
 
 
+
+
         #endregion
 
+        private void expander_Expanded(object sender, RoutedEventArgs e)
+        {
+            this.Width = 1125;
+            expander.Header = "Collapse";
+        }
 
+        private void expander_Collapsed(object sender, RoutedEventArgs e)
+        {
+            this.Width = 525;
+            expander.Header = "Expand";
+        }
     }
 }

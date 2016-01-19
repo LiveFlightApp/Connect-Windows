@@ -16,7 +16,7 @@
 
 
         </ListView>
-        <Border BorderBrush="Black" BorderThickness="1" Height="29" Canvas.Left="107" Width="70" Canvas.Top="3" Background="Gray">
+        <Border BorderBrush="Black" BorderThickness="1" Height="29" Canvas.Left="94" Width="70" Canvas.Top="3" Background="Gray">
             <TextBlock x:Name="gearLight1" TextWrapping="Wrap" Text="A/P On" FontSize="18.667" TextAlignment="Center" FontWeight="Bold" Foreground="LimeGreen" Margin="-1">
                 <TextBlock.Effect>
                     <DropShadowEffect Color="LimeGreen" Opacity="0.75" BlurRadius="15" ShadowDepth="0"/>
@@ -39,23 +39,23 @@
         </Border>
         <Rectangle x:Name="GearUpOff" Fill="Gray" Height="43" Canvas.Left="3" Stroke="Black" Canvas.Top="3" Width="70" Opacity="0.9"/>
         <Rectangle x:Name="GearDownOff" Fill="Gray" Height="43" Canvas.Left="3" Stroke="Black" Canvas.Top="51" Width="70" Opacity="0.9"/>
-        <Rectangle x:Name="ApOff" Fill="Gray" Height="29" Canvas.Left="107" Stroke="Black" Canvas.Top="3" Width="70" Opacity="0.9"/>
-        <Border BorderBrush="Black" BorderThickness="1" Height="28" Canvas.Left="89" Width="111" Canvas.Top="66" Background="Gray">
+        <Rectangle x:Name="ApOff" Fill="Gray" Height="29" Canvas.Left="94" Stroke="Black" Canvas.Top="3" Width="70" Opacity="0.9"/>
+        <Border BorderBrush="Black" BorderThickness="1" Height="28" Canvas.Left="180" Width="111" Canvas.Top="51" Background="Gray">
             <TextBlock x:Name="gearLight4" TextWrapping="Wrap" Text="STALL" FontSize="22" TextAlignment="Center" FontWeight="Bold" Foreground="Red" Margin="-1,-3,-1,1">
                 <TextBlock.Effect>
                     <DropShadowEffect Color="Red" Opacity="0.75" BlurRadius="20" ShadowDepth="0"/>
                 </TextBlock.Effect>
             </TextBlock>
         </Border>
-        <Rectangle x:Name="StallOff" Fill="Gray" Height="28" Canvas.Left="89" Stroke="Black" Canvas.Top="66" Width="111" Opacity="0.9"/>
-        <Border BorderBrush="Black" BorderThickness="1" Height="24" Canvas.Left="89" Width="111" Canvas.Top="37" Background="Gray">
+        <Rectangle x:Name="StallOff" Fill="Gray" Height="28" Canvas.Left="180" Stroke="Black" Canvas.Top="51" Width="111" Opacity="0.9"/>
+        <Border BorderBrush="Black" BorderThickness="1" Height="24" Canvas.Left="180" Width="111" Canvas.Top="22" Background="Gray">
             <TextBlock x:Name="gearLight5" TextWrapping="Wrap" Text="Stall Warning" FontSize="14" TextAlignment="Center" FontWeight="Bold" Foreground="Goldenrod" Margin="-1">
                 <TextBlock.Effect>
                     <DropShadowEffect Color="Goldenrod" Opacity="0.75" BlurRadius="15" ShadowDepth="0"/>
                 </TextBlock.Effect>
             </TextBlock>
         </Border>
-        <Rectangle x:Name="StallWarnOff" Fill="Gray" Height="24" Canvas.Left="89" Stroke="Black" Canvas.Top="37" Width="111" Opacity="0.9" Visibility="Visible" />
+        <Rectangle x:Name="StallWarnOff" Fill="Gray" Height="24" Canvas.Left="180" Stroke="Black" Canvas.Top="22" Width="111" Opacity="0.9" Visibility="Visible" />
 
     </Canvas>
 </UserControl>
