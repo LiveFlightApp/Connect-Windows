@@ -22,6 +22,8 @@ There's no guarantee this will play perfectly with your joystick or configuratio
   * Thrustmaster T-Flight Hotas X
   * Saitek X52 Pro
   * Logitech Extreme 3D
+   
+  Gamepads might not work perfectly at this time.
 
 
 Project Descriptions
