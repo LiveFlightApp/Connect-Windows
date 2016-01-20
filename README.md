@@ -23,7 +23,7 @@ There's no guarantee this will play perfectly with your joystick or configuratio
   * Saitek X52 Pro
   * Logitech Extreme 3D
    
-  Gamepads might not work perfectly at this time.
+  Gamepads might not work perfectly at this time, this will be improved in the future.
 
 
 Project Descriptions
