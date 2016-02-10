@@ -97,7 +97,7 @@
                     <MenuItem x:Name="atcWindowMenu" Header="_Toggle ATC Window" InputGestureText="A" Click="atcWindowMenu_Click"/>
                 </MenuItem>
                 <MenuItem Header="_Help">
-                    <MenuItem x:Name="joystickSetupGuideMenu" Header="_Joystick Setup Guide" Click="joystickSetupGuide"/>
+                    <MenuItem x:Name="joystickSetupGuideMenu" Header="_Setup Guides" Click="joystickSetupGuide"/>
                     <MenuItem x:Name="sourceCodeMenu" Header="_Source Code (GitHub)" Click="sourceCodeMenu_Click"/>
                     <Separator />
                     <MenuItem x:Name="communityMenu" Header="_Infinite Flight Community" Click="communityMenu_Click"/>

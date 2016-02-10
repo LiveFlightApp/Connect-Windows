@@ -554,8 +554,8 @@ namespace LiveFlight
         private void joystickSetupGuide(object sender, RoutedEventArgs e)
         {
 
-            // go to community forums
-            var URL = "https://community.infinite-flight.com/t/joysticks-on-ios-android-over-the-network-liveflight-connect/20017?u=carmalonso";
+            // go to liveflight help site
+            var URL = "http://help.liveflightapp.com";
             System.Diagnostics.Process.Start(URL);
 
         }
