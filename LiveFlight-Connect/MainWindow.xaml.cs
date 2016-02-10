@@ -22,6 +22,7 @@ using IFConnect;
 using Indicators;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using System.IO;
 using System.Globalization;
 
 namespace LiveFlight
@@ -46,7 +47,18 @@ namespace LiveFlight
 
             mainTabControl.Visibility = System.Windows.Visibility.Collapsed;
 
-            Console.WriteLine("LiveFlight Connect\nPlease send this log to cameron@liveflightapp.com if you experience issues. Thanks!\n\n");
+            // log to file
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var pathToFile = String.Format("{0}\\LiveFlight_Connect_Windows.log", path);
+            Console.WriteLine(pathToFile);
+            File.Delete(pathToFile);
+            FileStream filestream = new FileStream(pathToFile, FileMode.Create);
+            var streamwriter = new StreamWriter(filestream);
+            streamwriter.AutoFlush = true;
+            Console.SetOut(streamwriter);
+            Console.SetError(streamwriter);
+
+            Console.WriteLine("LiveFlight Connect\n\nPlease send this log to contact@liveflightapp.com if you experience issues. Thanks!\n\n\n");
         }
 
 
