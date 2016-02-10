@@ -102,7 +102,7 @@
                     <Separator />
                     <MenuItem x:Name="communityMenu" Header="_Infinite Flight Community" Click="communityMenu_Click"/>
                     <Separator />
-                    <MenuItem x:Name="liveFlightMenu" Header="_LiveFlight" Click="liveFlightMenu_Click"/>
+                    <MenuItem x:Name="liveFlightMenu" Header="_LiveFlight Tracker" Click="liveFlightMenu_Click"/>
                     <MenuItem x:Name="lfFacebookMenu" Header="_LiveFlight on Facebook" Click="lfFacebookMenu_Click"/>
                     <MenuItem x:Name="lfTwitterMenu" Header="_LiveFlight on Twitter" Click="lfTwitterMenu_Click"/>
                     <Separator />
