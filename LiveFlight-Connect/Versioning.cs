@@ -9,6 +9,9 @@
 //  https://github.com/LiveFlightApp/Connect-Windows/blob/master/LICENSE
 //
 
+// NOTICE:
+// THIS CLASS IS DEPRECATED
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +31,7 @@ namespace LiveFlight
 
         // set app version
         // done here instead of embedded in assembly meta so that it works with server-side versioning
-        public static double currentAppVersion = 1.0;
+        public static double currentAppVersion = 1.1;
 
         public static void checkForUpdate()
         {
