@@ -31,12 +31,12 @@ namespace LiveFlight
 
         // set app version
         // done here instead of embedded in assembly meta so that it works with server-side versioning
-        public static double currentAppVersion = 1.1;
+        public static String currentAppVersion = "1.1.1";
 
         public static void checkForUpdate()
         {
 
-            if (IsNetworkAvailable() == true)
+            /*if (IsNetworkAvailable() == true)
             {
 
                 VersioningFile windowsVersions = Serializer.DeserializeJson<VersioningFile>(makeGetRequest());
@@ -68,7 +68,7 @@ namespace LiveFlight
             else
             {
                 Console.WriteLine("No internet connection - ignore update check");
-            }
+            }*/
 
 
         }

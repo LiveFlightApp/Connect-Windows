@@ -15,7 +15,7 @@
         <Button x:Name="licenseButton" Content="License (GPL V3)" HorizontalAlignment="Left" Margin="10,251,0,0" VerticalAlignment="Top" Width="169" Click="licenseButton_Click"/>
         <Button x:Name="sourceCode" Content="Source (GitHub)" HorizontalAlignment="Left" Margin="10,276,0,0" VerticalAlignment="Top" Width="169" Click="sourceCode_Click"/>
         <Button x:Name="liveFlightLink" Content="LiveFlight" HorizontalAlignment="Left" Margin="10,301,0,0" VerticalAlignment="Top" Width="169" Click="liveFlightLink_Click"/>
-        <Label x:Name="version" Content="Version 1.9&#xD;&#xA;" HorizontalAlignment="Left" Margin="126,83,0,0" VerticalAlignment="Top" Width="68"/>
+        <Label x:Name="version" Content=""  HorizontalAlignment="Left" Margin="126,83,0,0" VerticalAlignment="Top" Width="68"/>
 
 
     </Grid>
