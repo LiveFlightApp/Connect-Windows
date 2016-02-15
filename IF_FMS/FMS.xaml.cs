@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Fds.IFAPI;
 using System.ComponentModel;
-
+using System.Globalization;
 
 namespace IF_FMS
 {
@@ -316,10 +316,10 @@ namespace IF_FMS
         private void setAutoPilotParams(double altitude, double heading, double vs, double speed)
         {
             //Send parameters
-            if (speed > 0) { client.ExecuteCommand("Commands.Autopilot.SetSpeed", new CallParameter[] { new CallParameter { Value = speed.ToString() } }); }
-            if (altitude > 0) { client.ExecuteCommand("Commands.Autopilot.SetAltitude", new CallParameter[] { new CallParameter { Value = altitude.ToString() } }); }
-            if (vs < 999999) { client.ExecuteCommand("Commands.Autopilot.SetVS", new CallParameter[] { new CallParameter { Value = vs.ToString() } }); }
-            client.ExecuteCommand("Commands.Autopilot.SetHeading", new CallParameter[] { new CallParameter { Value = heading.ToString() } });
+            if (speed > 0) { client.ExecuteCommand("Commands.Autopilot.SetSpeed", new CallParameter[] { new CallParameter { Value = speed.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
+            if (altitude > 0) { client.ExecuteCommand("Commands.Autopilot.SetAltitude", new CallParameter[] { new CallParameter { Value = altitude.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
+            if (vs < 999999) { client.ExecuteCommand("Commands.Autopilot.SetVS", new CallParameter[] { new CallParameter { Value = vs.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
+            client.ExecuteCommand("Commands.Autopilot.SetHeading", new CallParameter[] { new CallParameter { Value = heading.ToString(CultureInfo.InvariantCulture.NumberFormat) } });
             //Activate AP
             if (altitude > 0) { client.ExecuteCommand("Commands.Autopilot.SetAltitudeState", new CallParameter[] { new CallParameter { Value = "True" } }); }
             client.ExecuteCommand("Commands.Autopilot.SetHeadingState", new CallParameter[] { new CallParameter { Value = "True" } });

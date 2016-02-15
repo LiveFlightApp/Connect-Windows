@@ -247,7 +247,7 @@ namespace LiveFlight
                         var state = Serializer.DeserializeJson<APIAircraftState>(e.CommandString);
 
                         // convert to fpm
-                        state.VerticalSpeed = float.Parse(Convert.ToString(state.VerticalSpeed * 200), CultureInfo.InvariantCulture.NumberFormat); // multiply by 200, this somehow gets it accurate..
+                        state.VerticalSpeed = float.Parse(Convert.ToString(state.VerticalSpeed * 200, CultureInfo.InvariantCulture.NumberFormat), CultureInfo.InvariantCulture.NumberFormat); // multiply by 200, this somehow gets it accurate..
 
                         airplaneStateGrid.DataContext = null;
                         airplaneStateGrid.DataContext = state;
