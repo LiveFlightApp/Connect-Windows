@@ -285,11 +285,39 @@ namespace IF_FMS
             lblHdg2Next.Content = String.Format("{0:0.000}", pFplState.hdgToNextWpt);
 
             //Calculate VS to hit target altitude
-            if (pFplState.nextAltitude > 0) {
-            double vs = calcVs(acState.AltitudeMSL, pFplState.nextAltitude, acState.GroundSpeedKts, pFplState.distToNextWpt);
-            lblVsSet.Content = string.Format("{0:0.000}", vs);
-            //Adjust AutoPilot
-            setAutoPilotParams(pFplState.nextAltitude, pFplState.hdgToNextWpt, vs, pFplState.nextSpeed);
+            if (pFplState.nextAltitude > 0)
+            {
+                //double vs = calcVs(acState.AltitudeMSL, pFplState.nextAltitude, acState.GroundSpeedKts, pFplState.distToNextWpt);
+                double vs = 0;
+                var airspeed = pFplState.thisSpeed;
+                if (airspeed > 0 && airspeed <= 60)
+                {
+                    vs = 700;
+                }
+                else if (airspeed > 60 && airspeed <= 160)
+                {
+                    vs = 1100;
+                }
+                else if (airspeed > 160 && airspeed <= 225)
+                {
+                    vs = 1500;
+                }
+                else if (airspeed > 225 && airspeed <= 285)
+                {
+                    vs = 1900;
+                }
+                else if (airspeed > 285 && airspeed <= 320)
+                {
+                    vs = 2200;
+                }
+                else
+                {
+                    vs = 2300;
+                }
+
+                lblVsSet.Content = string.Format("{0:0.000}", vs);
+                //Adjust AutoPilot
+                setAutoPilotParams(pFplState.nextAltitude, pFplState.hdgToNextWpt, vs, pFplState.nextSpeed);
             }
             else
             {
