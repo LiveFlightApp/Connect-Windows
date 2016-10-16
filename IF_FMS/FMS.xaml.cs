@@ -368,6 +368,14 @@ namespace IF_FMS
 
         private double getDistToWaypoint(Coordinate curPos, APIWaypoint nextWpt)
         {
+            Coordinate next = new Coordinate();
+            next.Latitude = nextWpt.Latitude;
+            next.Longitude = nextWpt.Longitude;
+            return getDistBtwnPoints(curPos, next);
+        }
+
+        private double getDistBtwnPoints(Coordinate curPos, Coordinate nextWpt)
+        {
             var R = 3440; // Radius of the earth in nm
             var dLat = deg2rad(nextWpt.Latitude - curPos.Latitude);  // deg2rad below
             var dLon = deg2rad(nextWpt.Longitude - curPos.Longitude);
@@ -383,10 +391,18 @@ namespace IF_FMS
 
         private double getHeadingToWaypoint(Coordinate curPos, APIWaypoint nextWpt)
         {
-            double longitude1 = curPos.Longitude;
-            double longitude2 = nextWpt.Longitude;
-            double latitude1 = deg2rad(curPos.Latitude);
-            double latitude2 = deg2rad(nextWpt.Latitude);
+            Coordinate next = new Coordinate();
+            next.Latitude = nextWpt.Latitude;
+            next.Longitude = nextWpt.Longitude;
+            return getHeadingToPoint(curPos, next);
+        }
+
+        private double getHeadingToPoint(Coordinate point1, Coordinate point2)
+        {
+            double longitude1 = point1.Longitude;
+            double longitude2 = point2.Longitude;
+            double latitude1 = deg2rad(point1.Latitude);
+            double latitude2 = deg2rad(point2.Latitude);
             double longDiff = deg2rad(longitude2 - longitude1);
             double y = Math.Sin(longDiff) * Math.Cos(latitude2);
             double x = Math.Cos(latitude1) * Math.Sin(latitude2) - Math.Sin(latitude1) * Math.Cos(latitude2) * Math.Cos(longDiff);
@@ -415,6 +431,130 @@ namespace IF_FMS
         private void dgFpl_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             textFieldFocused = false;
+        }
+
+
+        private System.Collections.Generic.List<Coordinate> holdingTrack = new System.Collections.Generic.List<Coordinate>();
+        private Coordinate initialHoldStart, leg2start;
+        private double initialHdg = 0;
+        private double hdgSet = 999;
+        private double legLength = 5;
+        private bool holdingActive = false;
+        private int holdLeg = 0;
+        private bool hdgSetComplete = false;
+        private bool leftTurns = true;
+        private double backBearing = 0;
+
+        public bool HoldingActive { get { return holdingActive; } }
+
+        private void btnHold_Click(object sender, RoutedEventArgs e)
+        {
+            if (!holdingActive)
+            {
+                holdingTrack.Clear();
+                leftTurns = slider.Value==0?true:false;
+                legLength = Double.Parse(txtLegLen.Text);
+                initialHoldStart = null;
+                initialHdg = -1;
+                backBearing = 0;
+                holdLeg = 0;
+                hdgSet = 999;
+                hdgSetComplete = false;
+                holdingActive = true;
+                btnHold.Content = "END HOLD";
+            } else
+            {
+                holdingActive = false;
+                btnHold.Content = "HOLD";
+            }
+        }
+
+
+        public void performHold(APIAircraftState acState)
+        {
+            pAircraftState = acState;
+            Double degChg = 0;
+            switch (holdLeg)
+            {
+                
+                case 0:
+                    //Get initial fix and heading
+                    if (initialHoldStart == null) { initialHoldStart = pAircraftState.Location; }
+                    if (initialHdg == -1) { initialHdg = pAircraftState.HeadingMagnetic; }
+
+                    //turn to back-bearing
+                    backBearing = initialHdg < 180 ? initialHdg + 180 : initialHdg - 180;
+                    if (lblHoldInfo.Content.ToString() != ("Holding: Turn " + Math.Floor(backBearing).ToString())) { lblHoldInfo.Content = ("Holding: Turn " + Math.Floor(backBearing).ToString()); }
+
+                    if (!hdgSetComplete) { hdgSet = initialHdg; }
+                    degChg = 0;
+                    while (Math.Abs(hdgSet - Math.Floor(backBearing)) > 5)
+                    {
+                        if (leftTurns) { hdgSet -= 45; } else { hdgSet += 45; }
+                        hdgSet %= 360;
+                        setAutoPilotParams(-1, Math.Floor(hdgSet), 999999, -1);
+                        degChg = 0;
+                        // while degChg < requiredchange then wait
+                        System.Threading.Thread.Sleep(15000);
+                    }
+                    setAutoPilotParams(-1, backBearing, 999999, -1);
+                    hdgSetComplete = true;
+                    if (Math.Abs(Math.Floor(pAircraftState.HeadingMagnetic) - Math.Floor(backBearing)) < 2)
+                    {   //hit backbearing
+                        setAutoPilotParams(-1, backBearing, 999999, -1);
+                        leg2start = pAircraftState.Location;
+                        holdLeg = 1;
+                    }
+                    break;
+                case 1:
+                    //maintain back-bearing for legLength
+                    if (lblHoldInfo.Content.ToString() != ("Holding: Leg 1")) { lblHoldInfo.Content = "Holding: Leg 1"; }
+                    double err = acState.CourseTrue - acState.HeadingTrue;
+                    setAutoPilotParams(-1, backBearing - err, 999999, -1);
+                    hdgSetComplete = false;
+                    if (getDistBtwnPoints(leg2start, pAircraftState.Location) > legLength) { holdLeg = 2; }
+                    break;
+                case 2:
+                    //turn back to initial heading
+                    if (lblHoldInfo.Content.ToString() != ("Holding: Turn " + Math.Floor(initialHdg).ToString())) { lblHoldInfo.Content = ("Holding: Turn " + Math.Floor(initialHdg).ToString()); }
+                    degChg = 0;
+                    while (Math.Abs(hdgSet - Math.Floor(initialHdg)) > 1)
+                    {
+                        if (leftTurns) { hdgSet -= 90; } else { hdgSet += 90; }
+                        hdgSet %= 360;
+
+                        setAutoPilotParams(-1, hdgSet, 999999, -1); degChg = 0;
+                        System.Threading.Thread.Sleep(2000);
+
+                    }
+                    setAutoPilotParams(-1, initialHdg, 999999, -1);
+                    hdgSetComplete = true;
+                    if (Math.Abs(Math.Floor(pAircraftState.HeadingMagnetic) - Math.Floor(initialHdg)) < 2)
+                    {
+                        //hit initial hdg
+                        setAutoPilotParams(-1, initialHdg, 999999, -1);
+                        //initialHoldStart = pAircraftState.Location;
+                        holdLeg = 3;
+                    }
+                    break;
+                case 3:
+                    //Maintain initial heading for legLength back to the hold fix
+                    if (lblHoldInfo.Content.ToString() != "Holding: To Fix") { lblHoldInfo.Content = "Holding: To Fix"; }
+                    hdgSetComplete = false;
+
+                    //if (getDistBtwnPoints(initialHoldStart, pAircraftState.Location) > legLength) { holdLeg = 1; }
+                    //Fly to initial Fix
+                    double declination = acState.HeadingTrue - acState.HeadingMagnetic;
+                    double hdg = getHeadingToPoint(pAircraftState.Location, initialHoldStart) - declination;
+                    err = acState.CourseTrue - acState.HeadingTrue;
+                    setAutoPilotParams(-1, hdg-err, 999999, -1);
+                    if (getDistBtwnPoints(initialHoldStart, pAircraftState.Location) < 0.25) { holdLeg = 0; }
+                    break;
+                default:
+                    break;
+            }
+
+            return;
         }
     }
 }

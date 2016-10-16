@@ -253,6 +253,7 @@ namespace LiveFlight
                         airplaneStateGrid.DataContext = state;
                         pAircraftState = state;
                         if (FMSControl.autoFplDirectActive) { FMSControl.updateAutoNav(state); }
+                        if (FMSControl.HoldingActive) { FMSControl.performHold(state); }
                         AircraftStateControl.AircraftState = state;
                         AttitudeIndicator.updateAttitude(state.Pitch, state.Bank);
                        updateLandingRoll(state); 
