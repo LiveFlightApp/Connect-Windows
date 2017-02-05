@@ -23,20 +23,7 @@ namespace IF_FMS
             set { client = value; }
         }
 
-        private bool APUpdateReceived = false;
-        private APIAutopilotState pAPState = new APIAutopilotState();
-        public APIAutopilotState APState
-        {
-            get {
-                System.Threading.Tasks.Task tsk = System.Threading.Tasks.Task.Run(async () =>
-                {
-                    client.ExecuteCommand("Autopilot.GetState");
-                    while (!APUpdateReceived) { await System.Threading.Tasks.Task.Delay(25); }
-                    APUpdateReceived = false;
-                });
-                return pAPState; }
-            set { pAPState = value; APUpdateReceived = true; }
-        }
+        
 
         private APIAircraftState pAircraftState = new APIAircraftState();
         public bool autoFplDirectActive = false;
@@ -164,6 +151,7 @@ namespace IF_FMS
         {
             if (!autoFplDirectActive) //AutoNAV not active. Turn it on.
             {
+                getAPState();
                 if (pFplState==null || pFplState.fpl == null)
                 {
                     MessageBox.Show("Must get or set FPL first.");
@@ -475,6 +463,24 @@ namespace IF_FMS
         #endregion
 
         #region "Autopilot settings"
+        private bool APUpdateReceived = false;
+        private APIAutopilotState pAPState = new APIAutopilotState();
+        public APIAutopilotState APState
+        {
+            get
+            {
+                getAPState();
+                return pAPState;
+            }
+            set { pAPState = value; APUpdateReceived = true; }
+        }
+
+        private void getAPState()
+        {
+            APUpdateReceived = false;
+            client.ExecuteCommand("Autopilot.GetState");
+        }
+
         private void setHeading(double heading)
         {
             if (APState.TargetHeading != heading) { client.ExecuteCommand("Commands.Autopilot.SetHeading", new CallParameter[] { new CallParameter { Value = heading.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
@@ -491,12 +497,13 @@ namespace IF_FMS
 
         private void setSpeed(double speed)
         {
-            if(APState.TargetSpeed != speed) { client.ExecuteCommand("Commands.Autopilot.SetSpeed", new CallParameter[] { new CallParameter { Value = speed.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
+            if (APState.TargetSpeed != speed) { client.ExecuteCommand("Commands.Autopilot.SetSpeed", new CallParameter[] { new CallParameter { Value = speed.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
             if (!APState.EnableSpeed){ client.ExecuteCommand("Commands.Autopilot.SetSpeedState", new CallParameter[] { new CallParameter { Value = "True" } }); }
         }
 
         private void setAutoPilotParams(double altitude, double heading, double vs, double speed)
         {
+            getAPState();
             //Send parameters
             if (speed > 0 && APState.TargetSpeed!=speed) { client.ExecuteCommand("Commands.Autopilot.SetSpeed", new CallParameter[] { new CallParameter { Value = speed.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
             if (altitude > 0 && pAPState.TargetAltitude != altitude) { client.ExecuteCommand("Commands.Autopilot.SetAltitude", new CallParameter[] { new CallParameter { Value = altitude.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
