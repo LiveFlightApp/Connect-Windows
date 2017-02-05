@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using Fds.IFAPI;
 using System.ComponentModel;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace IF_FMS
 {
@@ -20,6 +21,21 @@ namespace IF_FMS
         public IFConnect.IFConnectorClient Client {
             get { return client; }
             set { client = value; }
+        }
+
+        private bool APUpdateReceived = false;
+        private APIAutopilotState pAPState = new APIAutopilotState();
+        public APIAutopilotState APState
+        {
+            get {
+                System.Threading.Tasks.Task tsk = System.Threading.Tasks.Task.Run(async () =>
+                {
+                    client.ExecuteCommand("Autopilot.GetState");
+                    while (!APUpdateReceived) { await System.Threading.Tasks.Task.Delay(25); }
+                    APUpdateReceived = false;
+                });
+                return pAPState; }
+            set { pAPState = value; APUpdateReceived = true; }
         }
 
         private APIAircraftState pAircraftState = new APIAircraftState();
@@ -339,23 +355,165 @@ namespace IF_FMS
 
         }
 
+        #endregion
+
+        #region "ATC autopilot"
+        private void btnEnaAtcLog_Click(object sender, RoutedEventArgs e)
+        {
+            //Start receiving ATC messages
+            client.ExecuteCommand("Live.EnableATCMessageNotification");
+        }
+
+        private void logMessage(string msg)
+        {
+            if(chkFilterCallsignOnly.IsChecked==true && msg.Contains(Callsign))
+            {
+                txtAtcLog.AppendText(msg + "\n");
+                txtAtcLog.ScrollToEnd();
+            }else if (chkFilterCallsignOnly.IsChecked == false)
+            {
+                txtAtcLog.AppendText(msg + "\n");
+                txtAtcLog.ScrollToEnd();
+            }
+        }
+
+        private void chkEnableAtcAutopilot_Checked(object sender, RoutedEventArgs e)
+        {
+            if (chkEnableAtcAutopilot.IsChecked == true)
+            {
+                //Start receiving ATC messages
+                client.ExecuteCommand("Live.EnableATCMessageNotification");
+            }
+            if ((chkEnableAtcAutopilot.IsChecked == true) && (txtCurrentCallsign.Text == null || txtCurrentCallsign.Text == ""))
+            {
+                MessageBox.Show("Must enter your current callsign or this will not work!");
+                chkEnableAtcAutopilot.IsChecked = false;
+            }
+        }
         
+        public string Callsign
+        {
+            get { return txtCurrentCallsign.Text; }
+            set { txtCurrentCallsign.Text = value; }
+        }
+        
+        public bool? AtcControlledAutopilotEnabled {
+            get { return chkEnableAtcAutopilot.IsChecked; }
+            set { chkEnableAtcAutopilot.IsChecked = value; } }
+        public void handleAtcMessage(APIATCMessage AtcMsg, APIAircraftState acState)
+        {
+
+            logMessage(AtcMsg.Message);
+            //Only act on messages received by us that are directed at us.
+            if (AtcControlledAutopilotEnabled==true && AtcMsg.Received && AtcMsg.Message.Contains(Callsign))
+            {
+                string msg = AtcMsg.Message.ToLower(); //Just to make things easier
+
+                //Heading
+                if (msg.Contains("heading"))
+                {
+                    Match mtch = Regex.Match(msg, "heading\\W+(?<hdg>\\d+)");
+                    if (mtch.Success) {
+                        string sHdg = mtch.Groups["hdg"].Value;
+                        double hdg = Convert.ToDouble(sHdg);
+                        setHeading(hdg);
+                    }
+                }
+
+                //Altitude
+                if (msg.Contains("descend") || msg.Contains("climb"))
+                {
+                    Match mtch = Regex.Match(msg, "maintain\\W+(?<fl>FL)*(?<alt>\\d+,*\\d+)(ft)*");
+                    if (mtch.Success)
+                    {
+                        double alt = 1000.0;
+                        if (mtch.Groups["fl"].Success) //Convert flight level
+                        {
+                            alt = Convert.ToDouble(mtch.Groups["alt"].Value) * 100;
+                        }
+                        else //Else it is just in ft, but remove comma
+                        {
+                            alt = Convert.ToDouble(mtch.Groups["alt"].Value.Replace(",",""));
+                        }
+                        if (msg.Contains("descend"))
+                        {
+                            setAltitude(alt, -1800);
+                        }
+                        else { setAltitude(alt, 1800); }
+                    }
+                }
+
+                //Speed
+                if (msg.Contains("kts"))
+                {
+                    Match mtch = Regex.Match(msg, "\\W+(?<speed>\\d+)kts");
+                    if (mtch.Success)
+                    {
+                        double speed = Convert.ToDouble(mtch.Groups["speed"].Value);
+                        if(msg.Contains("do not exceed")) { speed -= 5; }
+                        setSpeed(speed);
+                        if (acState.IndicatedAirspeedKts > (speed + 30))
+                        {
+                            client.ExecuteCommand("Commands.Spoilers");
+                        }
+                    }
+                }
+
+                //Acknowledge ATC
+                client.ExecuteCommand("Commands.ATCEntry2");
+                if (msg.Contains("contact") && !msg.Contains("exit runway"))
+                {
+                    //contact next freq if handed off (but not if exiting runway to contact gnd)
+                    client.ExecuteCommand("Commands.ATCEntry2"); //send & switch on second menu
+                }
+            }
+
+            
+            
+        }
+
+        #endregion
+
+        #region "Autopilot settings"
+        private void setHeading(double heading)
+        {
+            if (APState.TargetHeading != heading) { client.ExecuteCommand("Commands.Autopilot.SetHeading", new CallParameter[] { new CallParameter { Value = heading.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
+            if (!APState.EnableHeading) { client.ExecuteCommand("Commands.Autopilot.SetHeadingState", new CallParameter[] { new CallParameter { Value = "True" } }); }
+        }
+
+        private void setAltitude(double altitude, double vs)
+        {
+            if(APState.TargetAltitude != altitude) { client.ExecuteCommand("Commands.Autopilot.SetAltitude", new CallParameter[] { new CallParameter { Value = altitude.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
+            if(!APState.EnableAltitude) { client.ExecuteCommand("Commands.Autopilot.SetAltitudeState", new CallParameter[] { new CallParameter { Value = "True" } });}
+            if(APState.TargetClimbRate!= vs) { client.ExecuteCommand("Commands.Autopilot.SetVS", new CallParameter[] { new CallParameter { Value = vs.ToString(CultureInfo.InvariantCulture.NumberFormat) } });}
+            //client.ExecuteCommand("Commands.Autopilot.SetVSState", new CallParameter[] { new CallParameter { Value = "True" } });
+        }
+
+        private void setSpeed(double speed)
+        {
+            if(APState.TargetSpeed != speed) { client.ExecuteCommand("Commands.Autopilot.SetSpeed", new CallParameter[] { new CallParameter { Value = speed.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
+            if (!APState.EnableSpeed){ client.ExecuteCommand("Commands.Autopilot.SetSpeedState", new CallParameter[] { new CallParameter { Value = "True" } }); }
+        }
 
         private void setAutoPilotParams(double altitude, double heading, double vs, double speed)
         {
             //Send parameters
-            if (speed > 0) { client.ExecuteCommand("Commands.Autopilot.SetSpeed", new CallParameter[] { new CallParameter { Value = speed.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
-            if (altitude > 0) { client.ExecuteCommand("Commands.Autopilot.SetAltitude", new CallParameter[] { new CallParameter { Value = altitude.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
-            if (vs < 999999) { client.ExecuteCommand("Commands.Autopilot.SetVS", new CallParameter[] { new CallParameter { Value = vs.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
-            client.ExecuteCommand("Commands.Autopilot.SetHeading", new CallParameter[] { new CallParameter { Value = heading.ToString(CultureInfo.InvariantCulture.NumberFormat) } });
+            if (speed > 0 && APState.TargetSpeed!=speed) { client.ExecuteCommand("Commands.Autopilot.SetSpeed", new CallParameter[] { new CallParameter { Value = speed.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
+            if (altitude > 0 && pAPState.TargetAltitude != altitude) { client.ExecuteCommand("Commands.Autopilot.SetAltitude", new CallParameter[] { new CallParameter { Value = altitude.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
+            if (vs < 999999 && pAPState.TargetClimbRate != vs) { client.ExecuteCommand("Commands.Autopilot.SetVS", new CallParameter[] { new CallParameter { Value = vs.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
+            if (pAPState.TargetHeading != heading) { client.ExecuteCommand("Commands.Autopilot.SetHeading", new CallParameter[] { new CallParameter { Value = heading.ToString(CultureInfo.InvariantCulture.NumberFormat) } }); }
             //Activate AP
-            if (altitude > 0) { client.ExecuteCommand("Commands.Autopilot.SetAltitudeState", new CallParameter[] { new CallParameter { Value = "True" } }); }
-            client.ExecuteCommand("Commands.Autopilot.SetHeadingState", new CallParameter[] { new CallParameter { Value = "True" } });
-            if (vs < 999999) { client.ExecuteCommand("Commands.Autopilot.SetVSState", new CallParameter[] { new CallParameter { Value = "True" } }); }
-            if (speed > 0) { client.ExecuteCommand("Commands.Autopilot.SetSpeedState", new CallParameter[] { new CallParameter { Value = "True" } }); }
+            if (altitude > 0 && !pAPState.EnableAltitude) { client.ExecuteCommand("Commands.Autopilot.SetAltitudeState", new CallParameter[] { new CallParameter { Value = "True" } }); }
+            if (!pAPState.EnableHeading) { client.ExecuteCommand("Commands.Autopilot.SetHeadingState", new CallParameter[] { new CallParameter { Value = "True" } }); }
+            if (vs < 999999 && !pAPState.EnableClimbRate) { client.ExecuteCommand("Commands.Autopilot.SetVSState", new CallParameter[] { new CallParameter { Value = "True" } }); }
+            if (speed > 0 && !pAPState.EnableSpeed) { client.ExecuteCommand("Commands.Autopilot.SetSpeedState", new CallParameter[] { new CallParameter { Value = "True" } }); }
             //if (appr) { client.ExecuteCommand("Commands.Autopilot.SetApproachModeState", new CallParameter[] { new CallParameter { Value = appr.ToString() } }); }
         }
 
+
+        #endregion
+
+        #region "Conversion/Calculation Helper functions"
         private double deg2rad(double deg)
         {
             return deg * (Math.PI / 180);
@@ -419,9 +577,8 @@ namespace IF_FMS
             return vs;
         }
 
-
-
         #endregion
+
 
         private void dgFpl_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
@@ -433,6 +590,8 @@ namespace IF_FMS
             textFieldFocused = false;
         }
 
+
+        #region "Holding"
 
         private System.Collections.Generic.List<Coordinate> holdingTrack = new System.Collections.Generic.List<Coordinate>();
         private Coordinate initialHoldStart, leg2start;
@@ -469,6 +628,7 @@ namespace IF_FMS
             }
         }
 
+        
 
         public void performHold(APIAircraftState acState)
         {
@@ -556,5 +716,8 @@ namespace IF_FMS
 
             return;
         }
+
+        #endregion
+
     }
 }

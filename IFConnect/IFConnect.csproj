@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="ApiDatatypes.cs" />
     <Compile Include="BroadcastReceiver.cs" />
+    <Compile Include="ApiCommands.cs" />
     <Compile Include="IFConnectorClient.cs" />
     <Compile Include="Serializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

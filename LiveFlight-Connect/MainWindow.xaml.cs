@@ -36,6 +36,7 @@ namespace LiveFlight
         BroadcastReceiver receiver = new BroadcastReceiver();
 
         private APIAircraftState pAircraftState = new APIAircraftState();
+        private APIAutopilotState pAutopilotState = new APIAutopilotState();
         private bool connectionStatus;
 
         public MainWindow()
@@ -239,7 +240,7 @@ namespace LiveFlight
             Dispatcher.BeginInvoke((Action)(() => 
             {
                 try {
-
+                   // System.Diagnostics.Debug.WriteLine(e.CommandString);
                     var type = typeof(IFAPIStatus).Assembly.GetType(e.Response.Type);
 
                     if (type == typeof(APIAircraftState))
@@ -283,6 +284,10 @@ namespace LiveFlight
                     else if (type == typeof(APIATCMessage))
                     {
                         var msg = Serializer.DeserializeJson<APIATCMessage>(e.CommandString);
+
+                        //Handle the ATC message to control the autopilot if enabled by checkbox
+                        FMSControl.handleAtcMessage(msg, pAircraftState);
+
                         // TODO client.ExecuteCommand("Live.GetCurrentCOMFrequencies");
                     }
                     else if (type == typeof(APIFrequencyInfoList))
@@ -304,6 +309,10 @@ namespace LiveFlight
                         {
                             Console.WriteLine(" -> {0} {1} - {2}, {3}", item.Name, item.Code, item.Latitude, item.Longitude);
                         }
+                    }
+                    else if (type == typeof(APIAutopilotState))
+                    {
+                        FMSControl.APState = Serializer.DeserializeJson<APIAutopilotState>(e.CommandString);
                     }
                 } catch (System.NullReferenceException) {
                     Console.WriteLine("Disconnected from server!");

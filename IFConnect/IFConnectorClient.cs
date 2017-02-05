@@ -54,7 +54,8 @@ namespace IFConnect
                         try
                         {
                             var commandString = ReadCommand();
-                            //Console.WriteLine("Reply from Server: {0}", commandString);
+                            
+                            //System.Diagnostics.Debug.WriteLine("Reply from Server: {0}", commandString);
                             var response = Serializer.DeserializeJson<APIResponse>(commandString);
                             if (commandString.Length > 0)
                             {

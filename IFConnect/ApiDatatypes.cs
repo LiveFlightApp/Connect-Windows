@@ -362,4 +362,31 @@ namespace Fds.IFAPI
         public float WeightPercentage { get; set; }
     }
 
+    [DataContract]
+    public class APIAutopilotState : APIResponse
+    {
+        [DataMember]
+        public bool EnableBankAngle { get; set; }
+        [DataMember]
+        public bool EnableHeading { get; set; }
+        [DataMember]
+        public bool EnableClimbRate { get; set; }
+        [DataMember]
+        public bool EnableAltitude { get; set; }
+        [DataMember]
+        public bool EnableSpeed { get; set; }
+        [DataMember]
+        public float TargetHeading { get; set; }
+        [DataMember]
+        public float TargetClimbRate { get; set; }
+        [DataMember]
+        public float TargetAltitude { get; set; }
+        [DataMember]
+        public float TargetSpeed { get; set; }
+        [DataMember]
+        public bool EnableApproach { get; set; }
+    }
+
+
+
 }
