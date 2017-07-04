@@ -8,7 +8,7 @@
              d:DesignHeight="300" Width="289">
     <Canvas>
         <!--<Grid Margin="0,0,-311,-371">-->
-        <Button x:Name="btnGetFplFromFpd" Content="Get FPL from FlightPlanDatabase" Click="btnGetFplFromFpd_Click" Canvas.Left="6" Canvas.Top="112"/>
+        <Button x:Name="btnGetFplFromFpd" Content="Get FPL from FlightPlanDatabase" Click="btnGetFplFromFpd_Click" Canvas.Left="7" Canvas.Top="119"/>
         <TextBox x:Name="txtFromICAO" TextWrapping="Wrap" Width="63" Text="KLAX" GotFocus="txtFromICAO_GotFocus" LostFocus="txtFromICAO_LostFocus" Panel.ZIndex="1" Canvas.Left="7" Canvas.Top="83">
             <TextBox.Foreground>
                 <SolidColorBrush Color="LightGray"/>
@@ -19,21 +19,21 @@
                 <SolidColorBrush Color="LightGray"/>
             </TextBox.Foreground>
         </TextBox>
-        <Label x:Name="lblicaosearch" Content="Start ICAO" Canvas.Left="4" Canvas.Top="59"/>
-        <Label x:Name="lblicaosearch_Copy" Content="End ICAO" Canvas.Left="78" Canvas.Top="59"/>
+        <Label x:Name="lblicaosearch" Content="Start ICAO" Canvas.Left="2" Canvas.Top="57"/>
+        <Label x:Name="lblicaosearch_Copy" Content="End ICAO" Canvas.Left="75" Canvas.Top="57"/>
         <Label x:Name="lblSearchMsg" Content="" Canvas.Left="2" Canvas.Top="134"/>
-        <ComboBox x:Name="cbFpls" HorizontalAlignment="Left" VerticalAlignment="Top" Width="195" SelectionChanged="cbFpls_SelectionChanged" IsReadOnly="True" Text="-- Select FPL --" Visibility="Visible" Canvas.Left="7" Canvas.Top="165"/>
-        <Label x:Name="label1" Content="Enter Departure and Arrival ICAO to search for FPLs.&#xD;&#xA;If FPLs are found, select an ID from the drop-down &#xD;&#xA;list to load it into the FMS." HorizontalAlignment="Left" VerticalAlignment="Top" Height="54" Width="286.5" BorderThickness="1" VerticalContentAlignment="Center" UseLayoutRounding="False" BorderBrush="Black" Padding="5,2" Canvas.Top="3"/>
+        <ComboBox x:Name="cbFpls" HorizontalAlignment="Left" VerticalAlignment="Top" Width="195" SelectionChanged="cbFpls_SelectionChanged" IsReadOnly="True" Text="-- Select FPL --" Visibility="Visible" Canvas.Left="7" Canvas.Top="154"/>
+        <Label x:Name="label1" Content="Enter Departure and Arrival ICAO to search for FPLs.&#xD;&#xA;If FPLs are found, select an ID from the drop-down &#xD;&#xA;list to load it into the FMS." HorizontalAlignment="Left" VerticalAlignment="Top" Height="54" Width="286.5" BorderThickness="1" VerticalContentAlignment="Center" UseLayoutRounding="False" BorderBrush="Black" Padding="5,2" Canvas.Top="3" Canvas.Left="2"/>
 
         <TextBlock Canvas.Left="152" Canvas.Top="68" Height="39" Width="134"><Hyperlink x:Name="fpdLnk" TextDecorations="None" NavigateUri="https://flightplandatabase.com"/><InlineUIContainer>
-        		<Image
-        			Source="Resources/light.png" Height="39" Width="135"/>
-        	</InlineUIContainer></TextBlock>
-        <TextBox x:Name="txtFplId" Height="23" Canvas.Left="12" TextWrapping="Wrap" Text="81896" Canvas.Top="238" Width="61" Foreground="LightGray" GotFocus="txtFplId_GotFocus" LostFocus="txtFplId_LostFocus"/>
-        <Button x:Name="btnLoadFromId" Content="Load" Canvas.Left="78" Canvas.Top="238" Width="54" Click="btnLoadFromId_Click"/>
-        <Label x:Name="label1_Copy" Content="A FPL can also be created on FlightPlanDatabase.&#xD;&#xA;Enter a FPL ID below to load a specific FPL:" HorizontalAlignment="Left" VerticalAlignment="Top" Height="41" Width="286.5" BorderThickness="1" VerticalContentAlignment="Center" UseLayoutRounding="False" BorderBrush="Black" Canvas.Top="192" Padding="5,2" 
+                <Image
+                    Source="Resources/light.png" Height="39" Width="135"/>
+            </InlineUIContainer></TextBlock>
+        <TextBox x:Name="txtFplId" Height="23" Canvas.Left="12" TextWrapping="Wrap" Text="81896" Canvas.Top="247" Width="61" Foreground="LightGray" GotFocus="txtFplId_GotFocus" LostFocus="txtFplId_LostFocus"/>
+        <Button x:Name="btnLoadFromId" Content="Load" Canvas.Left="82" Canvas.Top="247" Width="63" Click="btnLoadFromId_Click" Height="23" />
+        <Label x:Name="label1_Copy" Content="A FPL can also be created on FlightPlanDatabase.&#xD;&#xA;Enter a FPL ID below to load a specific FPL:" HorizontalAlignment="Left" VerticalAlignment="Top" Height="41" Width="286.5" BorderThickness="1" VerticalContentAlignment="Center" UseLayoutRounding="False" BorderBrush="Black" Canvas.Top="190" Padding="5,2" 
                ToolTip="Generate a FPL on FlightPlanDatabse.com.&#10;The FPL ID will be the last number in the URL.&#10;(Ex. URL for ID=82138: https://flightplandatabase.com/plan/82138)"
-               ToolTipService.ShowDuration="12000"/>
+               ToolTipService.ShowDuration="12000" Canvas.Left="2"/>
 
         <!--</Grid>-->
     </Canvas>
