@@ -8,10 +8,11 @@
         Title="About" Height="370" Width="325" ResizeMode="NoResize" Icon="LiveFlight.ico" Loaded="Window_Loaded">
     <Grid>
         <Label x:Name="label" Content="LiveFlight Connect&#xD;&#xA;" HorizontalContentAlignment="Center"  HorizontalAlignment="Left" Margin="80,55,0,240" VerticalAlignment="Center" FontWeight="Bold" Width="160" FontSize="17.333" Height="46"/>
-        <Button x:Name="cameronButton" Content="Cameron Carmichael Alonso" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top" Width="169" Click="cameronButton_Click"/>
-        <Button x:Name="arButton" Content="AR__AR" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top" Width="169" Click="arButton_Click"/>
-        <Label x:Name="label1" Content="Credits" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="label1_Copy" Content="Links" HorizontalAlignment="Left" Margin="10,220,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="cameronButton" Content="Cameron Carmichael Alonso" HorizontalAlignment="Left" Margin="10,146,0,0" VerticalAlignment="Top" Width="169" Click="cameronButton_Click"/>
+        <Button x:Name="arButton" Content="AR__AR" HorizontalAlignment="Left" Margin="10,171,0,0" VerticalAlignment="Top" Width="169" Click="arButton_Click"/>
+        <Button x:Name="davidButton" Content="David Cutler" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top" Width="169" Click="arButton_Click"/>
+        <Label x:Name="label1" Content="Credits:" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1_Copy" Content="Links:" HorizontalAlignment="Left" Margin="10,221,0,0" VerticalAlignment="Top"/>
         <Button x:Name="licenseButton" Content="License (GPL V3)" HorizontalAlignment="Left" Margin="10,251,0,0" VerticalAlignment="Top" Width="169" Click="licenseButton_Click"/>
         <Button x:Name="sourceCode" Content="Source (GitHub)" HorizontalAlignment="Left" Margin="10,276,0,0" VerticalAlignment="Top" Width="169" Click="sourceCode_Click"/>
         <Button x:Name="liveFlightLink" Content="LiveFlight" HorizontalAlignment="Left" Margin="10,301,0,0" VerticalAlignment="Top" Width="169" Click="liveFlightLink_Click"/>
