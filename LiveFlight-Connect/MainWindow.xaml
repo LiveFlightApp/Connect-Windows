@@ -13,7 +13,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Indicators="clr-namespace:Indicators;assembly=Indicators" xmlns:IF_FMS="clr-namespace:IF_FMS;assembly=IF_FMS" xmlns:FlightPlanDatabase="clr-namespace:FlightPlanDatabase;assembly=FlightPlanDatabase" xmlns:local="clr-namespace:LiveFlight" mc:Ignorable="d" x:Name="LiveFlight_Connect" x:Class="LiveFlight.MainWindow"
-        Title="LiveFlight Connect" Height="545.333" Width="525" Loaded="PageLoaded"  ResizeMode="NoResize" Icon="LiveFlight.ico" KeyDown="keyDownEvent" KeyUp="keyUpEvent">
+        Title="LiveFlight Connect" Height="543.333" Width="525" Loaded="PageLoaded"  ResizeMode="NoResize" Icon="LiveFlight.ico" KeyDown="keyDownEvent" KeyUp="keyUpEvent">
     <Window.Resources>
         <XmlDataProvider x:Key="KeyboardCommands"   XPath="/KeyboardCommands/*" >
             <x:XData >
@@ -61,7 +61,7 @@
             <ColumnDefinition Width="428"/>
         </Grid.ColumnDefinitions>
         <DockPanel>
-            <Menu DockPanel.Dock="Top" Height="60" Margin="0,0,-1083,0" Background="GhostWhite" />
+            <Menu DockPanel.Dock="Top" Height="60" Margin="0,0,-1083,0" Background="#3a3a3a" />
             <MenuItem Header="_Cameras">
                 <MenuItem x:Name="nextCameraMenu" Header="_Next Camera" InputGestureText="E" Click="nextCameraMenu_Click"/>
                 <MenuItem x:Name="previousCameraMenu" Header="_Previous Camera" InputGestureText="Q" Click="previousCameraMenu_Click"/>
@@ -111,7 +111,7 @@
 
             <StackPanel/>
         </DockPanel>
-        <TabControl x:Name="mainTabControl" Grid.ColumnSpan="4" Height="490" VerticalAlignment="Bottom" Margin="0,0,-611,-8" SelectionChanged="tabChanged" HorizontalAlignment="Left" Width="1128" Background="GhostWhite">
+        <TabControl x:Name="mainTabControl" Grid.ColumnSpan="4" Height="490" VerticalAlignment="Bottom" Margin="0,0,-609,0" SelectionChanged="tabChanged" Background="GhostWhite">
             <TabItem Header="Main" Height="22" VerticalAlignment="Bottom" x:Name="Main">
                 <Grid Margin="0,0,632,-57">
                     <Grid.ColumnDefinitions>
@@ -120,7 +120,7 @@
                         <ColumnDefinition Width="184*"/>
                     </Grid.ColumnDefinitions>
                     <Label x:Name="connectedLabel" Content="Now connected to Infinite Flight!" HorizontalAlignment="Left" Margin="97,25,0,0" VerticalAlignment="Top" Grid.ColumnSpan="3" FontSize="20" />
-                    <Label x:Name="ipLabel" Content="Label" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" Margin="5,62,0.346,0" Grid.ColumnSpan="3" Width="508"/>
+                    <Label x:Name="ipLabel" Content="Label" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" Margin="0,62,-11,0" Grid.ColumnSpan="3" Width="501"/>
 
                     <Grid x:Name="airplaneStateGrid" HorizontalAlignment="Left" Height="204" VerticalAlignment="Top" Width="258" Grid.ColumnSpan="2" Margin="24,140,0,0">
                         <Grid.RowDefinitions>
@@ -161,7 +161,7 @@
                     </Indicators:AttitudeIndicator>
                     <Label x:Name="userAircraft" Content="User Aircraft:&#xA;" HorizontalAlignment="Left" Margin="19,105,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="179" Height="35" FontWeight="Bold" FontSize="14"/>
                     <Separator Margin="21,322,10,163" Grid.ColumnSpan="3" />
-                    <Separator Margin="19,81,14,398" Grid.ColumnSpan="3" />
+                    <Separator Margin="19,76,14,403" Grid.ColumnSpan="3" />
                     <Label x:Name="needHelpLabel" Content="Need help getting started?&#xA;" HorizontalAlignment="Left" Margin="21,349,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="35" Width="194" FontWeight="Bold" FontFamily="sans-serif" FontSize="14"/>
                     <Label x:Name="label" Content="Axes and buttons need to be assigned in the Controls &#xA;tab in Infinite Flight settings." HorizontalAlignment="Left" Margin="21,371,0,0" VerticalAlignment="Top" Grid.ColumnSpan="3" Height="43" Width="304" FontFamily="sans-serif" FontSize="12"/>
                     <Button x:Name="joystickSetupGuideButton" Content="Joystick Setup Guide&#xA;" Grid.Column="2" HorizontalAlignment="Left" Margin="5,405,0,0" VerticalAlignment="Top" Width="142" Height="22" Click="joystickSetupGuide"/>
