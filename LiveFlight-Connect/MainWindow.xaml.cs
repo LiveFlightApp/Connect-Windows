@@ -24,6 +24,7 @@ using System.Windows.Interop;
 using System.Windows.Threading;
 using System.IO;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace LiveFlight
 {
@@ -145,11 +146,21 @@ namespace LiveFlight
 
             if (apiServerInfo != null)
             {
-                Console.WriteLine("Received Server Info from: {0}:{1}", apiServerInfo.Address, apiServerInfo.Port);
+                Console.WriteLine("Received Server Info from: {0}:{1}", apiServerInfo.Addresses.ToString(), apiServerInfo.Port);
                 receiver.Stop();
                 Dispatcher.BeginInvoke((Action)(() =>
                 {
-                    Connect(IPAddress.Parse(apiServerInfo.Address), apiServerInfo.Port);
+                    var ipToConnectTo = apiServerInfo.Addresses[0];
+                    for (var i = 0; i < apiServerInfo.Addresses.Length; i++)
+                    {
+                        // Prefer IPv4 if available
+                        Match match = Regex.Match(apiServerInfo.Addresses[i], @"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
+                        if (match.Success)
+                        {
+                            ipToConnectTo = match.Value;
+                        }
+                    }
+                    Connect(IPAddress.Parse(ipToConnectTo), apiServerInfo.Port);
                 }));
             }
             else

@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 /// IFConnect API datatypes.
 /// </summary>
 /// <remarks>
-/// Credit to Matt Laban @ FDS
-/// This should be kept in sync with his github depot.
 /// </remarks>
 namespace Fds.IFAPI
 {
@@ -76,7 +74,7 @@ namespace Fds.IFAPI
     public class APIServerInfo
     {
         [DataMember]
-        public string Address { get; set; }
+        public string[] Addresses { get; set; }
         [DataMember]
         public int Port { get; set; }
     }
