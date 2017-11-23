@@ -142,30 +142,61 @@ namespace LiveFlight
         {
             byte[] data = (byte[])sender;
 
-            var apiServerInfo = Serializer.DeserializeJson<APIServerInfo>(UTF8Encoding.UTF8.GetString(data));
+            // CC: This is a scrappy hack to fix support on iOS devices
+            // Support for multiple addresses was pushed to Android but not iOS.......
+            // Thanks, Laura! ;-)
 
-            if (apiServerInfo != null)
+            try
             {
-                Console.WriteLine("Received Server Info from: {0}:{1}", apiServerInfo.Addresses.ToString(), apiServerInfo.Port);
-                receiver.Stop();
-                Dispatcher.BeginInvoke((Action)(() =>
+                Console.WriteLine("Attempting to connect to legacy iOS device...");
+
+                var apiServerInfo = Serializer.DeserializeJson<APIServerInfoLegacy>(UTF8Encoding.UTF8.GetString(data));
+
+                if (apiServerInfo != null)
                 {
-                    var ipToConnectTo = apiServerInfo.Addresses[0];
-                    for (var i = 0; i < apiServerInfo.Addresses.Length; i++)
+                    Console.WriteLine("Received Server Info from: {0}:{1}", apiServerInfo.Address, apiServerInfo.Port);
+                    receiver.Stop();
+                    Dispatcher.BeginInvoke((Action)(() =>
                     {
-                        // Prefer IPv4 if available
-                        Match match = Regex.Match(apiServerInfo.Addresses[i], @"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
-                        if (match.Success)
-                        {
-                            ipToConnectTo = match.Value;
-                        }
-                    }
-                    Connect(IPAddress.Parse(ipToConnectTo), apiServerInfo.Port);
-                }));
+                        var ipToConnectTo = apiServerInfo.Address;
+                        Connect(IPAddress.Parse(ipToConnectTo), apiServerInfo.Port);
+                    }));
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Server Info Received");
+                }
+
             }
-            else
+            catch (Exception)
             {
-                Console.WriteLine("Invalid Server Info Received");
+                Console.WriteLine("Failed, attempting to connect with new method...");
+                var apiServerInfo = Serializer.DeserializeJson<APIServerInfo>(UTF8Encoding.UTF8.GetString(data));
+
+                if (apiServerInfo != null)
+                {
+                    Console.WriteLine("Received Server Info from: {0}:{1}", apiServerInfo.Addresses.ToString(), apiServerInfo.Port);
+                    receiver.Stop();
+                    Dispatcher.BeginInvoke((Action)(() =>
+                    {
+                        var ipToConnectTo = apiServerInfo.Addresses[0];
+                        for (var i = 0; i < apiServerInfo.Addresses.Length; i++)
+                        {
+                            // Prefer IPv4 if available
+                            Match match = Regex.Match(apiServerInfo.Addresses[i], @"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
+                            if (match.Success)
+                            {
+                                ipToConnectTo = match.Value;
+                            }
+                        }
+                        Connect(IPAddress.Parse(ipToConnectTo), apiServerInfo.Port);
+                    }));
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Server Info Received");
+                }
+
             }
         }
 

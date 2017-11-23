@@ -80,6 +80,15 @@ namespace Fds.IFAPI
     }
 
     [DataContract]
+    public class APIServerInfoLegacy
+    {
+        [DataMember]
+        public string Address { get; set; }
+        [DataMember]
+        public int Port { get; set; }
+    }
+
+    [DataContract]
     public class IFAPIStatus : APIResponse
     {
         [DataMember]
