@@ -25,6 +25,7 @@ using System.Windows.Threading;
 using System.IO;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using Sharpbrake.Client;
 
 namespace LiveFlight
 {
@@ -35,6 +36,7 @@ namespace LiveFlight
         public static Commands commands = new Commands();
         JoystickHelper joystickClient = new JoystickHelper();
         BroadcastReceiver receiver = new BroadcastReceiver();
+        AirbrakeNotifier airbrake;
 
         private APIAircraftState pAircraftState = new APIAircraftState();
         private APIAutopilotState pAutopilotState = new APIAutopilotState();
@@ -49,6 +51,14 @@ namespace LiveFlight
 
             mainTabControl.Visibility = System.Windows.Visibility.Collapsed;
 
+            // Airbrake
+            airbrake = new AirbrakeNotifier(new AirbrakeConfig
+            {
+                ProjectId = AirbrakeConfiguration.ProjectID,
+                ProjectKey = AirbrakeConfiguration.ProjectKey
+            });
+            System.AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
+
             // log to file
             string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             var pathToFile = String.Format("{0}\\LiveFlight_Connect_Windows.log", path);
@@ -61,8 +71,14 @@ namespace LiveFlight
             Console.SetError(streamwriter);
 
             Console.WriteLine("LiveFlight Connect\n\nPlease send this log to contact@liveflightapp.com if you experience issues. Thanks!\n\n\n");
+
         }
 
+        void UnhandledExceptionTrapper(object sender, UnhandledExceptionEventArgs e)
+        {
+            airbrake.NotifyAsync(e.ExceptionObject as System.Exception);
+            MessageBox.Show(e.ExceptionObject.ToString());
+        }
 
         #region PageLoaded
         /*
