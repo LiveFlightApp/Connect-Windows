@@ -3,27 +3,22 @@ LiveFlight Connect for Windows allows you to control Infinite Flight on an iOS o
 
 Uses Infinite Flight Connect, a TCP-based API introduced in version 15.10.0.
 
-![](https://raw.githubusercontent.com/LiveFlightApp/Connect-Windows/master/screenshot.png "LiveFlight Connect for Windows")
+## Deprecated
 
-Usage
-------------
-  * Install the latest release version from [connect.liveflightapp.com](http://connect.liveflightapp.com)
-  * Enable Infinite Flight Connect within Infinite Flight, and make sure your device is on the same wifi network as your PC
-  * Get your joystick setup, and go have fun :)
+**As of 26th February 2020, LiveFlight Connect is no longer officially supported.**
+
+The apps are still available for download and the source code is available, however, no official updates are planned, nor will support be provided for any issues.
 
 
 Modifying Source
 ------------
-LiveFlight Connect is built in C#. Simply clone the repo, run and build in Visual Studio! 
+LiveFlight Connect is built in C#. Simply clone the repo, run and build in Visual Studio
 
 Compatible Devices
 ------------
 There's no guarantee this will play perfectly with your joystick or configuration. These joysticks definitely work fine:
   * Thrustmaster T-Flight Hotas X
-  * Saitek X52 Pro
   * Logitech Extreme 3D
-   
-  Gamepads might not work perfectly at this time, this will be improved in the future.
 
 
 Project Descriptions
